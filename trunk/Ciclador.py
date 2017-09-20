@@ -79,46 +79,47 @@ class Myform(QtGui.QMainWindow):
         V_lim_inf = int(self.ui.LinEdVLInf.text())  # funcion que convierta de acuerdo a lectura!
         V_lim_sup = int(self.ui.LinEdVLSup.text())
         T_Max = int(self.ui.LinEdTMax.text()	)
-        self.inicio(Celda ,Promedio ,Corriente ,Ciclos ,V_lim_inf ,V_lim_sup ,T_Max)
+        self.inicio(Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max)
 
     def inicio(self, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max):
         global FIN
-        global ser
         global PorSetear
-        FIN=False
-        PorSetear=None
+        FIN = False
+        PorSetear = None
         # modifico valores de condiciones de seteo solo si la celda no esta en proceso
-        if self.CeldaLibre(Celda) :
-            self.ActualizoCondGuardado(Celda,False, float( Promedio))
-            ActualizoMatriz(Celda,Ciclos, V_lim_sup,V_lim_inf ,T_Max, Corriente )
+        if self.CeldaLibre(Celda):
+            self.ActualizoCondGuardado(Celda, False, float(Promedio))
+            ActualizoMatriz(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente )
             if self.ui.BotActivo.isChecked():
-                PorSetear=Celda
+                PorSetear = Celda
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
-            else :
+            else:
                 # ENVIO
-                EnviarPS_I(Corriente,False,str (Celda ))
-                self.chequeaRB(Celda,True)
-                fila=deque( maxlen=16000)  ################################## definirlo aca implica que es el incicio
+                #EnviarPS_I(Corriente,False,str (Celda ))
+                self.chequeaRB(Celda, True)
+                fila = deque(maxlen=16000)  # definirlo aca implica que es el incicio
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
                 self.ui.BotActivo.setChecked(True)
                 # inicio lectura
-                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self. filaPloteo))
+                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo))
 
-                # self.disconnect(self.threadPool[len(self.threadPool)-1], self.threadPool[len(self.threadPool)-1].signal, self.ActualValores) ############
-                self.connect(self.threadPool[len(self.threadPool)-1], self .
-                             threadPool[len(self.threadPool)-1]. signal , self.ActualValores)
+                # self.disconnect(self.threadPool[len(self.threadPool)-1],
+                # self.threadPool[len(self.threadPool)-1].signal, self.ActualValores)
+                self.connect(self.threadPool[len(self.threadPool)-1],
+                             self.threadPool[len(self.threadPool)-1].signal,
+                             self.ActualValores)
 
-                self.threadPool[len(self.threadPool)-1].start ( )
+                self.threadPool[len(self.threadPool)-1].start()
                 time.sleep(0.5)
                 # inicio procesamiento
-                self.threadPool.append( PROCESO(fila) )
-                self.threadPool[len(self.threadPool)-1]. start ()
-        else :
+                self.threadPool.append(PROCESO(fila))
+                self.threadPool[len(self.threadPool)-1].start()
+        else:
             print 'imposible setear celda no libre'
 
-        if PorSetear!=None:
+        if PorSetear is not None:
             self.chequeaRB(PorSetear,True)
 
     def chequeaRB(self, celda, estado):
@@ -262,6 +263,7 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo1.setLabel('left', text='Tension', units='mV', unitPrefix=None)
         self.Ploteo1. showGrid(x=True, y=True, alpha=None)
         # setLabel(axis, text=None, units=None, unitPrefix=None, **args)
+
     def update2(self, data2):
         self.Ploteo2.plot(data2, pen='r', clear=True)
         self.Ploteo2.setLabel('left', text='Corriente', units='uA',unitPrefix=None)
@@ -386,10 +388,10 @@ class Myform(QtGui.QMainWindow):
                 break
         DequePLOT.clear()
 
-        self.Ploteo1. clear( )
+        self.Ploteo1.clear()
         self.Ploteo2.clear()
-        self.Ploteo2.plot(ValX,  pen='r') #
-        self.Ploteo2. plot(ValY, pen='g') #
+        self.Ploteo2.plot(ValX,  pen='r')
+        self.Ploteo2.plot(ValY, pen='g')
         self.Ploteo2.setLabel('left', text='Corriente', units='uA',unitPrefix=None)
         self.Ploteo2.showGrid(x=True, y=True, alpha=None)
 
@@ -1155,7 +1157,6 @@ class PLOTEOTR(pg.QtCore.QThread):
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
     global ser
-    ser=SeteoPuerto()
     myapp = Myform()
     myapp.show()
     sys.exit(app.exec_())
