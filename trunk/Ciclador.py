@@ -59,7 +59,6 @@ class Myform(QtGui.QMainWindow):
         self.ui.BotParaPlot.setCheckable(True)
 
     def inicioVOC(self):
-
         Celda = self.ui.cmbCelV.currentText()
         Promedio = float(self.ui.cmbPromV.currentText())
         Corriente = 0
@@ -156,29 +155,30 @@ class Myform(QtGui.QMainWindow):
         elif celda == 'p':
             self.ui.RBp.setChecked(estado)
 
-    def ActualizoCondGuardado(self,Celda, Activa, Promedio ):
+    def ActualizoCondGuardado(self, Celda, Activa, Promedio ):
+        # ActualizoCondGuardado(      Celda, False, float(Promedio))
         global CondGuardado
         # print 'desde actualizo guardado la celda ' + str(Celda) + 'esta activa? ' + str(Activa)
         # self.chequeaRB(Celda, Activa)
         # print 'Actualizo  Guardado ' + str(Celda) + str(Activa)
         for i in range(len(string.ascii_letters)):
             if Celda == string.ascii_letters[i]:
-                CondGuardado[i][1]=Activa
-                CondGuardado[i][2]= Promedio
+                CondGuardado[i][1] = Activa
+                CondGuardado[i][2] = Promedio
                 break
 
     def PararCelda(self):  # adicionar mandar i=0 para cuando para celda usar por setear en 0
         global PorSetear
         # global CondSeteo
-        Celda=self.ui . cmbCelPlot.currentText()
+        Celda=self.ui.cmbCelPlot.currentText()
         print '\n\nfinalizada celda: '+str( Celda)+ ' por usuario\n\n'
         # self.ActualizoCondGuardado(Celda,False,0.0)
-        ActualizoMatriz(Celda,0,0,0,1,0)  # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
+        ActualizoMatriz(Celda,0,0,0,1,0)
+        # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
         PorSetear=Celda # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
         # luego la lectura me reinicia cond de seteo y pa barrer
         # eso me hace cerrar el archivo
         # y en proceso me actuliza cond de guardado a ['cel',False, 0]
-
 
     def ActCondUi(self):
         global CondSeteo
@@ -410,16 +410,16 @@ class Myform(QtGui.QMainWindow):
 
         """############################################################## FUNCIONES Dependientes"""
 
-    def CeldaLibre(self, celda):
-        global CondSeteo
-        for i in range(len( string.ascii_letters)):
-            if celda == string.ascii_letters[i]:
-                if CondSeteo[i][4] != 0:
-                    return False
-                    break
-                else:
-                    return True
-                    break
+    # def CeldaLibre(self, celda):
+    #     global CondSeteo
+    #     for i in range(len( string.ascii_letters)):
+    #         if celda == string.ascii_letters[i]:
+    #             if CondSeteo[i][4] != 0:
+    #                 return False
+    #                 break
+    #             else:
+    #                 return True
+    #                 break
 
 
 def ActualizoMatriz(celda, barridos, VLS, VLI, TMax,  Corriente):
@@ -1064,38 +1064,38 @@ class PROCESO(QtCore.QThread):
                      ['m', 0, 0, 0, 0, 0], ['n', 0, 0, 0, 0, 0], ['o', 0, 0, 0, 0, 0], ['p', 0, 0, 0, 0, 0]]
         # [celda, barr, vli, vls, tmax, corr]
 
-    def CerrarCSV(self, celda):  # ver como adicionar directorio
-        encabezado = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
-        columna = [' ----- ', ' ----- ', ' ----- ', ' ----- ']
-        nombre = 'Arch_Cn-' + str(celda) + '.csv'
-        try:
-            open(nombre, 'r')
-            with open(nombre, 'a') as f:
-                f_csv = csv.writer(f)
-                f_csv.writerow(columna)
-                f.close()
-        except IOError:
-            with open(nombre, 'w+') as f:
-                f_csv = csv.writer(f)
-                f_csv.writerow(encabezado)
-                f_csv.writerow(columna)
-                f.close()
-
-    def GuardaCSV(self, columna, celda):  # ver como adicionar directorio
-        encabezado = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
-        nombre = 'Arch_Cn-' + str(celda) + '.csv'
-        try:
-            open(nombre, 'r')
-            with open(nombre, 'a') as f:
-                f_csv = csv.writer(f)
-                f_csv.writerow(columna)
-                f.close()
-        except IOError:
-            with open(nombre, 'w+') as f:
-                f_csv = csv.writer(f)
-                f_csv.writerow(encabezado)
-                f_csv.writerow(columna)
-                f.close()
+    # def CerrarCSV(self, celda):  # ver como adicionar directorio
+    #     encabezado = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
+    #     columna = [' ----- ', ' ----- ', ' ----- ', ' ----- ']
+    #     nombre = 'Arch_Cn-' + str(celda) + '.csv'
+    #     try:
+    #         open(nombre, 'r')
+    #         with open(nombre, 'a') as f:
+    #             f_csv = csv.writer(f)
+    #             f_csv.writerow(columna)
+    #             f.close()
+    #     except IOError:
+    #         with open(nombre, 'w+') as f:
+    #             f_csv = csv.writer(f)
+    #             f_csv.writerow(encabezado)
+    #             f_csv.writerow(columna)
+    #             f.close()
+    #
+    # def GuardaCSV(self,     columna, celda):  # ver como adicionar directorio
+    #     encabezado = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
+    #     nombre = 'Arch_Cn-' + str(celda) + '.csv'
+    #     try:
+    #         open(nombre, 'r')
+    #         with open(nombre, 'a') as f:
+    #             f_csv = csv.writer(f)
+    #             f_csv.writerow(columna)
+    #             f.close()
+    #     except IOError:
+    #         with open(nombre, 'w+') as f:
+    #             f_csv = csv.writer(f)
+    #             f_csv.writerow(encabezado)
+    #             f_csv.writerow(columna)
+    #             f.close()
 
 
 
