@@ -30,26 +30,6 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
 
         self.threadPool = []
-        global CondSeteo
-        global CondGuardado
-        CondGuardado = [['a', False, 0.0], ['b', False, 0.0],
-                        ['c', False, 0.0], ['d', False, 0.0],
-                        ['e', False, 0.0], ['f', False, 0.0],
-                        ['g', False, 0.0], ['h', False, 0.0],
-                        ['i', False, 0.0], ['j', False, 0.0],
-                        ['k', False, 0.0], ['l', False, 0.0],
-                        ['m', False, 0.0], ['n', False, 0.0],
-                        ['o', False, 0.0], ['p', False, 0.0]]
-        #            [celda, Activa?, Promediado]
-        CondSeteo = [['a', 0, 0, 0, 0, 0], ['b', 0, 0, 0, 0, 0],
-                     ['c', 0, 0, 0, 0, 0], ['d', 0, 0, 0, 0, 0],
-                     ['e', 0, 0, 0, 0, 0], ['f', 0, 0, 0, 0, 0],
-                     ['g', 0, 0, 0, 0, 0], ['h', 0, 0, 0, 0, 0],
-                     ['i', 0, 0, 0, 0, 0], ['j', 0, 0, 0, 0, 0],
-                     ['k', 0, 0, 0, 0, 0], ['l', 0, 0, 0, 0, 0],
-                     ['m', 0, 0, 0, 0, 0], ['n', 0, 0, 0, 0, 0],
-                     ['o', 0, 0, 0, 0, 0], ['p', 0, 0, 0, 0, 0]]
-        # [celda, barr, vli, vls, tmax, corr]
 
         self.filaPloteo = deque(maxlen=16000)
 
@@ -61,15 +41,11 @@ class Myform(QtGui.QMainWindow):
     def inicioVOC(self):
         Celda = self.ui.cmbCelV.currentText()
         Promedio = float(self.ui.cmbPromV.currentText())
-        Corriente = 0
-        Ciclos = 1
-        V_lim_inf = -99999
-        V_lim_sup = 99999
         T_Max = int(self.ui.LinEdTiemV.text())
-        self.inicio(Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max)
+        getattr(Datos, Celda + str('.IniciaVoc'))(Promedio, T_Max)
+        self.inicio(Celda) #, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
     def inicioCiclado(self):
-
         # seteo valores para el proceso
         Celda = self.ui.cmbCelC.currentText()
         Promedio = float(self.ui.cmbProm.currentText())
@@ -77,34 +53,29 @@ class Myform(QtGui.QMainWindow):
         Ciclos = int(self.ui.LinEdCiclos.text()) * 2
         V_lim_inf = int(self.ui.LinEdVLInf.text())  # funcion que convierta de acuerdo a lectura!
         V_lim_sup = int(self.ui.LinEdVLSup.text())
-        T_Max = int(self.ui.LinEdTMax.text()	)
-        self.inicio(Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max)
+        T_Max = int(self.ui.LinEdTMax.text())
+        getattr(Datos, Celda + str('.CondicionesDeGuardado'))(Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)
+        self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
-    def inicio(self, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max):
-        global FIN
-        global PorSetear
-        FIN = False
-        PorSetear = None
+    def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         # modifico valores de condiciones de seteo solo si la celda no esta en proceso
-        if self.CeldaLibre(Celda):
-            self.ActualizoCondGuardado(Celda, False, float(Promedio))
-            ActualizoMatriz(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente )
+        if Datos.xIsSeted(Celda):
+            #self.ActualizoCondGuardado(Celda, False, float(Promedio))
             if self.ui.BotActivo.isChecked():
-                PorSetear = Celda
+                Datos.xEnviarPS(Celda, )
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
             else:
                 # ENVIO
                 #EnviarPS_I(Corriente,False,str (Celda ))
                 self.chequeaRB(Celda, True)
-                fila = deque(maxlen=16000)  # definirlo aca implica que es el incicio
-                datos = DatosCompartidos()
+                fila = deque(maxlen=16000)  # definirlo aca implica que es el inicio
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
                 self.ui.BotActivo.setChecked(True)
                 # inicio lectura
 
-                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, datos))
+                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, Datos))
 
                 # self.disconnect(self.threadPool[len(self.threadPool)-1],
                 # self.threadPool[len(self.threadPool)-1].signal, self.ActualValores)
@@ -171,7 +142,6 @@ class Myform(QtGui.QMainWindow):
 
     def PararCelda(self):  # adicionar mandar i=0 para cuando para celda usar por setear en 0
         global PorSetear
-        # global CondSeteo
         Celda=self.ui.cmbCelPlot.currentText()
         print '\n\nfinalizada celda: '+str( Celda)+ ' por usuario\n\n'
         # self.ActualizoCondGuardado(Celda,False,0.0)
@@ -183,8 +153,6 @@ class Myform(QtGui.QMainWindow):
         # y en proceso me actuliza cond de guardado a ['cel',False, 0]
 
     def ActCondUi(self):
-        global CondSeteo
-        global CondGuardado
         Celda=self.ui.cmbCelC. currentText()
         reng=NumDeCelda(Celda)
         self.ui.LinEdCorri.setText(str(CondSeteo[reng][5]))
@@ -412,28 +380,6 @@ class Myform(QtGui.QMainWindow):
 
         """############################################################## FUNCIONES Dependientes"""
 
-    # def CeldaLibre(self, celda):
-    #     global CondSeteo
-    #     for i in range(len( string.ascii_letters)):
-    #         if celda == string.ascii_letters[i]:
-    #             if CondSeteo[i][4] != 0:
-    #                 return False
-    #                 break
-    #             else:
-    #                 return True
-    #                 break
-
-
-def ActualizoMatriz(celda, barridos, VLS, VLI, TMax,  Corriente):
-    global CondSeteo
-    for i in range(len(string.ascii_letters)):
-        if celda == string.ascii_letters[i]:
-            CondSeteo[i][1]=barridos
-            CondSeteo[i][2]=VLS
-            CondSeteo[i][3]=VLI
-            CondSeteo[i][4]=TMax
-            CondSeteo[i][5]=Corriente
-            break
 
 def NumDeCelda(celda):
     for i in range(len(string.ascii_letters)):
@@ -1158,7 +1104,8 @@ class PLOTEOTR(pg.QtCore.QThread):
 
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
-    global ser
+    global Datos
+    Datos = DatosCompartidos()
     myapp = Myform()
     myapp.show()
     sys.exit(app.exec_())

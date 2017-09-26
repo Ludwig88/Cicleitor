@@ -53,18 +53,19 @@ class DatosCelda:
         self.modo = self.Modos.inactiva
 
         #atributos para procesos de extremo
+        self.porenviar = False
         self.tiempoInicioCiclo = 0
-        self.tiempoCiclo = 0
-        self.barridoMax = barrM
+        self.tiempoCicloActual = 0
+        self.barridosMax = barrM
         self.voltajeLimInferior = vli
         self.voltajeLimSuperior = vls
         self.tiempoMaxBarrido = tmb
         self.iniciaEnCarga = True
 
         #atributos tiempo real
-        self.ingresos = 0
+        self.ingresos = 0 #cantidad de tramas cargadas
         self.barridoActual = barr
-        self.corriente = corr
+        self.corrienteSet = corr
         self.milivoltios = milivoltios
         self.microAmperes = microAmperes
         self.segundos = segundos
@@ -73,6 +74,13 @@ class DatosCelda:
 
     def GuardoTInicioCiclo(self, tiempo):
         self.tiempoInicioCiclo = tiempo
+
+    def NecesitoEnviar(self, corr):
+        if self.porenviar is not true:
+            self.porenviar = True
+            self.corrienteSet = corr
+        else:
+            print "ya pedi enviar previamente"
 
     def SeteoSentidoInicioCiclado(self, sentido):
         self.iniciaEnCarga = sentido
@@ -84,6 +92,14 @@ class DatosCelda:
         self.segundos = tiempo
         self.GuardaCsv()
 
+    def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio):
+        self.promediado = Promedio
+        self.barridosMax = barridos
+        self.voltajeLimSuperior = VLS
+        self.voltajeLimInferior = VLI
+        self.tiempoMaxBarrido = TMAX
+        self.corrienteSet = Corr
+
     def PrimerIngreso(self):
         if self.ingresos is None:
             return True
@@ -93,7 +109,7 @@ class DatosCelda:
     def SuperaLimite(self):
         if self.milivoltios >= self.voltajeLimSuperior or self.milivoltios <= self.voltajeLimInferior or self.segundos > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
             print "supere algun extremo"
-            if self.barridoActual >= self.barridoMax:
+            if self.barridoActual >= self.barridosMax:
                 print "termine ciclado"
                 self.CerrarCSV()
                 self.ResetValCiclado()
@@ -106,8 +122,8 @@ class DatosCelda:
 
     def ResetValCiclado(self):
         self.tiempoInicioCiclo = 0
-        self.tiempoCiclo = 0
-        self.barridoMax = 0
+        self.tiempoCicloActual = 0
+        self.barridosMax = 0
         self.voltajeLimInferior = 0
         self.voltajeLimSuperior = 0
         self.tiempoMaxBarrido = 0
@@ -120,12 +136,15 @@ class DatosCelda:
                 self.GuardoTInicioCiclo(tiempo)
             self.GuardaCsv()
 
-    def IniciaVoc(self):
+    def IniciaVoc(self, prom, tmax):
         if self.modo is not self.Modos.voc:
             self.modo = self.Modos.voc
-            self.ciclo
+            self.corrienteSet = 0
+            self.barridosMax = 1
             self.voltajeLimInferior = -99999
             self.voltajeLimSuperior = 99999
+            self.promediado = prom
+            self.tiempoMaxBarrido = tmax
         else:
             print "está en modo de barrido de Voltaje a circuito abierto"
 
@@ -168,8 +187,8 @@ class DatosCelda:
 
     def ValoresPaTest(self):
         self.promediado = 100
-        self.corriente = 1000
-        self.barridoMax = 10
+        self.corrienteSet = 1000
+        self.barridosMax = 10
         self.voltajeLimSuperior = 999999
         self.voltajeLimInferior = -999999
         self.tiempoMaxBarrido = 12
@@ -231,38 +250,5 @@ class DatosCompartidos:
         else:
             print "error"
 
-    def XStart(self, num):
-        if num is "a" or 1:
-            self.a.ci
-        elif num is "b" or 2:
-            return self.b.activa
-        elif num is "c" or 3:
-            return self.c.activa
-        elif num is "d" or 4:
-            return self.d.activa
-        elif num is "e" or 5:
-            return self.e.activa
-        elif num is "f" or 6:
-            return self.f.activa
-        elif num is "g" or 7:
-            return self.g.activa
-        elif num is "h" or 8:
-            return self.h.activa
-        elif num is "i" or 9:
-            return self.i.activa
-        elif num is "j" or 10:
-            return self.j.activa
-        elif num is "k" or 11:
-            return self.k.activa
-        elif num is "l" or 12:
-            return self.l.activa
-        elif num is "m" or 13:
-            return self.m.activa
-        elif num is "n" or 14:
-            return self.n.activa
-        elif num is "o" or 15:
-            return self.o.activa
-        elif num is "p" or 16:
-            return self.p.activa
-        else:
-            print "error"
+    def xEnviarPS(self, cel, corr):
+        getattr('self.'+str(cel),'NecesitoEnviar')(corr)
