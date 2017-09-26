@@ -62,6 +62,7 @@ class DatosCelda:
         self.iniciaEnCarga = True
 
         #atributos tiempo real
+        self.ingresos = 0
         self.barridoActual = barr
         self.corriente = corr
         self.milivoltios = milivoltios
@@ -70,9 +71,6 @@ class DatosCelda:
         #carga = true / descarga = false
         self.CargaDescarga = True
 
-    def isCeldaLibre(self):
-        return self.activa
-
     def GuardoTInicioCiclo(self, tiempo):
         self.tiempoInicioCiclo = tiempo
 
@@ -80,9 +78,17 @@ class DatosCelda:
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
+        self.ingresos+=1
         self.milivoltios = voltios
         self.microAmperes = corriente
         self.segundos = tiempo
+        self.GuardaCsv()
+
+    def PrimerIngreso(self):
+        if self.ingresos is None:
+            return True
+        else:
+            return False
 
     def SuperaLimite(self):
         if self.milivoltios >= self.voltajeLimSuperior or self.milivoltios <= self.voltajeLimInferior or self.segundos > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
@@ -106,11 +112,13 @@ class DatosCelda:
         self.voltajeLimSuperior = 0
         self.tiempoMaxBarrido = 0
 
-    def iniciaCiclado(self):
+    def Ciclado(self):
         if self.modo is not self.Modos.inactiva:
             print 'imposible setear celda no libre'
         else:
-            print "inicia ciclado"
+            if self.PrimerIngreso():
+                self.GuardoTInicioCiclo(tiempo)
+            self.GuardaCsv()
 
     def IniciaVoc(self):
         if self.modo is not self.Modos.voc:
@@ -165,3 +173,96 @@ class DatosCelda:
         self.voltajeLimSuperior = 999999
         self.voltajeLimInferior = -999999
         self.tiempoMaxBarrido = 12
+
+
+class DatosCompartidos:
+
+    def __init__(self):
+        self.a = DatosCelda() #1
+        self.b = DatosCelda() #2
+        self.c = DatosCelda() #3
+        self.d = DatosCelda() #4
+        self.e = DatosCelda() #5
+        self.f = DatosCelda() #6
+        self.g = DatosCelda() #7
+        self.h = DatosCelda() #8
+        self.i = DatosCelda() #9
+        self.j = DatosCelda() #10
+        self.k = DatosCelda() #11
+        self.l = DatosCelda() #12
+        self.m = DatosCelda() #13
+        self.n = DatosCelda() #14
+        self.o = DatosCelda() #15
+        self.p = DatosCelda() #16
+
+    def xIsSeted(self, num):
+        if num is "a" or 1:
+            return self.a.activa
+        elif num is "b" or 2:
+            return self.b.activa
+        elif num is "c" or 3:
+            return self.c.activa
+        elif num is "d" or 4:
+            return self.d.activa
+        elif num is "e" or 5:
+            return self.e.activa
+        elif num is "f" or 6:
+            return self.f.activa
+        elif num is "g" or 7:
+            return self.g.activa
+        elif num is "h" or 8:
+            return self.h.activa
+        elif num is "i" or 9:
+            return self.i.activa
+        elif num is "j" or 10:
+            return self.j.activa
+        elif num is "k" or 11:
+            return self.k.activa
+        elif num is "l" or 12:
+            return self.l.activa
+        elif num is "m" or 13:
+            return self.m.activa
+        elif num is "n" or 14:
+            return self.n.activa
+        elif num is "o" or 15:
+            return self.o.activa
+        elif num is "p" or 16:
+            return self.p.activa
+        else:
+            print "error"
+
+    def XStart(self, num):
+        if num is "a" or 1:
+            self.a.ci
+        elif num is "b" or 2:
+            return self.b.activa
+        elif num is "c" or 3:
+            return self.c.activa
+        elif num is "d" or 4:
+            return self.d.activa
+        elif num is "e" or 5:
+            return self.e.activa
+        elif num is "f" or 6:
+            return self.f.activa
+        elif num is "g" or 7:
+            return self.g.activa
+        elif num is "h" or 8:
+            return self.h.activa
+        elif num is "i" or 9:
+            return self.i.activa
+        elif num is "j" or 10:
+            return self.j.activa
+        elif num is "k" or 11:
+            return self.k.activa
+        elif num is "l" or 12:
+            return self.l.activa
+        elif num is "m" or 13:
+            return self.m.activa
+        elif num is "n" or 14:
+            return self.n.activa
+        elif num is "o" or 15:
+            return self.o.activa
+        elif num is "p" or 16:
+            return self.p.activa
+        else:
+            print "error"

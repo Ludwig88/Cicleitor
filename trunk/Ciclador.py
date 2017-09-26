@@ -8,10 +8,10 @@ import PLOTEOTR
 
 import pyqtgraph as pg
 
-import time, string, csv, serial, sys, random  # , resource
-import numpy as np
+import time, string, csv, sys  # , resource
 from collections import deque  # double ended queue
 
+from DatosIndependientes import DatosCompartidos
 import ProcesoPuerto
 
 """########################################################## CLASE PARA IU"""
@@ -98,11 +98,13 @@ class Myform(QtGui.QMainWindow):
                 #EnviarPS_I(Corriente,False,str (Celda ))
                 self.chequeaRB(Celda, True)
                 fila = deque(maxlen=16000)  # definirlo aca implica que es el incicio
+                datos = DatosCompartidos()
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
                 self.ui.BotActivo.setChecked(True)
                 # inicio lectura
-                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo))
+
+                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, datos))
 
                 # self.disconnect(self.threadPool[len(self.threadPool)-1],
                 # self.threadPool[len(self.threadPool)-1].signal, self.ActualValores)

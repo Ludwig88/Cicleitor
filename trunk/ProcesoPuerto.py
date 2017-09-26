@@ -4,13 +4,14 @@
 from PyQt4 import QtCore
 
 import time, string, serial
-import Ciclador
+
+from DatosIndependientes import DatosCompartidos
 
 """########################################################## CLASE PARA Recepcion"""
 
 
 class LECTURA(QtCore.QThread):
-    def __init__(self, fila, filaPlot,
+    def __init__(self, fila, filaPlot, datos,
                  port_num='/dev/ttyACM0',
                  port_baud=115200,
                  port_stopbits=serial.STOPBITS_ONE,
@@ -30,27 +31,12 @@ class LECTURA(QtCore.QThread):
         self.signal = QtCore.SIGNAL("signal")
         self.CONTENEDOR = fila
         self.CONTENEDORplot = filaPlot
+        self.DatosComp = datos
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
-        global FIN
-        global PorSetear
-        global CondSeteo
-        global CondPaBarrer
-        CondPaBarrer = [['a', 0, 0], ['b', 0, 0],
-                        ['c', 0, 0], ['d', 0, 0],
-                        ['e', 0, 0], ['f', 0, 0],
-                        ['g', 0, 0], ['h', 0, 0],
-                        ['i', 0, 0], ['j', 0, 0],
-                        ['k', 0, 0], ['l', 0, 0],
-                        ['m', 0, 0], ['n', 0, 0],
-                        ['o', 0, 0], ['p', 0, 0]]
-        #         [celda, barrido (actual), Tinicio]
-        #global PromPlot
-        #PromPlot = []
-
         try:
             if self.serial_port:
                 self.serial_port.close()
@@ -68,10 +54,9 @@ class LECTURA(QtCore.QThread):
             """variables para guardado"""
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
-                renglon = int(self.NumDeCelda(celda))
                 """chequeo que sea una de las que active, descarto los envios nulos"""
                 # verifico q sea una celda seteada
-                if CondSeteo[renglon][4] != 0:
+                if self.DatosComp.IsSeted(celda):
                     """primera recepcion de esa celda"""
                     if CondPaBarrer[renglon][1] == 0:
                         CondPaBarrer[renglon][2] = float(separado[3])  # guardo tiempo de inicio de ciclado
