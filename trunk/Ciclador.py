@@ -18,13 +18,11 @@ import ProcesoPuerto
 
 
 class Myform(QtGui.QMainWindow):
+
     def __init__(self, parent=None):
         locale = unicode(QtCore.QLocale.system().name())
         QtGui.QWidget.__init__(self, parent)
         self.ui = loadUi("CicladorIG.ui", self)
-
-        # self.win = self.ui.plot.GraphicsWindow(title="Ventana de graficado")
-        # self.ui.plot.setConfigOptions(antialias=True)
 
         self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0)
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
@@ -50,11 +48,13 @@ class Myform(QtGui.QMainWindow):
         Celda = self.ui.cmbCelC.currentText()
         Promedio = float(self.ui.cmbProm.currentText())
         Corriente = int(self.ui.LinEdCorri.text())
-        Ciclos = int(self.ui.LinEdCiclos.text()) * 2
-        V_lim_inf = int(self.ui.LinEdVLInf.text())  # funcion que convierta de acuerdo a lectura!
+        Ciclos = int(self.ui.LinEdCiclos.text())
+        V_lim_inf = int(self.ui.LinEdVLInf.text())
         V_lim_sup = int(self.ui.LinEdVLSup.text())
         T_Max = int(self.ui.LinEdTMax.text())
-        getattr(Datos, Celda + str('.CondicionesDeGuardado'))(Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)
+        #Datos.xIsSeted()
+        #getattr(Datos, str('Datos.')+str(Celda)+str('.CondicionesDeGuardado'))(Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)
+        getattr(self, 'Datos.xIsSeted')('a')
         self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
     def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
@@ -62,37 +62,30 @@ class Myform(QtGui.QMainWindow):
         if Datos.xIsSeted(Celda):
             #self.ActualizoCondGuardado(Celda, False, float(Promedio))
             if self.ui.BotActivo.isChecked():
-                Datos.xEnviarPS(Celda, )
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
+                #poner el flag de una celda para que la misma le avise al puerto
+                #el puerto debe bajar  ese flag
+                Datos.PrimerInicio()
             else:
-                # ENVIO
-                #EnviarPS_I(Corriente,False,str (Celda ))
+                #Iniciar Ciclado con start de Datos
                 self.chequeaRB(Celda, True)
-                fila = deque(maxlen=16000)  # definirlo aca implica que es el inicio
                 self.ui.BotSetearV.setChecked(False)
                 self.ui.BotSetearC.setChecked(False)
                 self.ui.BotActivo.setChecked(True)
-                # inicio lectura
-
-                self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, Datos))
-
-                # self.disconnect(self.threadPool[len(self.threadPool)-1],
-                # self.threadPool[len(self.threadPool)-1].signal, self.ActualValores)
-                self.connect(self.threadPool[len(self.threadPool)-1],
-                             self.threadPool[len(self.threadPool)-1].signal,
-                             self.ActualValores)
-
-                self.threadPool[len(self.threadPool)-1].start()
-                time.sleep(0.5)
-                # inicio procesamiento
-                self.threadPool.append(PROCESO(fila))
-                self.threadPool[len(self.threadPool)-1].start()
+                # # inicio lectura
+                # fila = deque(maxlen=16000)
+                # self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, Datos))
+                # self.connect(self.threadPool[len(self.threadPool)-1],
+                #              self.threadPool[len(self.threadPool)-1].signal,
+                #              self.ActualValores)
+                # self.threadPool[len(self.threadPool)-1].start()
+                # time.sleep(0.5)
+                # # inicio procesamiento
+                # self.threadPool.append(PROCESO(fila))
+                # self.threadPool[len(self.threadPool)-1].start()
         else:
-            print 'imposible setear celda no libre'
-
-        if PorSetear is not None:
-            self.chequeaRB(PorSetear,True)
+            print 'Ciclador - imposible setear celda no libre'
 
     def chequeaRB(self, celda, estado):
         if celda == 'a':
@@ -140,17 +133,9 @@ class Myform(QtGui.QMainWindow):
                 CondGuardado[i][2] = Promedio
                 break
 
-    def PararCelda(self):  # adicionar mandar i=0 para cuando para celda usar por setear en 0
-        global PorSetear
-        Celda=self.ui.cmbCelPlot.currentText()
-        print '\n\nfinalizada celda: '+str( Celda)+ ' por usuario\n\n'
-        # self.ActualizoCondGuardado(Celda,False,0.0)
-        ActualizoMatriz(Celda,0,0,0,1,0)
-        # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
-        PorSetear=Celda # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
-        # luego la lectura me reinicia cond de seteo y pa barrer
-        # eso me hace cerrar el archivo
-        # y en proceso me actuliza cond de guardado a ['cel',False, 0]
+    def PararCelda(self):
+        celda = self.ui.cmbCelPlot.currentText()
+        getattr(Datos, celda + str('.PararCelda'))()
 
     def ActCondUi(self):
         Celda=self.ui.cmbCelC. currentText()
@@ -161,7 +146,7 @@ class Myform(QtGui.QMainWindow):
         self.ui.LinEdVLSup.setText(str(CondSeteo[reng][2]))
         self.ui.LinEdTMax.setText(str(CondSeteo[reng][4]))
         if CondGuardado[reng][2] == 100:
-            self.ui.cmbProm.setCurrentIndex(7) ###promediado  elif CondGuardado[reng][2] == 50:
+            self.ui.cmbProm.setCurrentIndex(7)
             self.ui.cmbProm.setCurrentIndex(6)
         elif CondGuardado[reng][2] == 25:
             self.ui.cmbProm.setCurrentIndex(5)
@@ -1044,7 +1029,6 @@ class PROCESO(QtCore.QThread):
     #             f_csv.writerow(encabezado)
     #             f_csv.writerow(columna)
     #             f.close()
-
 
 
 

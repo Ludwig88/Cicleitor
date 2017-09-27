@@ -62,10 +62,12 @@ class DatosCelda:
         self.tiempoMaxBarrido = tmb
         self.iniciaEnCarga = True
 
+        self.corrienteSetNueva = 0 ####
+
         #atributos tiempo real
         self.ingresos = 0 #cantidad de tramas cargadas
         self.barridoActual = barr
-        self.corrienteSet = corr
+        self.corrienteSetActual = corr
         self.milivoltios = milivoltios
         self.microAmperes = microAmperes
         self.segundos = segundos
@@ -76,11 +78,11 @@ class DatosCelda:
         self.tiempoInicioCiclo = tiempo
 
     def NecesitoEnviar(self, corr):
-        if self.porenviar is not true:
+        if self.porenviar is not True:
             self.porenviar = True
-            self.corrienteSet = corr
+            self.corrienteSetActual = corr
         else:
-            print "ya pedi enviar previamente"
+            print "Datos Independientes - ya pedi enviar previamente"
 
     def SeteoSentidoInicioCiclado(self, sentido):
         self.iniciaEnCarga = sentido
@@ -93,12 +95,13 @@ class DatosCelda:
         self.GuardaCsv()
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio):
+        print "condiciones de guardado"
         self.promediado = Promedio
-        self.barridosMax = barridos
+        self.barridosMax = barridos * 2 #por la mala definicion original
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
         self.tiempoMaxBarrido = TMAX
-        self.corrienteSet = Corr
+        self.corrienteSetActual = Corr
 
     def PrimerIngreso(self):
         if self.ingresos is None:
@@ -128,29 +131,41 @@ class DatosCelda:
         self.voltajeLimSuperior = 0
         self.tiempoMaxBarrido = 0
 
-    def Ciclado(self):
+    def Ciclar(self):
         if self.modo is not self.Modos.inactiva:
-            print 'imposible setear celda no libre'
+            print 'Datos Independientes - imposible setear celda no libre'
         else:
             if self.PrimerIngreso():
-                self.GuardoTInicioCiclo(tiempo)
+                self.GuardoTInicioCiclo()
             self.GuardaCsv()
 
     def IniciaVoc(self, prom, tmax):
         if self.modo is not self.Modos.voc:
             self.modo = self.Modos.voc
-            self.corrienteSet = 0
+            self.corrienteSetActual = 0
             self.barridosMax = 1
             self.voltajeLimInferior = -99999
             self.voltajeLimSuperior = 99999
             self.promediado = prom
             self.tiempoMaxBarrido = tmax
         else:
-            print "está en modo de barrido de Voltaje a circuito abierto"
+            print "esta en modo de barrido de Voltaje a circuito abierto"
 
     def PararCelda(self):
         if self.modo is not self.Modos.inactiva:
             self.modo = self.Modos.inactiva
+            self.activa = False
+            #limpiar las variables de seteo, cerrar archivo
+            #enviar corriente cero
+            # adicionar mandar i=0 para cuando para celda usar por setear en 0
+            self.CerrarCSV()
+            # self.ActualizoCondGuardado(Celda,False,0.0)
+            # ActualizoMatriz(Celda,0,0,0,1,0)
+            # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
+            #PorSetear = Celda  # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
+            # luego la lectura me reinicia cond de seteo y pa barrer
+            # eso me hace cerrar el archivo
+            # y en proceso me actuliza cond de guardado a ['cel',False, 0]
 
     def GuardaCsv(self):
         columna = [self.barridoActual, self.milivoltios, self.segundos]
@@ -187,7 +202,7 @@ class DatosCelda:
 
     def ValoresPaTest(self):
         self.promediado = 100
-        self.corrienteSet = 1000
+        self.corrienteSetActual = 1000
         self.barridosMax = 10
         self.voltajeLimSuperior = 999999
         self.voltajeLimInferior = -999999
@@ -197,25 +212,33 @@ class DatosCelda:
 class DatosCompartidos:
 
     def __init__(self):
-        self.a = DatosCelda() #1
-        self.b = DatosCelda() #2
-        self.c = DatosCelda() #3
-        self.d = DatosCelda() #4
-        self.e = DatosCelda() #5
-        self.f = DatosCelda() #6
-        self.g = DatosCelda() #7
-        self.h = DatosCelda() #8
-        self.i = DatosCelda() #9
-        self.j = DatosCelda() #10
-        self.k = DatosCelda() #11
-        self.l = DatosCelda() #12
-        self.m = DatosCelda() #13
-        self.n = DatosCelda() #14
-        self.o = DatosCelda() #15
-        self.p = DatosCelda() #16
+        self.a = DatosCelda("a") #1
+        self.b = DatosCelda("b") #2
+        self.c = DatosCelda("c") #3
+        self.d = DatosCelda("d") #4
+        self.e = DatosCelda("e") #5
+        self.f = DatosCelda("f") #6
+        self.g = DatosCelda("g") #7
+        self.h = DatosCelda("h") #8
+        self.i = DatosCelda("i") #9
+        self.j = DatosCelda("j") #10
+        self.k = DatosCelda("k") #11
+        self.l = DatosCelda("l") #12
+        self.m = DatosCelda("m") #13
+        self.n = DatosCelda("n") #14
+        self.o = DatosCelda("o") #15
+        self.p = DatosCelda("p") #16
+
+    # # inicio lectura
+    # fila = deque(maxlen=16000)
+    # self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, Datos))
+    # self.connect(self.threadPool[len(self.threadPool)-1],
+    #              self.threadPool[len(self.threadPool)-1].signal,
+    #              self.ActualValores)
 
     def xIsSeted(self, num):
         if num is "a" or 1:
+            print 'slfdlfksdlfksd'
             return self.a.activa
         elif num is "b" or 2:
             return self.b.activa
@@ -252,3 +275,11 @@ class DatosCompartidos:
 
     def xEnviarPS(self, cel, corr):
         getattr('self.'+str(cel),'NecesitoEnviar')(corr)
+
+    def PrimerInicio(self):
+        print "arranco el thread del puerto"
+        # self.threadPool[len(self.threadPool)-1].start()
+        # time.sleep(0.5)
+        # # inicio procesamiento
+        # self.threadPool.append(PROCESO(fila))
+        # self.threadPool[len(self.threadPool)-1].start()
