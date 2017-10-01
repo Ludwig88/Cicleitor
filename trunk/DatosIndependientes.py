@@ -77,14 +77,22 @@ class DatosCelda:
     def GuardoTInicioCiclo(self, tiempo):
         self.tiempoInicioCiclo = tiempo
 
-    def NecesitoEnviar(self, corr):
+    def NecesitoEnviar(self):
         if self.porenviar is not True:
             self.porenviar = True
-            self.corrienteSetActual = corr
+            if self.corrienteSetActual >= 0:
+                self.iniciaEnCarga = True
+                self.CargaDescarga = True
+            else:
+                self.iniciaEnCarga = False
+                self.CargaDescarga = False
+            return True
         else:
             print "Datos Independientes - ya pedi enviar previamente"
+            return False
 
     def SeteoSentidoInicioCiclado(self, sentido):
+        #no hace falta???
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
@@ -96,12 +104,18 @@ class DatosCelda:
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio):
         print "condiciones de guardado"
-        self.promediado = Promedio
-        self.barridosMax = barridos * 2 #por la mala definicion original
-        self.voltajeLimSuperior = VLS
-        self.voltajeLimInferior = VLI
-        self.tiempoMaxBarrido = TMAX
-        self.corrienteSetActual = Corr
+        if barridos >= 0:
+            self.barridosMax = barridos * 2  # por la mala definicion original
+            # hacer filtro de valores correctos
+            self.promediado = Promedio
+            self.voltajeLimSuperior = VLS
+            self.voltajeLimInferior = VLI
+            self.tiempoMaxBarrido = TMAX
+            self.corrienteSetActual = Corr
+            return True
+        else:
+            #especificar que dio mal para informarlo
+            return False
 
     def PrimerIngreso(self):
         if self.ingresos is None:
@@ -155,17 +169,18 @@ class DatosCelda:
         if self.modo is not self.Modos.inactiva:
             self.modo = self.Modos.inactiva
             self.activa = False
-            #limpiar las variables de seteo, cerrar archivo
-            #enviar corriente cero
-            # adicionar mandar i=0 para cuando para celda usar por setear en 0
             self.CerrarCSV()
-            # self.ActualizoCondGuardado(Celda,False,0.0)
+            self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0)
             # ActualizoMatriz(Celda,0,0,0,1,0)
             # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
             #PorSetear = Celda  # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
             # luego la lectura me reinicia cond de seteo y pa barrer
             # eso me hace cerrar el archivo
             # y en proceso me actuliza cond de guardado a ['cel',False, 0]
+            return True
+        else:
+            print "imposible detener una celda inactiva"
+            return False
 
     def GuardaCsv(self):
         columna = [self.barridoActual, self.milivoltios, self.segundos]
@@ -236,9 +251,8 @@ class DatosCompartidos:
     #              self.threadPool[len(self.threadPool)-1].signal,
     #              self.ActualValores)
 
-    def xIsSeted(self, num):
+    def xIsActive(self, num):
         if num is "a" or 1:
-            print 'slfdlfksdlfksd'
             return self.a.activa
         elif num is "b" or 2:
             return self.b.activa
@@ -271,10 +285,191 @@ class DatosCompartidos:
         elif num is "p" or 16:
             return self.p.activa
         else:
-            print "error"
+            print "datos independientes - Atrib error"
 
-    def xEnviarPS(self, cel, corr):
-        getattr('self.'+str(cel),'NecesitoEnviar')(corr)
+    def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio):
+        if num is "a" or 1:
+            if (self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "b" or 2:
+            if (self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "c" or 3:
+            if (self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "d" or 4:
+            if (self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "e" or 5:
+            if (self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "f" or 6:
+            if (self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "g" or 7:
+            if (self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "h" or 8:
+            if (self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "i" or 9:
+            if (self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "j" or 10:
+            if (self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "k" or 11:
+            if (self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "l" or 12:
+            if (self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "m" or 13:
+            if (self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "n" or 14:
+            if (self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "o" or 15:
+            if (self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        elif num is "p" or 16:
+            if (self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+                return True
+            else:
+                return False
+        else:
+            print "error"
+            return False
+
+    def xEnviarPS(self, num):
+        if num is "a" or 1:
+            if (self.a.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "b" or 2:
+            if (self.b.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "c" or 3:
+            if (self.c.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "d" or 4:
+            if (self.d.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "e" or 5:
+            if (self.e.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "f" or 6:
+            if (self.f.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "g" or 7:
+            if (self.g.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "h" or 8:
+            if (self.h.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "i" or 9:
+            if (self.i.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "j" or 10:
+            if (self.j.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "k" or 11:
+            if (self.k.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "l" or 12:
+            if (self.l.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "m" or 13:
+            if (self.m.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "n" or 14:
+            if (self.n.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "o" or 15:
+            if (self.o.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+
+        elif num is "p" or 16:
+            if (self.p.NecesitoEnviar()) is True:
+                print "DInd - por enviar corriente"
+            else:
+                print "DInd - no se pudo enviar corriente"
+        else:
+            print "datos independientes- EnviarPS - Atrib error"
 
     def PrimerInicio(self):
         print "arranco el thread del puerto"
@@ -283,3 +478,121 @@ class DatosCompartidos:
         # # inicio procesamiento
         # self.threadPool.append(PROCESO(fila))
         # self.threadPool[len(self.threadPool)-1].start()
+
+    def xIniciaVoc(self, num, Promedio, T_Max):
+        if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio)) is True:
+            print "DInd - actualizadas condiciones de guardado"
+        else:
+            print "DInd - no pudo actualizar condiciones de guardado"
+
+    def xPararCelda(self, num):
+        if num is "a" or 1:
+            if (self.a.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "b" or 2:
+            if (self.b.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "c" or 3:
+            if (self.c.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "d" or 4:
+            if (self.d.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "e" or 5:
+            if (self.e.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "f" or 6:
+            if (self.f.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "g" or 7:
+            if (self.g.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "h" or 8:
+            if (self.h.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "i" or 9:
+            if (self.i.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "j" or 10:
+            if (self.j.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "k" or 11:
+            if (self.k.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "l" or 12:
+            if (self.l.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "m" or 13:
+            if (self.m.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "n" or 14:
+            if (self.n.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "o" or 15:
+            if (self.o.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+
+        elif num is "p" or 16:
+            if (self.p.PararCelda()) is True:
+                print "DInd - parando celda"
+            else:
+                print "DInd - no se pudo parar celda"
+        else:
+            print "datos independientes - parar celda - Atrib error"
+
+    def xGetCondGuardado(self, num):
+        if num is "a" or 1:
+            corriente = self.a.corrienteSetActual
+            ciclos = self.a.barridosMax
+            vli = self.a.voltajeLimInferior
+            vls = self.a.voltajeLimSuperior
+            tmax = self.a.tiempoMaxBarrido
+            prom = self.a.promediado
+        return (corriente, ciclos, vli, vls, tmax, prom)
+
+    def xCiclar(self):
+        print "if else con cada celda?"
