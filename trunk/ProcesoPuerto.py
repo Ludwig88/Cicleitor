@@ -11,7 +11,7 @@ from DatosIndependientes import DatosCompartidos
 
 
 class LECTURA(QtCore.QThread):
-    def __init__(self, fila, filaPlot, datos,
+    def __init__(self, fila, filaPlot,
                  port_num='/dev/ttyACM0',
                  port_baud=115200,
                  port_stopbits=serial.STOPBITS_ONE,
@@ -31,7 +31,6 @@ class LECTURA(QtCore.QThread):
         self.signal = QtCore.SIGNAL("signal")
         self.CONTENEDOR = fila
         self.CONTENEDORplot = filaPlot
-        self.DatosComp = datos
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
@@ -47,8 +46,14 @@ class LECTURA(QtCore.QThread):
             print "error en el try del serial port"
             return
 
+        global Datos
+        Datos = DatosCompartidos()
+
         while self.serial_port.is_open:
-            recepcion = self.RecibirPS() + '#' + str(time.time() - 1400000000)
+            try:
+                recepcion = self.RecibirPS() + '#' + str(time.time() - 1400000000)
+            except:
+                recepcion = "$#$#$#$"
             # print recepcion
             separado = recepcion.split('#', 4)
             # [char(celda), string(tension), string(corriente), string(tiempo)]
@@ -56,76 +61,28 @@ class LECTURA(QtCore.QThread):
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
                 """chequeo que sea una de las que active, descarto los envios nulos"""
-                # verifico q sea una celda seteada
-                if self.DatosComp.IsSeted(celda):
-                    """primera recepcion de esa celda"""
-                    if CondPaBarrer[renglon][1] == 0:
-                        CondPaBarrer[renglon][2] = float(separado[3])  # guardo tiempo de inicio de ciclado
-                        CondPaBarrer[renglon][1] = 1
-                    """el tiempo de inicio mas real """
-                    if CondPaBarrer[renglon][2] == -1:
-                        CondPaBarrer[renglon][1] += 1
-                        CondPaBarrer[renglon][2] = float(separado[3])
-                    """variables de esa entrada"""
+                if Datos.xIsActive(celda):
+                    """conversion de tension (pasa a mV)"""
+                    #(-1)*int((int(separado[1])*(3.0/8))-6144)
                     Tension = int((int(separado[1]) * (0.375)) - 6144)
-                    # (-1)*int((int(separado[1])*(3.0/8))-6144)
-                    #  conversion de tension (pasa a mV)
-                    inicio = CondPaBarrer[renglon][2]
+                    """conversion de corriente (pasa a uA)"""
                     Corriente = int(separado[2]) - 1024
-                    # conversion de corriente (pasa a uA)
                     Tiempo = float(separado[3])
-                    """variables de extremo"""
-                    Barridos = CondSeteo[renglon][1]
-                    V_lim_sup = CondSeteo[renglon][2]
-                    V_lim_inf = CondSeteo[renglon][3]
-                    T_Max = CondSeteo[renglon][4]
-                    """condiciones de cambio"""
-                    if Tension >= V_lim_sup or Tension <= V_lim_inf or Tiempo > inicio + T_Max:
-                        """supere barridos maximos:"""
-                        if CondPaBarrer[renglon][1] + 1 > Barridos:
-                            # ENVIO
-                            self.EnviarPS_I(0, False, celda)
-                            Tension = Corriente = '%'  # caracter de final
-                            # [celda, barrido (actual), Tinicio]
-                            CondPaBarrer[renglon][1] = CondPaBarrer[renglon][2] = 0
-                            # reinicio condiciones de seteo
-                            self.ActualizoMatriz(celda, 0, 0, 0, 0, 0)
-                        else:
-                            """guardo con barrido adicional"""
-                            # CondPaBarrer[renglon][1] += 1 tambien lo tengo que sumar en la prox medida
-                            # float(separado[3]) #pongo -1 asi en la proxima recepcion pone 0
-                            CondPaBarrer[renglon][2] = -1
-                            # ENVIO si Barrido par descargo, si no cargo le sumo uno para poder reconocer el cambio en ese punto
-                            BARRIDO = CondPaBarrer[renglon][1] + 1
-                            if BARRIDO % 2 == 0:
-                                Descarga = True
-                            else:
-                                Descarga = False
-                            CORRIENTE = CondSeteo[renglon][5]  # corriente seteada
-                            print 'enviando I=' + str(CORRIENTE) + ' Descarga? ' + \
-                                  str(Descarga) + ' celda:' + str(celda)
-                            self.EnviarPS_I(CORRIENTE, Descarga, celda)
-                    """caso mas tipico"""
-                    Barrido = CondPaBarrer[renglon][1]
-                    if Barrido % 2 == 0:
-                        Barrido = Barrido / 2
-                    else:
-                        Barrido = int(Barrido / 2) + 1
+                    Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
+                    ####################################################################self.EnviarPS_I(0, False, celda)
+                    ###################################################################self.EnviarPS_I(CORRIENTE, Descarga, celda)
                     # CondPaBarrer[renglon][2] #tiempo en ese barrido
-                    tiempo = Tiempo - inicio
+                    #tiempo = Tiempo - inicio
+                    Barrido, tiempo = Datos.xGetBarrYTiempo(celda)
                     self.CONTENEDOR.append([celda, Barrido, Tension, Corriente, tiempo])
-
-                    #PromPlot += [Tension, Corriente, tiempo],
+                    ###################################################################PromPlot += [Tension, Corriente, tiempo],
                     self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
-
                     # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
                     #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
                     #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
             """Hay celdas por setear"""
             PorSetear = None
             if PorSetear is not None:
-                renglon = self.NumDeCelda(PorSetear)
-                Corriente = CondSeteo[renglon][5]
                 self.EnviarPS_I(Corriente, False, str(PorSetear))
                 PorSetear = None
             """Ninguna activa"""
@@ -137,23 +94,6 @@ class LECTURA(QtCore.QThread):
         # clean up
         if self.serial_port:
             self.serial_port.close()
-
-    def NumDeCelda(self, celda):
-        for i in range(len(string.ascii_letters)):
-            if celda == string.ascii_letters[i]:
-                return i
-                break
-
-    def ActualizoMatriz(self, celda, barridos, VLS, VLI, TMax, Corriente):
-        global CondSeteo
-        for i in range(len(string.ascii_letters)):
-            if celda == string.ascii_letters[i]:
-                CondSeteo[i][1] = barridos
-                CondSeteo[i][2] = VLS
-                CondSeteo[i][3] = VLI
-                CondSeteo[i][4] = TMax
-                CondSeteo[i][5] = Corriente
-                break
 
     def EnviarPS_I(self, ua, Descarga, celda):
         print str(celda)

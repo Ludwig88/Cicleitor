@@ -113,7 +113,17 @@ class DatosCelda:
         #     self.ResetValCiclado()
         #     self.CerrarCSV()
         #     return False
-        else:
+
+
+
+        # if BARRIDO % 2 == 0:
+        #     Descarga = True
+        # else:
+        #     Descarga = False
+
+
+
+        elif self.modo is self.Modos.ciclando:
             self.ingresos = +1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -121,6 +131,20 @@ class DatosCelda:
             tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
             if self.SuperaLimite() is not 2:
+                ############################################################ENVIO
+                self.GuardaCsv()
+                ############################################################append Promediado
+                return True
+            else:
+                return False
+        elif self.modo is self.Modos.voc:
+            self.ingresos = +1
+            self.microAmperes = corriente
+            self.milivoltios = voltios
+            self.segundos = tiempo
+            self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
+            if self.SuperaLimite() is not 2:
+                ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
                 return True
@@ -625,38 +649,74 @@ class DatosCompartidos:
             prom = self.a.promediado
         return (corriente, ciclos, vli, vls, tmax, prom)
 
-    def xActualizoCampo(self, num, barrido, tension, corriente, tiempo):
+    def xActualizoCampo(self, num, tension, corriente, tiempo):
         if num is "a" or 1:
-            self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "b" or 2:
-            return self.b.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "c" or 3:
-            return self.c.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "d" or 4:
-            return self.d.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "e" or 5:
-            return self.e.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "f" or 6:
-            return self.f.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "g" or 7:
-            return self.g.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "h" or 8:
-            return self.h.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "i" or 9:
-            return self.i.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "j" or 10:
-            return self.j.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "k" or 11:
-            return self.k.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "l" or 12:
-            return self.l.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "m" or 13:
-            return self.m.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "n" or 14:
-            return self.n.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "o" or 15:
-            return self.o.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "p" or 16:
-            return self.p.activa
+            return self.a.ActualizoCampos(tiempo, tension, corriente)
+        else:
+            print "datos independientes - Atrib error"
+
+    def xGetBarrYTiempo(self, num):
+        if num is "a" or 1:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "b" or 2:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "c" or 3:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "d" or 4:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "e" or 5:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "f" or 6:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "g" or 7:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "h" or 8:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "i" or 9:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "j" or 10:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "k" or 11:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "l" or 12:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "m" or 13:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "n" or 14:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "o" or 15:
+            return self.a.barridoActual, self.a.tiempoCicloActual
+        elif num is "p" or 16:
+            return self.a.barridoActual, self.a.tiempoCicloActual
         else:
             print "datos independientes - Atrib error"
