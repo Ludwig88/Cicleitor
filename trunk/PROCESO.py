@@ -4,8 +4,6 @@
 from PyQt4 import QtCore
 import string
 
-import csv
-
 
 """########################################################## CLASE PARA Procesamiento"""
 

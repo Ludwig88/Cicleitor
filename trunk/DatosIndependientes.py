@@ -53,7 +53,7 @@ class DatosCelda:
         self.modo = self.Modos.inactiva
 
         #atributos para procesos de extremo
-        self.porenviar = False
+        self.porenviar = 0 #si es -1 invierto si es 0 liquido, si es 1 igual q sentido inicial
         self.tiempoInicioCiclo = 0
         self.tiempoCicloActual = 0
         self.barridosMax = barrM
@@ -65,6 +65,7 @@ class DatosCelda:
         self.corrienteSetNueva = 0 ####
 
         #atributos tiempo real
+        self.PaPromediar = []
         self.ingresos = 0 #cantidad de tramas cargadas
         self.barridoActual = barr
         self.corrienteSetActual = corr
@@ -96,11 +97,35 @@ class DatosCelda:
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
-        self.ingresos+=1
-        self.milivoltios = voltios
-        self.microAmperes = corriente
-        self.segundos = tiempo
-        self.GuardaCsv()
+        if self.modo is self.Modos.inactiva:
+            """primer ingreso"""
+            self.modo = self.Modos.ciclando
+            self.tiempoInicioCiclo = tiempo
+            self.ingresos = self.barridoActual = 1
+            self.microAmperes = corriente
+            self.milivoltios = voltios
+            self.GuardaCsv()
+            return True
+            ############################################################Inicio Promediado
+        #no va a ser necesario!
+        # elif voltios == corriente == '%':
+        #     print 'finalizo ciclado por forzado'
+        #     self.ResetValCiclado()
+        #     self.CerrarCSV()
+        #     return False
+        else:
+            self.ingresos = +1
+            self.microAmperes = corriente
+            self.milivoltios = voltios
+            self.segundos = tiempo
+            tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
+            self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
+            if self.SuperaLimite() is not 2:
+                self.GuardaCsv()
+                ############################################################append Promediado
+                return True
+            else:
+                return False
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio):
         print "condiciones de guardado"
@@ -124,18 +149,24 @@ class DatosCelda:
             return False
 
     def SuperaLimite(self):
-        if self.milivoltios >= self.voltajeLimSuperior or self.milivoltios <= self.voltajeLimInferior or self.segundos > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
+        if self.milivoltios >= self.voltajeLimSuperior \
+           or self.milivoltios <= self.voltajeLimInferior \
+           or self.tiempoCicloActual > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
             print "supere algun extremo"
-            if self.barridoActual >= self.barridosMax:
+            if self.barridoActual > self.barridosMax:
                 print "termine ciclado"
                 self.CerrarCSV()
                 self.ResetValCiclado()
+                self.porenviar = 0
+                return 2
             else:
                 print "invierto corriente"
+                self.barridoActual = + 1
                 self.CargaDescarga = not self.CargaDescarga
-            return True
+                self.porenviar = -1
+                return 1
         else:
-            return False
+            return 0
 
     def ResetValCiclado(self):
         self.tiempoInicioCiclo = 0
@@ -594,5 +625,38 @@ class DatosCompartidos:
             prom = self.a.promediado
         return (corriente, ciclos, vli, vls, tmax, prom)
 
-    def xCiclar(self):
-        print "if else con cada celda?"
+    def xActualizoCampo(self, num, barrido, tension, corriente, tiempo):
+        if num is "a" or 1:
+            self.a.ActualizoCampos(tiempo, tension, corriente)
+        elif num is "b" or 2:
+            return self.b.activa
+        elif num is "c" or 3:
+            return self.c.activa
+        elif num is "d" or 4:
+            return self.d.activa
+        elif num is "e" or 5:
+            return self.e.activa
+        elif num is "f" or 6:
+            return self.f.activa
+        elif num is "g" or 7:
+            return self.g.activa
+        elif num is "h" or 8:
+            return self.h.activa
+        elif num is "i" or 9:
+            return self.i.activa
+        elif num is "j" or 10:
+            return self.j.activa
+        elif num is "k" or 11:
+            return self.k.activa
+        elif num is "l" or 12:
+            return self.l.activa
+        elif num is "m" or 13:
+            return self.m.activa
+        elif num is "n" or 14:
+            return self.n.activa
+        elif num is "o" or 15:
+            return self.o.activa
+        elif num is "p" or 16:
+            return self.p.activa
+        else:
+            print "datos independientes - Atrib error"

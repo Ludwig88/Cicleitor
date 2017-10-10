@@ -41,7 +41,8 @@ class LECTURA(QtCore.QThread):
             if self.serial_port:
                 self.serial_port.close()
             self.serial_port = serial.Serial(**self.serial_arg)
-        except serial.SerialException, e:
+        #except serial.SerialException, e:
+        except serial.SerialException:
             #self.error_q.put(e.message)
             print "error en el try del serial port"
             return
