@@ -720,3 +720,50 @@ class DatosCompartidos:
             return self.a.barridoActual, self.a.tiempoCicloActual
         else:
             print "datos independientes - Atrib error"
+
+    """tengo que devolver"""
+    #PorSetear = bool. Alguna disponible??
+    #celda = char
+    #corriente = por setearle
+    def xGetPorSetear(self, num):
+        if num is "a" or 1:
+            return self.a.activa
+        elif num is "b" or 2:
+            return self.b.activa
+        elif num is "c" or 3:
+            return self.c.activa
+        elif num is "d" or 4:
+            return self.d.activa
+        elif num is "e" or 5:
+            return self.e.activa
+        elif num is "f" or 6:
+            return self.f.activa
+        elif num is "g" or 7:
+            return self.g.activa
+        elif num is "h" or 8:
+            return self.h.activa
+        elif num is "i" or 9:
+            return self.i.activa
+        elif num is "j" or 10:
+            return self.j.activa
+        elif num is "k" or 11:
+            return self.k.activa
+        elif num is "l" or 12:
+            return self.l.activa
+        elif num is "m" or 13:
+            return self.m.activa
+        elif num is "n" or 14:
+            return self.n.activa
+        elif num is "o" or 15:
+            return self.o.activa
+        elif num is "p" or 16:
+            return self.p.activa
+        else:
+            print "datos independientes - Atrib error"
+
+    def AllDisable(self):
+        AlgunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or \
+            self.e.activa or self.f.activa or self.g.activa or self.h.activa or \
+            self.i.activa or self.j.activa or self.k.activa or self.l.activa or \
+            self.m.activa or self.n.activa or self.o.activa or self.o.activa )
+        return AlgunaActiva

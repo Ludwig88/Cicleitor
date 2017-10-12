@@ -3,7 +3,7 @@
 
 from PyQt4 import QtCore
 
-import time, string, serial
+import time, serial
 
 from DatosIndependientes import DatosCompartidos
 
@@ -36,6 +36,8 @@ class LECTURA(QtCore.QThread):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
+        por_setear = corrSet = celdaSet = None
+        finalizo = False
         try:
             if self.serial_port:
                 self.serial_port.close()
@@ -71,23 +73,20 @@ class LECTURA(QtCore.QThread):
                     Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
                     ####################################################################self.EnviarPS_I(0, False, celda)
                     ###################################################################self.EnviarPS_I(CORRIENTE, Descarga, celda)
-                    # CondPaBarrer[renglon][2] #tiempo en ese barrido
-                    #tiempo = Tiempo - inicio
                     Barrido, tiempo = Datos.xGetBarrYTiempo(celda)
-                    self.CONTENEDOR.append([celda, Barrido, Tension, Corriente, tiempo])
                     ###################################################################PromPlot += [Tension, Corriente, tiempo],
                     self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
+                    por_setear, celdaSet, corrSet = Datos.xGetPorSetear()
+                    finalizo = Datos.AllDisable()
                     # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
                     #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
                     #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
             """Hay celdas por setear"""
-            PorSetear = None
-            if PorSetear is not None:
-                self.EnviarPS_I(Corriente, False, str(PorSetear))
-                PorSetear = None
+            if por_setear is not None:
+                self.EnviarPS_I(corrSet, False, str(celdaSet))
+                por_setear = None
             """Ninguna activa"""
-            FIN = 0
-            if FIN:
+            if finalizo:
                 print 'cortando loop de lectura '
                 break
 
