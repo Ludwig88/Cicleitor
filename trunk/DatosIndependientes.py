@@ -30,6 +30,8 @@
 # corriente = 0
 # tiempoMaxBarrido = 0
 import csv
+from collections import deque
+from ProcesoPuerto import LECTURA
 
 
 class DatosCelda:
@@ -151,11 +153,12 @@ class DatosCelda:
             else:
                 return False
 
-    def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio):
+    def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         print "condiciones de guardado"
         if barridos >= 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
             # hacer filtro de valores correctos
+            self.CargaDescarga = ComienzaEnCarga
             self.promediado = Promedio
             self.voltajeLimSuperior = VLS
             self.voltajeLimInferior = VLI
@@ -225,7 +228,7 @@ class DatosCelda:
             self.modo = self.Modos.inactiva
             self.activa = False
             self.CerrarCSV()
-            self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0)
+            self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             # ActualizoMatriz(Celda,0,0,0,1,0)
             # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
             #PorSetear = Celda  # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
@@ -281,6 +284,9 @@ class DatosCelda:
 
 class DatosCompartidos:
 
+    PoolThread = []
+    filaPloteo = deque(maxlen=16000)
+
     def __init__(self):
         self.a = DatosCelda("a") #1
         self.b = DatosCelda("b") #2
@@ -299,12 +305,8 @@ class DatosCompartidos:
         self.o = DatosCelda("o") #15
         self.p = DatosCelda("p") #16
 
-    # # inicio lectura
-    # fila = deque(maxlen=16000)
-    # self.threadPool.append(ProcesoPuerto.LECTURA(fila, self.filaPloteo, Datos))
-    # self.connect(self.threadPool[len(self.threadPool)-1],
-    #              self.threadPool[len(self.threadPool)-1].signal,
-    #              self.ActualValores)
+        # # inicio lectura
+        self.PoolThread.append(LECTURA(self.filaPloteo, DatosCompartidos))
 
     def xIsActive(self, num):
         if num is "a" or 1:
@@ -342,84 +344,84 @@ class DatosCompartidos:
         else:
             print "datos independientes - Atrib error"
 
-    def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio):
+    def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
         if num is "a" or 1:
-            if (self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "b" or 2:
-            if (self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "c" or 3:
-            if (self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "d" or 4:
-            if (self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "e" or 5:
-            if (self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "f" or 6:
-            if (self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "g" or 7:
-            if (self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "h" or 8:
-            if (self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "i" or 9:
-            if (self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "j" or 10:
-            if (self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "k" or 11:
-            if (self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "l" or 12:
-            if (self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "m" or 13:
-            if (self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "n" or 14:
-            if (self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "o" or 15:
-            if (self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
         elif num is "p" or 16:
-            if (self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)) is True:
+            if (self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
                 return True
             else:
                 return False
@@ -528,14 +530,11 @@ class DatosCompartidos:
 
     def PrimerInicio(self):
         print "arranco el thread del puerto"
-        # self.threadPool[len(self.threadPool)-1].start()
+        self.PoolThread[len(self.PoolThread)-1].start()
         # time.sleep(0.5)
-        # # inicio procesamiento
-        # self.threadPool.append(PROCESO(fila))
-        # self.threadPool[len(self.threadPool)-1].start()
 
     def xIniciaVoc(self, num, Promedio, T_Max):
-        if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio)) is True:
+        if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
             print "DInd - actualizadas condiciones de guardado"
         else:
             print "DInd - no pudo actualizar condiciones de guardado"
@@ -721,13 +720,54 @@ class DatosCompartidos:
         else:
             print "datos independientes - Atrib error"
 
+    def xGetValTiempoReal(self, num):
+        if num is "a" or 1:
+            return self.a.barridoActual, self.a.milivoltios, self.a.microAmperes, self.a.tiempoCicloActual
+        elif num is "b" or 2:
+            return self.b.barridoActual, self.b.milivoltios, self.b.microAmperes, self.b.tiempoCicloActual
+        elif num is "c" or 3:
+            return self.c.barridoActual, self.c.milivoltios, self.c.microAmperes, self.c.tiempoCicloActual
+        elif num is "d" or 4:
+            return self.d.barridoActual, self.d.milivoltios, self.d.microAmperes, self.d.tiempoCicloActual
+        elif num is "e" or 5:
+            return self.e.barridoActual, self.e.milivoltios, self.e.microAmperes, self.e.tiempoCicloActual
+        elif num is "f" or 6:
+            return self.f.barridoActual, self.f.milivoltios, self.f.microAmperes, self.f.tiempoCicloActual
+        elif num is "g" or 7:
+            return self.g.barridoActual, self.g.milivoltios, self.g.microAmperes, self.g.tiempoCicloActual
+        elif num is "h" or 8:
+            return self.h.barridoActual, self.h.milivoltios, self.h.microAmperes, self.h.tiempoCicloActual
+        elif num is "i" or 9:
+            return self.i.barridoActual, self.i.milivoltios, self.i.microAmperes, self.i.tiempoCicloActual
+        elif num is "j" or 10:
+            return self.j.barridoActual, self.j.milivoltios, self.j.microAmperes, self.j.tiempoCicloActual
+        elif num is "k" or 11:
+            return self.k.barridoActual, self.k.milivoltios, self.k.microAmperes, self.k.tiempoCicloActual
+        elif num is "l" or 12:
+            return self.l.barridoActual, self.l.milivoltios, self.l.microAmperes, self.l.tiempoCicloActual
+        elif num is "m" or 13:
+            return self.m.barridoActual, self.m.milivoltios, self.m.microAmperes, self.m.tiempoCicloActual
+        elif num is "n" or 14:
+            return self.n.barridoActual, self.n.milivoltios, self.n.microAmperes, self.n.tiempoCicloActual
+        elif num is "o" or 15:
+            return self.o.barridoActual, self.o.milivoltios, self.o.microAmperes, self.o.tiempoCicloActual
+        elif num is "p" or 16:
+            return self.p.barridoActual, self.p.milivoltios, self.p.microAmperes, self.p.tiempoCicloActual
+        else:
+            print "datos independientes - Atrib error"
+
     """tengo que devolver"""
     #PorSetear = bool. Alguna disponible??
     #celda = char
     #corriente = por setearle
     def xGetPorSetear(self, num):
         if num is "a" or 1:
-            return self.a.activa
+            porsetear = self.a.porenviar()
+
+            return porsetear, celda, corriente
+
+
+
         elif num is "b" or 2:
             return self.b.activa
         elif num is "c" or 3:
@@ -762,8 +802,8 @@ class DatosCompartidos:
             print "datos independientes - Atrib error"
 
     def AllDisable(self):
-        AlgunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or \
-            self.e.activa or self.f.activa or self.g.activa or self.h.activa or \
-            self.i.activa or self.j.activa or self.k.activa or self.l.activa or \
-            self.m.activa or self.n.activa or self.o.activa or self.o.activa )
-        return AlgunaActiva
+        algunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or
+            self.e.activa or self.f.activa or self.g.activa or self.h.activa or
+            self.i.activa or self.j.activa or self.k.activa or self.l.activa or
+            self.m.activa or self.n.activa or self.o.activa or self.o.activa)
+        return algunaActiva

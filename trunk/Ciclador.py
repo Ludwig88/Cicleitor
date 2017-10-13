@@ -52,7 +52,11 @@ class Myform(QtGui.QMainWindow):
         V_lim_inf = int(self.ui.LinEdVLInf.text())
         V_lim_sup = int(self.ui.LinEdVLSup.text())
         T_Max = int(self.ui.LinEdTMax.text())
-        Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio)
+        if Corriente > 0 :
+            CargaOdescarga = True
+        else:
+            CargaOdescarga = False
+        Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
         self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
     def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
@@ -70,6 +74,10 @@ class Myform(QtGui.QMainWindow):
                 Datos.PrimerInicio()
                 time.sleep(0.5) #ver si es necesario!
                 Datos.xEnviarPS(Celda)
+                barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
+                self.connect(self.threadPool[len(self.threadPool) - 1],
+                             self.threadPool[len(self.threadPool) - 1].signal,
+                             self.ActualValores(barrido, Vin, Iin, Tiem))
 
         else:
             print 'Ciclador - imposible setear celda no libre'

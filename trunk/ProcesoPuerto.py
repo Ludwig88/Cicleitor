@@ -11,7 +11,7 @@ from DatosIndependientes import DatosCompartidos
 
 
 class LECTURA(QtCore.QThread):
-    def __init__(self, fila, filaPlot,
+    def __init__(self, filaPlot,
                  port_num='/dev/ttyACM0',
                  port_baud=115200,
                  port_stopbits=serial.STOPBITS_ONE,
@@ -29,7 +29,6 @@ class LECTURA(QtCore.QThread):
                                timeout=port_timeout)
 
         self.signal = QtCore.SIGNAL("signal")
-        self.CONTENEDOR = fila
         self.CONTENEDORplot = filaPlot
 
     def __del__(self):
