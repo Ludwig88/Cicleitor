@@ -5,7 +5,7 @@ from PyQt4 import QtCore
 
 import time, serial
 
-from DatosIndependientes import DatosCompartidos
+import DatosIndependientes
 
 """########################################################## CLASE PARA Recepcion"""
 
@@ -48,7 +48,7 @@ class LECTURA(QtCore.QThread):
             return
 
         global Datos
-        Datos = DatosCompartidos()
+        Datos = DatosIndependientes.DatosCompartidos()
 
         while self.serial_port.is_open:
             try:

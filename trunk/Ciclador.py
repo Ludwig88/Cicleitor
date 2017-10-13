@@ -11,7 +11,7 @@ import pyqtgraph as pg
 import time, string, csv, sys  # , resource
 from collections import deque  # double ended queue
 
-from DatosIndependientes import DatosCompartidos
+import DatosIndependientes
 import ProcesoPuerto
 
 """########################################################## CLASE PARA IU"""
@@ -46,41 +46,41 @@ class Myform(QtGui.QMainWindow):
     def inicioCiclado(self):
         # seteo valores para el proceso
         Celda = self.ui.cmbCelC.currentText()
-        Promedio = float(self.ui.cmbProm.currentText())
-        Corriente = int(self.ui.LinEdCorri.text())
-        Ciclos = int(self.ui.LinEdCiclos.text())
-        V_lim_inf = int(self.ui.LinEdVLInf.text())
-        V_lim_sup = int(self.ui.LinEdVLSup.text())
-        T_Max = int(self.ui.LinEdTMax.text())
-        if Corriente > 0 :
-            CargaOdescarga = True
+        if Datos.xIsActive(Celda) is not True:
+            Promedio = float(self.ui.cmbProm.currentText())
+            Corriente = int(self.ui.LinEdCorri.text())
+            Ciclos = int(self.ui.LinEdCiclos.text())
+            V_lim_inf = int(self.ui.LinEdVLInf.text())
+            V_lim_sup = int(self.ui.LinEdVLSup.text())
+            T_Max = int(self.ui.LinEdTMax.text())
+            if Corriente > 0:
+                CargaOdescarga = True
+            else:
+                CargaOdescarga = False
+            Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         else:
-            CargaOdescarga = False
-        Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-        self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+            #imprimirlo en UI
+            print "No puedo pisar valores definidos"
 
     def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
-        if not Datos.xIsActive(Celda):
-            if self.ui.BotActivo.isChecked():
-                self.ui.BotSetearV.setChecked(False)
-                self.ui.BotSetearC.setChecked(False)
-                Datos.xEnviarPS(Celda)
-            else:
-                #Iniciar Ciclado con start de Datos
-                self.chequeaRB(Celda, True)
-                self.ui.BotSetearV.setChecked(False)
-                self.ui.BotSetearC.setChecked(False)
-                self.ui.BotActivo.setChecked(True)
-                Datos.PrimerInicio()
-                time.sleep(0.5) #ver si es necesario!
-                Datos.xEnviarPS(Celda)
-                barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
-                self.connect(self.threadPool[len(self.threadPool) - 1],
-                             self.threadPool[len(self.threadPool) - 1].signal,
-                             self.ActualValores(barrido, Vin, Iin, Tiem))
-
+        if self.ui.BotActivo.isChecked():
+            self.ui.BotSetearV.setChecked(False)
+            self.ui.BotSetearC.setChecked(False)
+            Datos.xEnviarPS(Celda)
         else:
-            print 'Ciclador - imposible setear celda no libre'
+            #Iniciar Ciclado con start de Datos
+            self.chequeaRB(Celda, True)
+            self.ui.BotSetearV.setChecked(False)
+            self.ui.BotSetearC.setChecked(False)
+            self.ui.BotActivo.setChecked(True)
+            Datos.PrimerInicio()
+            time.sleep(0.5) #ver si es necesario!
+            Datos.xEnviarPS(Celda)
+            barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
+            self.connect(self.threadPool[len(self.threadPool) - 1],
+                         self.threadPool[len(self.threadPool) - 1].signal,
+                         self.ActualValores(barrido, Vin, Iin, Tiem))
 
     def chequeaRB(self, celda, estado):
         if celda == 'a':
@@ -414,7 +414,7 @@ class PLOTEOTR(pg.QtCore.QThread):
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
     global Datos
-    Datos = DatosCompartidos()
+    Datos = DatosIndependientes.DatosCompartidos()
     myapp = Myform()
     myapp.show()
     sys.exit(app.exec_())

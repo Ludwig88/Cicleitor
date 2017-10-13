@@ -31,7 +31,7 @@
 # tiempoMaxBarrido = 0
 import csv
 from collections import deque
-from ProcesoPuerto import LECTURA
+import ProcesoPuerto
 
 
 class DatosCelda:
@@ -83,12 +83,6 @@ class DatosCelda:
     def NecesitoEnviar(self):
         if self.porenviar is not True:
             self.porenviar = True
-            if self.corrienteSetActual >= 0:
-                self.iniciaEnCarga = True
-                self.CargaDescarga = True
-            else:
-                self.iniciaEnCarga = False
-                self.CargaDescarga = False
             return True
         else:
             print "Datos Independientes - ya pedi enviar previamente"
@@ -306,7 +300,7 @@ class DatosCompartidos:
         self.p = DatosCelda("p") #16
 
         # # inicio lectura
-        self.PoolThread.append(LECTURA(self.filaPloteo, DatosCompartidos))
+        self.PoolThread.append(ProcesoPuerto.LECTURA(self.filaPloteo, DatosCompartidos))
 
     def xIsActive(self, num):
         if num is "a" or 1:
