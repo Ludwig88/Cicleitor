@@ -4,7 +4,6 @@
 from PyQt4 import QtCore
 
 import time, serial
-
 import DatosIndependientes
 
 """########################################################## CLASE PARA Recepcion"""
@@ -12,12 +11,12 @@ import DatosIndependientes
 
 class LECTURA(QtCore.QThread):
     def __init__(self, filaPlot,
-                 port_num='/dev/ttyACM0',
-                 port_baud=115200,
-                 port_stopbits=serial.STOPBITS_ONE,
-                 port_parity=serial.PARITY_NONE,
-                 port_timeout=0.01,
-                 parent=None):
+                 port_num = '/dev/ttyACM0',
+                 port_baud = 115200,
+                 port_stopbits = serial.STOPBITS_ONE,
+                 port_parity = serial.PARITY_NONE,
+                 port_timeout = 0.01,
+                 parent = None):
 
         QtCore.QThread.__init__(self)
 
@@ -27,7 +26,7 @@ class LECTURA(QtCore.QThread):
                                stopbits=port_stopbits,
                                parity=port_parity,
                                timeout=port_timeout)
-
+        print "Initing Puerto desde Proceso Puerto"
         self.signal = QtCore.SIGNAL("signal")
         self.CONTENEDORplot = filaPlot
 
@@ -41,9 +40,7 @@ class LECTURA(QtCore.QThread):
             if self.serial_port:
                 self.serial_port.close()
             self.serial_port = serial.Serial(**self.serial_arg)
-        #except serial.SerialException, e:
         except serial.SerialException:
-            #self.error_q.put(e.message)
             print "error en el try del serial port"
             return
 
@@ -70,22 +67,23 @@ class LECTURA(QtCore.QThread):
                     Corriente = int(separado[2]) - 1024
                     Tiempo = float(separado[3])
                     Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
-                    ####################################################################self.EnviarPS_I(0, False, celda)
-                    ###################################################################self.EnviarPS_I(CORRIENTE, Descarga, celda)
                     Barrido, tiempo = Datos.xGetBarrYTiempo(celda)
                     ###################################################################PromPlot += [Tension, Corriente, tiempo],
                     self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
-                    por_setear, celdaSet, corrSet = Datos.xGetPorSetear()
-                    finalizo = Datos.AllDisable()
+                    por_setear, celdaSet, corrSet = Datos.xGetPorSetear(celda)
                     # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
                     #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
                     #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
             """Hay celdas por setear"""
-            if por_setear is not None:
+            if Datos.enColaPorEnviar() >= 1:
                 self.EnviarPS_I(corrSet, False, str(celdaSet))
-                por_setear = None
+                if Datos.xEnviarPS(celdaSet, 2):
+                    print "ok"
+                else:
+                    print "retry??"
+                    por_setear = None
             """Ninguna activa"""
-            if finalizo:
+            if Datos.AllDisable():
                 print 'cortando loop de lectura '
                 break
 
@@ -143,7 +141,7 @@ class LECTURA(QtCore.QThread):
 
     def RecibirPS(self):
         s = self.serial_port.readline()
-        print 'Limpio: "' + str(s) + '"' + "len es: " + str(len(s))
+        #print 'Limpio: "' + str(s) + '"' + "len es: " + str(len(s))
         # print 's-1' + s[len(s)-1]
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:

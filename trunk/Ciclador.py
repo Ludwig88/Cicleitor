@@ -76,11 +76,14 @@ class Myform(QtGui.QMainWindow):
             self.ui.BotActivo.setChecked(True)
             Datos.PrimerInicio()
             time.sleep(0.5) #ver si es necesario!
-            Datos.xEnviarPS(Celda)
-            barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
-            self.connect(self.threadPool[len(self.threadPool) - 1],
-                         self.threadPool[len(self.threadPool) - 1].signal,
-                         self.ActualValores(barrido, Vin, Iin, Tiem))
+            if Datos.xEnviarPS(Celda, 1):
+                print "imprimo OK"
+            else:
+                print "imprimo error"
+            # barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
+            # self.connect(self.threadPool[len(self.threadPool) - 1],
+            #              self.threadPool[len(self.threadPool) - 1].signal,
+            #              self.ActualValores(barrido, Vin, Iin, Tiem))
 
     def chequeaRB(self, celda, estado):
         if celda == 'a':
