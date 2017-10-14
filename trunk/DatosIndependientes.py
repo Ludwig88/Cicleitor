@@ -55,7 +55,7 @@ class DatosCelda:
         self.modo = self.Modos.inactiva
 
         #atributos para procesos de extremo
-        self.porenviar = 0 #si es -1 invierto si es 0 liquido, si es 1 igual q sentido inicial
+        self.porenviar = 0 #0=nada por hacer, 1=enviar algo, 2, ack de envio
         self.tiempoInicioCiclo = 0
         self.tiempoCicloActual = 0
         self.barridosMax = barrM
@@ -98,26 +98,26 @@ class DatosCelda:
                 self.porenviar = 0
                 return True
             else:
-                print "Necesito Enviar Error"
+                print "1Necesito Enviar Error"
                 return False
         elif val is 1:
             if self.porenviar is 0:
                 self.porenviar = 1
                 return True
             elif self.porenviar is 1:
-                print "Necesito Enviar Error"
+                print "2Necesito Enviar Error"
                 return False
             elif self.porenviar is 2:
                 self.porenviar = 1
                 #puerto ya envio y levanto nuevamente
                 return True
             else:
-                print "Necesito Enviar Error"
+                print "22Necesito Enviar Error"
                 return False
         elif val is 2:
             if self.porenviar is 0:
                 #si nadie me levanto el flag no puedo limpiar
-                print "Necesito Enviar Error"
+                print "3Necesito Enviar Error"
                 return False
             elif self.porenviar is 1:
                 self.porenviar = 2
@@ -126,10 +126,10 @@ class DatosCelda:
                 #ya hice ack
                 return False
             else:
-                print "Necesito Enviar Error"
+                print "33Necesito Enviar Error"
                 return False
         else:
-            print "Necesito Enviar val error"
+            print "4Necesito Enviar val error"
             return False
 
     def SeteoSentidoInicioCiclado(self, sentido):
@@ -138,6 +138,7 @@ class DatosCelda:
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
         if self.modo is self.Modos.inactiva:
+            print "actualizo campos"
             """primer ingreso"""
             self.modo = self.Modos.ciclando
             self.tiempoInicioCiclo = tiempo
@@ -473,15 +474,20 @@ class DatosCompartidos:
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
+        print "longitud de cola de envio es " + str(self.enColaPorEnviar())
+        print "num y val " + str(num) + "  " + str(val)
         if num is "a" or 1:
             if (self.a.NecesitoEnviar(val)) is True:
                 if val is 1:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
+                    print "popeo"
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
+                print "DInd - x por enviar -- por enviar corriente"
+                return True
             else:
-                print "DInd - no se pudo enviar corriente"
+                print "DInd - x por enviar - no se pudo enviar corriente"
+                return False
 
         elif num is "b" or 2:
             if (self.b.NecesitoEnviar(val)) is True:
@@ -490,8 +496,10 @@ class DatosCompartidos:
                 elif val is 2:
                     self.celdasAenviar.pop(0)
                 print "DInd - por enviar corriente"
+                return True
             else:
                 print "DInd - no se pudo enviar corriente"
+                return False
 
         elif num is "c" or 3:
             if (self.c.NecesitoEnviar(val)) is True:
@@ -500,8 +508,10 @@ class DatosCompartidos:
                 elif val is 2:
                     self.celdasAenviar.pop(0)
                 print "DInd - por enviar corriente"
+                return True
             else:
                 print "DInd - no se pudo enviar corriente"
+                return False
 
         elif num is "d" or 4:
             if (self.d.NecesitoEnviar(val)) is True:
@@ -509,9 +519,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "e" or 5:
             if (self.e.NecesitoEnviar(val)) is True:
@@ -519,9 +531,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "f" or 6:
             if (self.f.NecesitoEnviar(val)) is True:
@@ -529,9 +543,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "g" or 7:
             if (self.g.NecesitoEnviar(val)) is True:
@@ -539,9 +555,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "h" or 8:
             if (self.h.NecesitoEnviar(val)) is True:
@@ -549,9 +567,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "i" or 9:
             if (self.i.NecesitoEnviar(val)) is True:
@@ -559,9 +579,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "j" or 10:
             if (self.j.NecesitoEnviar(val)) is True:
@@ -569,9 +591,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "k" or 11:
             if (self.k.NecesitoEnviar(val)) is True:
@@ -579,9 +603,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "l" or 12:
             if (self.l.NecesitoEnviar(val)) is True:
@@ -589,9 +615,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "m" or 13:
             if (self.m.NecesitoEnviar(val)) is True:
@@ -599,9 +627,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "n" or 14:
             if (self.n.NecesitoEnviar(val)) is True:
@@ -609,9 +639,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "o" or 15:
             if (self.o.NecesitoEnviar(val)) is True:
@@ -619,9 +651,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
 
         elif num is "p" or 16:
             if (self.p.NecesitoEnviar(val)) is True:
@@ -629,9 +663,11 @@ class DatosCompartidos:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
-            else:
-                print "DInd - no se pudo enviar corriente"
+                    print "DInd - por enviar corriente"
+                    return True
+                else:
+                    print "DInd - no se pudo enviar corriente"
+                    return False
         else:
             print "datos independientes- EnviarPS - Atrib error"
 
@@ -753,7 +789,7 @@ class DatosCompartidos:
             vls = self.a.voltajeLimSuperior
             tmax = self.a.tiempoMaxBarrido
             prom = self.a.promediado
-        return (corriente, ciclos, vli, vls, tmax, prom)
+        return corriente, ciclos, vli, vls, tmax, prom
 
     def xActualizoCampo(self, num, tension, corriente, tiempo):
         if num is "a" or 1:
@@ -864,50 +900,50 @@ class DatosCompartidos:
             print "datos independientes - Atrib error"
 
     """tengo que devolver"""
-    #PorSetear = bool. Alguna disponible??
     #celda = char
     #corriente = por setearle
     def xGetPorSetear(self, num):
         if num is "a" or 1:
-            porsetear = self.a.porenviar()
-
-
-            return porsetear, celda, corriente
-
-
-
-        elif num is "b" or 2:
-            return self.b.activa
-        elif num is "c" or 3:
-            return self.c.activa
-        elif num is "d" or 4:
-            return self.d.activa
-        elif num is "e" or 5:
-            return self.e.activa
-        elif num is "f" or 6:
-            return self.f.activa
-        elif num is "g" or 7:
-            return self.g.activa
-        elif num is "h" or 8:
-            return self.h.activa
-        elif num is "i" or 9:
-            return self.i.activa
-        elif num is "j" or 10:
-            return self.j.activa
-        elif num is "k" or 11:
-            return self.k.activa
-        elif num is "l" or 12:
-            return self.l.activa
-        elif num is "m" or 13:
-            return self.m.activa
-        elif num is "n" or 14:
-            return self.n.activa
-        elif num is "o" or 15:
-            return self.o.activa
-        elif num is "p" or 16:
-            return self.p.activa
+            celda = self.celdasAenviar[self.enColaPorEnviar()-1]
+            corriente, a, b, c, d, e = self.xGetCondGuardado(num)
+            print "xget por setear " + str(celda) + "  " + str(corriente)
+            return celda, corriente
+            """
+            elif num is "b" or 2:
+                return self.b.activa
+            elif num is "c" or 3:
+                return self.c.activa
+            elif num is "d" or 4:
+                return self.d.activa
+            elif num is "e" or 5:
+                return self.e.activa
+            elif num is "f" or 6:
+                return self.f.activa
+            elif num is "g" or 7:
+                return self.g.activa
+            elif num is "h" or 8:
+                return self.h.activa
+            elif num is "i" or 9:
+                return self.i.activa
+            elif num is "j" or 10:
+                return self.j.activa
+            elif num is "k" or 11:
+                return self.k.activa
+            elif num is "l" or 12:
+                return self.l.activa
+            elif num is "m" or 13:
+                return self.m.activa
+            elif num is "n" or 14:
+                return self.n.activa
+            elif num is "o" or 15:
+                return self.o.activa
+            elif num is "p" or 16:
+                return self.p.activa
+            """
         else:
             print "datos independientes - Atrib error"
+            return None, None
+
 
     def AllDisable(self):
         algunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or

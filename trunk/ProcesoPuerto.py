@@ -70,21 +70,21 @@ class LECTURA(QtCore.QThread):
                     Barrido, tiempo = Datos.xGetBarrYTiempo(celda)
                     ###################################################################PromPlot += [Tension, Corriente, tiempo],
                     self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
-                    por_setear, celdaSet, corrSet = Datos.xGetPorSetear(celda)
                     # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
                     #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
                     #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
             """Hay celdas por setear"""
             if Datos.enColaPorEnviar() >= 1:
+                celdaSet, corrSet = Datos.xGetPorSetear(celda)
+                print "Proceso puerto " + str(celdaSet) + "  " + str(corrSet)
                 self.EnviarPS_I(corrSet, False, str(celdaSet))
                 if Datos.xEnviarPS(celdaSet, 2):
                     print "ok"
                 else:
                     print "retry??"
-                    por_setear = None
             """Ninguna activa"""
             if Datos.AllDisable():
-                print 'cortando loop de lectura '
+                print "cortando loop de lectura"
                 break
 
         # clean up
@@ -92,7 +92,7 @@ class LECTURA(QtCore.QThread):
             self.serial_port.close()
 
     def EnviarPS_I(self, ua, Descarga, celda):
-        print str(celda)
+        print "celda a enviar " + str(celda)
         self.serial_port.write(str(celda))
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
