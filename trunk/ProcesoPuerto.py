@@ -4,13 +4,12 @@
 from PyQt4 import QtCore
 
 import time, serial
-import DatosIndependientes
+from DatosIndependientes import DatosCompartidos
 
 """########################################################## CLASE PARA Recepcion"""
 
-
 class LECTURA(QtCore.QThread):
-    def __init__(self, filaPlot,
+    def __init__(self, filaPlot, Datos,
                  port_num = '/dev/ttyACM0',
                  port_baud = 115200,
                  port_stopbits = serial.STOPBITS_ONE,
@@ -26,9 +25,10 @@ class LECTURA(QtCore.QThread):
                                stopbits=port_stopbits,
                                parity=port_parity,
                                timeout=port_timeout)
-        print "Initing Puerto desde Proceso Puerto"
+        #print "Initing Puerto desde Proceso Puerto"
         self.signal = QtCore.SIGNAL("signal")
         self.CONTENEDORplot = filaPlot
+        self.Datos = Datos
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
@@ -44,9 +44,6 @@ class LECTURA(QtCore.QThread):
             print "error en el try del serial port"
             return
 
-        global Datos
-        Datos = DatosIndependientes.DatosCompartidos()
-
         while self.serial_port.is_open:
             try:
                 recepcion = self.RecibirPS() + '#' + str(time.time() - 1400000000)
@@ -59,31 +56,31 @@ class LECTURA(QtCore.QThread):
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
                 """chequeo que sea una de las que active, descarto los envios nulos"""
-                if Datos.xIsActive(celda):
+                if self.Datos.xIsActive(celda):
                     """conversion de tension (pasa a mV)"""
                     #(-1)*int((int(separado[1])*(3.0/8))-6144)
                     Tension = int((int(separado[1]) * (0.375)) - 6144)
                     """conversion de corriente (pasa a uA)"""
                     Corriente = int(separado[2]) - 1024
                     Tiempo = float(separado[3])
-                    Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
-                    Barrido, tiempo = Datos.xGetBarrYTiempo(celda)
+                    self.Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
+                    Barrido, tiempo = self.Datos.xGetBarrYTiempo(celda)
                     ###################################################################PromPlot += [Tension, Corriente, tiempo],
                     self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
                     # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
                     #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
                     #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
             """Hay celdas por setear"""
-            if Datos.enColaPorEnviar() >= 1:
-                celdaSet, corrSet = Datos.xGetPorSetear(celda)
+            if self.Datos.enColaPorEnviar() >= 1:
+                celdaSet, corrSet = self.Datos.xGetPorSetear(celda)
                 print "Proceso puerto " + str(celdaSet) + "  " + str(corrSet)
                 self.EnviarPS_I(corrSet, False, str(celdaSet))
-                if Datos.xEnviarPS(celdaSet, 2):
+                if self.Datos.xEnviarPS(celdaSet, 2):
                     print "ok"
                 else:
                     print "retry??"
             """Ninguna activa"""
-            if Datos.AllDisable():
+            if self.Datos.AllDisable():
                 print "cortando loop de lectura"
                 break
 
@@ -141,7 +138,7 @@ class LECTURA(QtCore.QThread):
 
     def RecibirPS(self):
         s = self.serial_port.readline()
-        #print 'Limpio: "' + str(s) + '"' + "len es: " + str(len(s))
+        print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
         # print 's-1' + s[len(s)-1]
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:

@@ -31,7 +31,7 @@
 # tiempoMaxBarrido = 0
 import csv
 from collections import deque
-import ProcesoPuerto
+#import ProcesoPuerto
 
 
 class DatosCelda:
@@ -193,7 +193,6 @@ class DatosCelda:
                 return False
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
-        print "condiciones de guardado"
         if barridos >= 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
             # hacer filtro de valores correctos
@@ -203,6 +202,9 @@ class DatosCelda:
             self.voltajeLimInferior = VLI
             self.tiempoMaxBarrido = TMAX
             self.corrienteSetActual = Corr
+            print "-COndGuard- barridos="+str(barridos)+", VLS="+str(VLS)+", " \
+                  "VLI="+str(VLI)+", TMAX="+str(TMAX)+", Corr="+str(Corr)+", " \
+                  "Promedio="+str(Promedio)+", ComienzaEnCarga="+str(ComienzaEnCarga)+""
             return True
         else:
             #especificar que dio mal para informarlo
@@ -346,8 +348,8 @@ class DatosCompartidos:
         self.p = DatosCelda("p") #16
 
         # # inicio lectura
-        print "arranco thread de lectura desde DatosIndependientes"
-        self.PoolThread.append(ProcesoPuerto.LECTURA(self.filaPloteo))
+        #print "arranco thread de lectura desde DatosIndependientes"
+        #self.PoolThread.append(ProcesoPuerto.LECTURA(self.filaPloteo))
 
     def xIsActive(self, num):
         if num is "a" or 1:
@@ -672,8 +674,8 @@ class DatosCompartidos:
             print "datos independientes- EnviarPS - Atrib error"
 
     def PrimerInicio(self):
-        print "arranco el thread del puerto"
-        self.PoolThread[len(self.PoolThread)-1].start()
+        print "NO arranco el thread del puerto"
+        # self.PoolThread[len(self.PoolThread)-1].start()
         # time.sleep(0.5)
 
     def xIniciaVoc(self, num, Promedio, T_Max):

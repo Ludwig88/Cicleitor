@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui, Qt
-from PyQt4.uic import *
-# import ConfigParser
-import PLOTEOTR
-
+import csv  # , resource
 import pyqtgraph as pg
-
-import time, string, csv, sys  # , resource
+import string
+import sys
+import time
+from PyQt4 import QtCore, QtGui
+from PyQt4.uic import *
 from collections import deque  # double ended queue
-
 import DatosIndependientes
 import ProcesoPuerto
+import PLOTEOTR
 
 """########################################################## CLASE PARA IU"""
 
@@ -30,6 +29,8 @@ class Myform(QtGui.QMainWindow):
         self.threadPool = []
 
         self.filaPloteo = deque(maxlen=16000)
+
+        self.threadPool.append(ProcesoPuerto.LECTURA(self.filaPloteo, Datos))
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -67,14 +68,15 @@ class Myform(QtGui.QMainWindow):
         if self.ui.BotActivo.isChecked():
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
-            Datos.xEnviarPS(Celda)
+            Datos.xEnviarPS(Celda, 1)
         else:
             #Iniciar Ciclado con start de Datos
             self.chequeaRB(Celda, True)
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
             self.ui.BotActivo.setChecked(True)
-            Datos.PrimerInicio()
+            #Datos.PrimerInicio()
+            self.threadPool[len(self.threadPool)-1].start()
             time.sleep(0.5) #ver si es necesario!
             if Datos.xEnviarPS(Celda, 1):
                 print "imprimo OK"
