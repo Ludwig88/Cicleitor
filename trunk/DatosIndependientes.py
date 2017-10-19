@@ -137,35 +137,21 @@ class DatosCelda:
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
-        if self.modo is self.Modos.inactiva:
-            print "actualizo campos"
+        if self.ingresos == 1:
             """primer ingreso"""
-            self.modo = self.Modos.ciclando
+            print "[DIND] primer ingreso "
+            self.ingresos=+1
             self.tiempoInicioCiclo = tiempo
             self.ingresos = self.barridoActual = 1
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.GuardaCsv()
-            return True
             ############################################################Inicio Promediado
-        #no va a ser necesario!
-        # elif voltios == corriente == '%':
-        #     print 'finalizo ciclado por forzado'
-        #     self.ResetValCiclado()
-        #     self.CerrarCSV()
-        #     return False
-
-
-
-        # if BARRIDO % 2 == 0:
-        #     Descarga = True
-        # else:
-        #     Descarga = False
-
-
-
+            return True
         elif self.modo is self.Modos.ciclando:
-            self.ingresos = +1
+            """Ciclando"""
+            print "[DIND] ciclando"
+            self.ingresos=+1
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
@@ -179,6 +165,7 @@ class DatosCelda:
             else:
                 return False
         elif self.modo is self.Modos.voc:
+            print "[DIND] VOC"
             self.ingresos = +1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -194,6 +181,7 @@ class DatosCelda:
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         if barridos >= 0:
+            self.ingresos = 1
             self.barridosMax = barridos * 2  # por la mala definicion original
             # hacer filtro de valores correctos
             self.CargaDescarga = ComienzaEnCarga
@@ -244,13 +232,13 @@ class DatosCelda:
         self.voltajeLimSuperior = 0
         self.tiempoMaxBarrido = 0
 
-    def Ciclar(self):
-        if self.modo is not self.Modos.inactiva:
-            print 'Datos Independientes - imposible setear celda no libre'
-        else:
-            if self.PrimerIngreso():
-                self.GuardoTInicioCiclo()
-            self.GuardaCsv()
+    # def Ciclar(self):
+    #     if self.modo is not self.Modos.inactiva:
+    #         print 'Datos Independientes - imposible setear celda no libre'
+    #     else:
+    #         if self.PrimerIngreso():
+    #             self.GuardoTInicioCiclo()
+    #         self.GuardaCsv()
 
     def IniciaVoc(self, prom, tmax):
         if self.modo is not self.Modos.voc:
@@ -325,6 +313,8 @@ class DatosCelda:
 
 class DatosCompartidos:
 
+    class Modos:
+        inactiva, ciclando, voc = range(3)
     PoolThread = []
     celdasAenviar = []
     filaPloteo = deque(maxlen=16000)
@@ -384,6 +374,75 @@ class DatosCompartidos:
             return self.o.activa
         elif num is "p" or 16:
             return self.p.activa
+        else:
+            print "datos independientes - Atrib error"
+
+    def xSetActive(self, num, modo):
+        if num is "a" or 1:
+            print "a activa"
+            self.a.activa = True
+            self.a.modo = modo
+            return True
+        elif num is "b" or 2:
+            self.b.activa = True
+            self.b.modo = modo
+            return True
+        elif num is "c" or 3:
+            self.c.activa = True
+            self.c.modo = modo
+            return True
+        elif num is "d" or 4:
+            self.d.activa = True
+            self.d.modo = modo
+            return True
+        elif num is "e" or 5:
+            self.e.activa = True
+            self.e.modo = modo
+            return True
+        elif num is "f" or 6:
+            self.f.activa = True
+            self.f.modo = modo
+            return True
+        elif num is "g" or 7:
+            self.g.activa = True
+            self.g.modo = modo
+            return True
+        elif num is "h" or 8:
+            self.h.activa = True
+            self.h.modo = modo
+            return True
+        elif num is "i" or 9:
+            self.i.activa = True
+            self.i.modo = modo
+            return True
+        elif num is "j" or 10:
+            self.j.activa = True
+            self.j.modo = modo
+            return True
+        elif num is "k" or 11:
+            self.k.activa = True
+            self.k.modo = modo
+            return True
+        elif num is "l" or 12:
+            self.l.activa = True
+            self.l.modo = modo
+            return True
+        elif num is "m" or 13:
+            self.m.activa = True
+            self.m.modo = modo
+            return True
+        elif num is "n" or 14:
+            self.n.activa = True
+            self.n.modo = modo
+            return True
+        elif num is "o" or 15:
+            self.o.activa = True
+            self.o.modo = modo
+            return True
+        elif num is "p" or 16:
+            self.p.activa = True
+            self.p.modo = modo
+            return True
         else:
             print "datos independientes - Atrib error"
 
@@ -678,11 +737,26 @@ class DatosCompartidos:
         # self.PoolThread[len(self.PoolThread)-1].start()
         # time.sleep(0.5)
 
-    def xIniciaVoc(self, num, Promedio, T_Max):
-        if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
-            print "DInd - actualizadas condiciones de guardado"
+    def xIniciaCiclado(self, num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD):
+        if self.xIsActive(num):
+            print "[DIND|CICLADO] no puedo setear celda activa"
         else:
-            print "DInd - no pudo actualizar condiciones de guardado"
+            self.xSetActive(num, self.Modos.ciclando)
+            #def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
+            if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
+                print "[DIND|CICLADO] actualizadas condiciones de guardado"
+            else:
+                print "[DIND|CICLADO] no pudo actualizar condiciones de guardado"
+
+    def xIniciaVoc(self, num, Promedio, T_Max):
+        if self.xIsActive(num):
+            print "[DIND|VOC] no puedo setear celda activa"
+        else:
+            self.xSetActive(num, self.Modos.voc)
+            if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
+                print "[DIND|VOC] actualizadas condiciones de guardado"
+            else:
+                print "[DIND|VOC] no pudo actualizar condiciones de guardado"
 
     def xPararCelda(self, num):
         if num is "a" or 1:
@@ -945,7 +1019,6 @@ class DatosCompartidos:
         else:
             print "datos independientes - Atrib error"
             return None, None
-
 
     def AllDisable(self):
         algunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or

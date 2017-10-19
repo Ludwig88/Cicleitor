@@ -34,7 +34,7 @@ class LECTURA(QtCore.QThread):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
-        por_setear = corrSet = celdaSet = None
+        por_setear = corrSet = celdaSet = celda = None
         finalizo = False
         try:
             if self.serial_port:
@@ -46,10 +46,9 @@ class LECTURA(QtCore.QThread):
 
         while self.serial_port.is_open:
             try:
-                recepcion = self.RecibirPS() + '#' + str(time.time() - 1400000000)
+                recepcion = self.RecibirPS() + '#' + str(time.time() - 1500000000)
             except:
                 recepcion = "$#$#$#$"
-            # print recepcion
             separado = recepcion.split('#', 4)
             # [char(celda), string(tension), string(corriente), string(tiempo)]
             """variables para guardado"""
@@ -76,33 +75,33 @@ class LECTURA(QtCore.QThread):
                 print "Proceso puerto " + str(celdaSet) + "  " + str(corrSet)
                 self.EnviarPS_I(corrSet, False, str(celdaSet))
                 if self.Datos.xEnviarPS(celdaSet, 2):
-                    print "ok"
+                    print "Send - ok"
                 else:
-                    print "retry??"
+                    print "retry Send??"
             """Ninguna activa"""
-            if self.Datos.AllDisable():
-                print "cortando loop de lectura"
-                break
+            # if self.Datos.AllDisable():
+            #     print "cortando loop de lectura"
+            #     break
 
         # clean up
         if self.serial_port:
             self.serial_port.close()
 
     def EnviarPS_I(self, ua, Descarga, celda):
-        #print "celda a enviar " + str(celda) +" len es: " + str(len(celda))
+        print "celda a enviar " + str(celda) +" len es: " + str(len(celda))
         self.serial_port.write_timeout = 0.1
-        print "out waiting " + str(self.serial_port.out_waiting)
+        #print "out waiting " + str(self.serial_port.out_waiting)
         """si uso el time out de escritura meter un try catch"""
-        print "settings " + str(self.serial_port.get_settings())
+        #print "settings " + str(self.serial_port.get_settings())
         try:
-            self.serial_port.write("a") #bytes escritos
+            #bytes escritos
+            print self.serial_port.write(celda)
+            time.sleep(0.25)
             print "Envio OK"
             self.serial_port.flushOutput()
-            time.sleep(0.25)
+        #time.sleep(0.25)
         except serial.SerialTimeoutException:
             print "timeOut de envio Serie"
-
-
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
         # global ser

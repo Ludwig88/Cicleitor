@@ -58,7 +58,8 @@ class Myform(QtGui.QMainWindow):
                 CargaOdescarga = True
             else:
                 CargaOdescarga = False
-            Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            #Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
             self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         else:
             #imprimirlo en UI

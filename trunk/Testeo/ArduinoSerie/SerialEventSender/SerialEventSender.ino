@@ -55,7 +55,7 @@ void loop() {
       }
       sprintf(concat,"%s#%d",concat,random(1111, 9999));
       Serial.println(concat); 
-      delay(1);
+      delay(100);
     }
       
      if (Serial.available() != 0) {
