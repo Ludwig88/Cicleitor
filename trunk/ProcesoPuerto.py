@@ -54,8 +54,13 @@ class LECTURA(QtCore.QThread):
             """variables para guardado"""
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
+                print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
+                print "[PORT] a is activa? " + str(self.Datos.xIsActive("a"))
+                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(1))
+                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(5))
+                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(2))
                 """chequeo que sea una de las que active, descarto los envios nulos"""
-                if self.Datos.xIsActive(celda):
+                if self.Datos.xIsActive(celda) is True:
                     """conversion de tension (pasa a mV)"""
                     #(-1)*int((int(separado[1])*(3.0/8))-6144)
                     Tension = int((int(separado[1]) * (0.375)) - 6144)
@@ -149,11 +154,12 @@ class LECTURA(QtCore.QThread):
 
     def RecibirPS(self):
         s = self.serial_port.readline()
-        print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
+        #print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
         # print 's-1' + s[len(s)-1]
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:
             s = s[:len(s) - 1]
+            print "[PORT] "+ str(s)
             return s
         else:
             return '$#$#$'

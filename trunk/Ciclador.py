@@ -63,7 +63,7 @@ class Myform(QtGui.QMainWindow):
             self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         else:
             #imprimirlo en UI
-            print "No puedo pisar valores definidos"
+            print "[UICICL] No puedo pisar valores definidos"
 
     def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         if self.ui.BotActivo.isChecked():
@@ -78,11 +78,12 @@ class Myform(QtGui.QMainWindow):
             self.ui.BotActivo.setChecked(True)
             #Datos.PrimerInicio()
             self.threadPool[len(self.threadPool)-1].start()
-            time.sleep(0.5) #ver si es necesario!
+            #time.sleep(0.5) #ver si es necesario!
             if Datos.xEnviarPS(Celda, 1):
-                print "imprimo OK"
+                print "[UICICL] Enviando a PORT"
+                #tendria q mostrarlo en la ventana
             else:
-                print "imprimo error"
+                print "[UICICL] No puedo enviar a PORT"
             # barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
             # self.connect(self.threadPool[len(self.threadPool) - 1],
             #              self.threadPool[len(self.threadPool) - 1].signal,

@@ -41,17 +41,18 @@ class DatosCelda:
 
     encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
 
-    def __init__(self, nomb, act=False,
+    def __init__(self, nomb, activa=0,
                  prom=0.0, barr=0, barrM=0, vli=0,
                  vls=0, corr=0, tmb=0,
                  milivoltios=0, microAmperes=0,
                  segundos=0):
 
+        print "[DCELD] initing " + str(nomb)
         #atributos de 1 sola vez
         self.nombre = nomb
         self.promediado = prom
         #activa puede sacarse a cambio de leer un modo distinto a cero
-        self.activa = act
+        self.activa = activa
         self.modo = self.Modos.inactiva
 
         #atributos para procesos de extremo
@@ -98,26 +99,26 @@ class DatosCelda:
                 self.porenviar = 0
                 return True
             else:
-                print "1Necesito Enviar Error"
+                print "[DCELD][xEnvPS] 1 Necesito Enviar Error"
                 return False
         elif val is 1:
             if self.porenviar is 0:
                 self.porenviar = 1
                 return True
             elif self.porenviar is 1:
-                print "2Necesito Enviar Error"
+                print "[DCELD][xEnvPS] 2 Necesito Enviar Error"
                 return False
             elif self.porenviar is 2:
                 self.porenviar = 1
                 #puerto ya envio y levanto nuevamente
                 return True
             else:
-                print "22Necesito Enviar Error"
+                print "[DCELD][xEnvPS] 2 2 Necesito Enviar Error"
                 return False
         elif val is 2:
             if self.porenviar is 0:
                 #si nadie me levanto el flag no puedo limpiar
-                print "3Necesito Enviar Error"
+                print "[DCELD][xEnvPS] 3 Necesito Enviar Error"
                 return False
             elif self.porenviar is 1:
                 self.porenviar = 2
@@ -126,10 +127,10 @@ class DatosCelda:
                 #ya hice ack
                 return False
             else:
-                print "33Necesito Enviar Error"
+                print "[DCELD][xEnvPS] 3 3 Necesito Enviar Error"
                 return False
         else:
-            print "4Necesito Enviar val error"
+            print "[DCELD][xEnvPS] 4 Necesito Enviar val error"
             return False
 
     def SeteoSentidoInicioCiclado(self, sentido):
@@ -137,10 +138,12 @@ class DatosCelda:
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
-        if self.ingresos == 1:
+
+        if self.ingresos is 1:
             """primer ingreso"""
-            print "[DIND] primer ingreso "
-            self.ingresos=+1
+            print "[DCELD] primer ingreso " + str(self.ingresos)
+            self.ingresos = self.ingresos + 1
+            print "[DCELD] sumo ingreso " + str(self.ingresos)
             self.tiempoInicioCiclo = tiempo
             self.ingresos = self.barridoActual = 1
             self.microAmperes = corriente
@@ -150,7 +153,7 @@ class DatosCelda:
             return True
         elif self.modo is self.Modos.ciclando:
             """Ciclando"""
-            print "[DIND] ciclando"
+            print "[DCELD] ciclando"
             self.ingresos=+1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -165,7 +168,7 @@ class DatosCelda:
             else:
                 return False
         elif self.modo is self.Modos.voc:
-            print "[DIND] VOC"
+            print "[DCELD] VOC"
             self.ingresos = +1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -190,7 +193,7 @@ class DatosCelda:
             self.voltajeLimInferior = VLI
             self.tiempoMaxBarrido = TMAX
             self.corrienteSetActual = Corr
-            print "-COndGuard- barridos="+str(barridos)+", VLS="+str(VLS)+", " \
+            print "[DCELD][CONDGUARD] barridos="+str(barridos)+", VLS="+str(VLS)+", " \
                   "VLI="+str(VLI)+", TMAX="+str(TMAX)+", Corr="+str(Corr)+", " \
                   "Promedio="+str(Promedio)+", ComienzaEnCarga="+str(ComienzaEnCarga)+""
             return True
@@ -208,15 +211,15 @@ class DatosCelda:
         if self.milivoltios >= self.voltajeLimSuperior \
            or self.milivoltios <= self.voltajeLimInferior \
            or self.tiempoCicloActual > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
-            print "supere algun extremo"
+            print "[DCELD] supere algun extremo"
             if self.barridoActual > self.barridosMax:
-                print "termine ciclado"
+                print "[DCELD] termine ciclado"
                 self.CerrarCSV()
                 self.ResetValCiclado()
                 self.porenviar = 0
                 return 2
             else:
-                print "invierto corriente"
+                print "[DCELD] invierto corriente"
                 self.barridoActual = + 1
                 self.CargaDescarga = not self.CargaDescarga
                 self.porenviar = -1
@@ -232,14 +235,6 @@ class DatosCelda:
         self.voltajeLimSuperior = 0
         self.tiempoMaxBarrido = 0
 
-    # def Ciclar(self):
-    #     if self.modo is not self.Modos.inactiva:
-    #         print 'Datos Independientes - imposible setear celda no libre'
-    #     else:
-    #         if self.PrimerIngreso():
-    #             self.GuardoTInicioCiclo()
-    #         self.GuardaCsv()
-
     def IniciaVoc(self, prom, tmax):
         if self.modo is not self.Modos.voc:
             self.modo = self.Modos.voc
@@ -250,23 +245,41 @@ class DatosCelda:
             self.promediado = prom
             self.tiempoMaxBarrido = tmax
         else:
-            print "esta en modo de barrido de Voltaje a circuito abierto"
+            print "[DCELD] esta en modo de barrido de Voltaje a circuito abierto"
+
+    def Activada(self):
+        print "[DCELD] activa? " + str(self.activa)
+        if self.activa is 1:
+            return True
+        else:
+            return False
+
+    def CambiaModo(self, modo):
+        print "[DCELD] cambiando modo de " + str(self.nombre)
+        print "[DCELD] modo es " + str(modo)
+        if modo is self.Modos.inactiva:
+            self.activa = 0
+            self.modo = self.Modos.inactiva
+            return True
+        elif modo is self.Modos.ciclando:
+            self.activa = 1
+            self.modo = self.Modos.ciclando
+            return True
+        elif modo is self.Modos.voc:
+            self.activa = 1
+            self.modo = self.Modos.voc
+            return True
+        else:
+            return False
 
     def PararCelda(self):
         if self.modo is not self.Modos.inactiva:
-            self.modo = self.Modos.inactiva
-            self.activa = False
+            self.CambiaModo(self.Modos.inactiva)
             self.CerrarCSV()
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
-            # ActualizoMatriz(Celda,0,0,0,1,0)
-            # barridos 0 y corriente 0 y tiempoMax mayor a cero pero minimo
-            #PorSetear = Celda  # para finalizar hago barridos de seteo como 0 (el resto me da lo mismo?)
-            # luego la lectura me reinicia cond de seteo y pa barrer
-            # eso me hace cerrar el archivo
-            # y en proceso me actuliza cond de guardado a ['cel',False, 0]
             return True
         else:
-            print "imposible detener una celda inactiva"
+            print "[DCELD] imposible detener una celda inactiva"
             return False
 
     def GuardaCsv(self):
@@ -320,6 +333,7 @@ class DatosCompartidos:
     filaPloteo = deque(maxlen=16000)
 
     def __init__(self):
+        print "[DCOMP] initing"
         self.a = DatosCelda("a") #1
         self.b = DatosCelda("b") #2
         self.c = DatosCelda("c") #3
@@ -343,45 +357,92 @@ class DatosCompartidos:
 
     def xIsActive(self, num):
         if num is "a" or 1:
-            return self.a.activa
+            if self.a.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "b" or 2:
-            return self.b.activa
+            if self.b.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "c" or 3:
-            return self.c.activa
+            if self.c.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "d" or 4:
-            return self.d.activa
+            if self.d.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "e" or 5:
-            return self.e.activa
+            if self.e.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "f" or 6:
-            return self.f.activa
+            if self.f.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "g" or 7:
-            return self.g.activa
+            if self.g.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "h" or 8:
-            return self.h.activa
+            if self.h.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "i" or 9:
-            return self.i.activa
+            if self.i.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "j" or 10:
-            return self.j.activa
+            if self.j.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "k" or 11:
-            return self.k.activa
+            if self.k.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "l" or 12:
-            return self.l.activa
+            if self.l.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "m" or 13:
-            return self.m.activa
+            if self.m.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "n" or 14:
-            return self.n.activa
+            if self.n.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "o" or 15:
-            return self.o.activa
+            if self.o.Activada() is True:
+                return True
+            else:
+                return False
         elif num is "p" or 16:
-            return self.p.activa
+            if self.p.Activada() is True:
+                return True
+            else:
+                return False
         else:
             print "datos independientes - Atrib error"
+            return False
 
     def xSetActive(self, num, modo):
         if num is "a" or 1:
-            print "a activa"
-            self.a.activa = True
-            self.a.modo = modo
+            self.a.CambiaModo(modo)
             return True
         elif num is "b" or 2:
             self.b.activa = True
@@ -444,7 +505,8 @@ class DatosCompartidos:
             self.p.modo = modo
             return True
         else:
-            print "datos independientes - Atrib error"
+            print "[DIND] datos independientes - Atrib error"
+            return False
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
         if num is "a" or 1:
@@ -535,19 +597,20 @@ class DatosCompartidos:
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        print "longitud de cola de envio es " + str(self.enColaPorEnviar())
-        print "num y val " + str(num) + "  " + str(val)
+        print "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar())
+        print "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val)
+
         if num is "a" or 1:
             if (self.a.NecesitoEnviar(val)) is True:
                 if val is 1:
                     self.celdasAenviar.extend(str(num))
                 elif val is 2:
-                    print "popeo"
+                    print "[DIND][xEnvPS] popeo"
                     self.celdasAenviar.pop(0)
-                print "DInd - x por enviar -- por enviar corriente"
+                print "[DIND][xEnvPS] por enviar corriente"
                 return True
             else:
-                print "DInd - x por enviar - no se pudo enviar corriente"
+                print "[DIND][xEnvPS] no se pudo enviar corriente"
                 return False
 
         elif num is "b" or 2:
@@ -739,14 +802,14 @@ class DatosCompartidos:
 
     def xIniciaCiclado(self, num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD):
         if self.xIsActive(num):
-            print "[DIND|CICLADO] no puedo setear celda activa"
+            print "[DIND][CICLADO] no puedo setear celda activa"
         else:
             self.xSetActive(num, self.Modos.ciclando)
             #def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
             if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
-                print "[DIND|CICLADO] actualizadas condiciones de guardado"
+                print "[DIND][CICLADO] actualizadas condiciones de guardado"
             else:
-                print "[DIND|CICLADO] no pudo actualizar condiciones de guardado"
+                print "[DIND][CICLADO] no pudo actualizar condiciones de guardado"
 
     def xIniciaVoc(self, num, Promedio, T_Max):
         if self.xIsActive(num):
@@ -857,6 +920,7 @@ class DatosCompartidos:
         else:
             print "datos independientes - parar celda - Atrib error"
 
+    """FALTA multiplicar"""
     def xGetCondGuardado(self, num):
         if num is "a" or 1:
             corriente = self.a.corrienteSetActual
@@ -871,35 +935,35 @@ class DatosCompartidos:
         if num is "a" or 1:
             return self.a.ActualizoCampos(tiempo, tension, corriente)
         elif num is "b" or 2:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.b.ActualizoCampos(tiempo, tension, corriente)
         elif num is "c" or 3:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.c.ActualizoCampos(tiempo, tension, corriente)
         elif num is "d" or 4:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.d.ActualizoCampos(tiempo, tension, corriente)
         elif num is "e" or 5:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.e.ActualizoCampos(tiempo, tension, corriente)
         elif num is "f" or 6:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.f.ActualizoCampos(tiempo, tension, corriente)
         elif num is "g" or 7:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.g.ActualizoCampos(tiempo, tension, corriente)
         elif num is "h" or 8:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.h.ActualizoCampos(tiempo, tension, corriente)
         elif num is "i" or 9:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.i.ActualizoCampos(tiempo, tension, corriente)
         elif num is "j" or 10:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.j.ActualizoCampos(tiempo, tension, corriente)
         elif num is "k" or 11:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.k.ActualizoCampos(tiempo, tension, corriente)
         elif num is "l" or 12:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.l.ActualizoCampos(tiempo, tension, corriente)
         elif num is "m" or 13:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.m.ActualizoCampos(tiempo, tension, corriente)
         elif num is "n" or 14:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.n.ActualizoCampos(tiempo, tension, corriente)
         elif num is "o" or 15:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.o.ActualizoCampos(tiempo, tension, corriente)
         elif num is "p" or 16:
-            return self.a.ActualizoCampos(tiempo, tension, corriente)
+            return self.p.ActualizoCampos(tiempo, tension, corriente)
         else:
             print "datos independientes - Atrib error"
 
@@ -979,46 +1043,10 @@ class DatosCompartidos:
     #celda = char
     #corriente = por setearle
     def xGetPorSetear(self, num):
-        if num is "a" or 1:
-            celda = self.celdasAenviar[self.enColaPorEnviar()-1]
-            corriente, a, b, c, d, e = self.xGetCondGuardado(num)
-            print "xget por setear " + str(celda) + "  " + str(corriente)
-            return celda, corriente
-            """
-            elif num is "b" or 2:
-                return self.b.activa
-            elif num is "c" or 3:
-                return self.c.activa
-            elif num is "d" or 4:
-                return self.d.activa
-            elif num is "e" or 5:
-                return self.e.activa
-            elif num is "f" or 6:
-                return self.f.activa
-            elif num is "g" or 7:
-                return self.g.activa
-            elif num is "h" or 8:
-                return self.h.activa
-            elif num is "i" or 9:
-                return self.i.activa
-            elif num is "j" or 10:
-                return self.j.activa
-            elif num is "k" or 11:
-                return self.k.activa
-            elif num is "l" or 12:
-                return self.l.activa
-            elif num is "m" or 13:
-                return self.m.activa
-            elif num is "n" or 14:
-                return self.n.activa
-            elif num is "o" or 15:
-                return self.o.activa
-            elif num is "p" or 16:
-                return self.p.activa
-            """
-        else:
-            print "datos independientes - Atrib error"
-            return None, None
+        celda = self.celdasAenviar[self.enColaPorEnviar()-1]
+        corriente, a, b, c, d, e = self.xGetCondGuardado(num)
+        print "xget por setear " + str(celda) + "  " + str(corriente)
+        return celda, corriente
 
     def AllDisable(self):
         algunaActiva = (self.a.activa or self.b.activa or self.c.activa or self.d.activa or
