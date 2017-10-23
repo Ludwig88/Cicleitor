@@ -7,6 +7,7 @@ import string
 import sys
 import time
 from PyQt4 import QtCore, QtGui
+from PyQt4.Qt import QMutex
 from PyQt4.uic import *
 from collections import deque  # double ended queue
 import DatosIndependientes
@@ -27,6 +28,8 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
 
         self.threadPool = []
+
+        self.mutex = QMutex()
 
         self.filaPloteo = deque(maxlen=16000)
 
@@ -58,8 +61,9 @@ class Myform(QtGui.QMainWindow):
                 CargaOdescarga = True
             else:
                 CargaOdescarga = False
+            self.mutex.lock()
             Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-            #Datos.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            self.mutex.unlock()
             self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         else:
             #imprimirlo en UI
@@ -77,6 +81,7 @@ class Myform(QtGui.QMainWindow):
             self.ui.BotSetearC.setChecked(False)
             self.ui.BotActivo.setChecked(True)
             #Datos.PrimerInicio()
+            #self.threadPool[len(self.threadPool)-1].setDaemons(True)
             self.threadPool[len(self.threadPool)-1].start()
             #time.sleep(0.5) #ver si es necesario!
             if Datos.xEnviarPS(Celda, 1):

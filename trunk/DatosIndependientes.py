@@ -41,10 +41,10 @@ class DatosCelda:
 
     encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
 
-    def __init__(self, nomb, activa=0,
+    def __init__(self, nomb, activ=0,
                  prom=0.0, barr=0, barrM=0, vli=0,
                  vls=0, corr=0, tmb=0,
-                 milivoltios=0, microAmperes=0,
+                 milivoltios=0, microAmperes=0, ingresos=0,
                  segundos=0):
 
         print "[DCELD] initing " + str(nomb)
@@ -52,7 +52,8 @@ class DatosCelda:
         self.nombre = nomb
         self.promediado = prom
         #activa puede sacarse a cambio de leer un modo distinto a cero
-        self.activa = activa
+        self.activa = deque(maxlen=1)
+        self.activa.append(str(activ))
         self.modo = self.Modos.inactiva
 
         #atributos para procesos de extremo
@@ -69,7 +70,7 @@ class DatosCelda:
 
         #atributos tiempo real
         self.PaPromediar = []
-        self.ingresos = 0 #cantidad de tramas cargadas
+        self.ingresos = ingresos #cantidad de tramas cargadas
         self.barridoActual = barr
         self.corrienteSetActual = corr
         self.milivoltios = milivoltios
@@ -138,7 +139,6 @@ class DatosCelda:
         self.iniciaEnCarga = sentido
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
-
         if self.ingresos is 1:
             """primer ingreso"""
             print "[DCELD] primer ingreso " + str(self.ingresos)
@@ -248,25 +248,30 @@ class DatosCelda:
             print "[DCELD] esta en modo de barrido de Voltaje a circuito abierto"
 
     def Activada(self):
-        print "[DCELD] activa? " + str(self.activa)
-        if self.activa is 1:
+        print "[DECELD|"+str(self.nombre)+"] list " + str(self.activa) + " id self " + str(id(self))
+        if int(self.activa[0]) is 1:
             return True
         else:
             return False
 
     def CambiaModo(self, modo):
-        print "[DCELD] cambiando modo de " + str(self.nombre)
-        print "[DCELD] modo es " + str(modo)
+        print "[DCELD] modo " + str(modo) + " comp a inactiva "+ str(self.Modos.inactiva)
         if modo is self.Modos.inactiva:
-            self.activa = 0
+            self.activa.pop()
+            self.activa.append(str(1))
             self.modo = self.Modos.inactiva
             return True
         elif modo is self.Modos.ciclando:
-            self.activa = 1
+            print "activa list " + str(self.activa)
+            aux = int(self.activa.pop())
+            aux += 1
+            self.activa.append(str(aux))
+            print "activa list " + str(self.activa)
             self.modo = self.Modos.ciclando
             return True
         elif modo is self.Modos.voc:
-            self.activa = 1
+            self.activa.pop()
+            self.activa.append(str(1))
             self.modo = self.Modos.voc
             return True
         else:
@@ -357,85 +362,37 @@ class DatosCompartidos:
 
     def xIsActive(self, num):
         if num is "a" or 1:
-            if self.a.Activada() is True:
-                return True
-            else:
-                return False
+            return self.a.Activada()
         elif num is "b" or 2:
-            if self.b.Activada() is True:
-                return True
-            else:
-                return False
+            return self.b.Activada()
         elif num is "c" or 3:
-            if self.c.Activada() is True:
-                return True
-            else:
-                return False
+            return self.c.Activada()
         elif num is "d" or 4:
-            if self.d.Activada() is True:
-                return True
-            else:
-                return False
+            return self.d.Activada()
         elif num is "e" or 5:
-            if self.e.Activada() is True:
-                return True
-            else:
-                return False
+            return self.e.Activada()
         elif num is "f" or 6:
-            if self.f.Activada() is True:
-                return True
-            else:
-                return False
+            return self.f.Activada()
         elif num is "g" or 7:
-            if self.g.Activada() is True:
-                return True
-            else:
-                return False
+            return self.g.Activada()
         elif num is "h" or 8:
-            if self.h.Activada() is True:
-                return True
-            else:
-                return False
+            return self.h.Activada()
         elif num is "i" or 9:
-            if self.i.Activada() is True:
-                return True
-            else:
-                return False
+            return self.i.Activada()
         elif num is "j" or 10:
-            if self.j.Activada() is True:
-                return True
-            else:
-                return False
+            return self.j.Activada()
         elif num is "k" or 11:
-            if self.k.Activada() is True:
-                return True
-            else:
-                return False
+            return self.k.Activada()
         elif num is "l" or 12:
-            if self.l.Activada() is True:
-                return True
-            else:
-                return False
+            return self.l.Activada()
         elif num is "m" or 13:
-            if self.m.Activada() is True:
-                return True
-            else:
-                return False
+            return self.m.Activada()
         elif num is "n" or 14:
-            if self.n.Activada() is True:
-                return True
-            else:
-                return False
+            return self.n.Activada()
         elif num is "o" or 15:
-            if self.o.Activada() is True:
-                return True
-            else:
-                return False
+            return self.o.Activada()
         elif num is "p" or 16:
-            if self.p.Activada() is True:
-                return True
-            else:
-                return False
+            return self.p.Activada()
         else:
             print "datos independientes - Atrib error"
             return False
@@ -445,64 +402,49 @@ class DatosCompartidos:
             self.a.CambiaModo(modo)
             return True
         elif num is "b" or 2:
-            self.b.activa = True
-            self.b.modo = modo
+            self.b.CambiaModo(modo)
             return True
         elif num is "c" or 3:
-            self.c.activa = True
-            self.c.modo = modo
+            self.c.CambiaModo(modo)
             return True
         elif num is "d" or 4:
-            self.d.activa = True
-            self.d.modo = modo
+            self.d.CambiaModo(modo)
             return True
         elif num is "e" or 5:
-            self.e.activa = True
-            self.e.modo = modo
+            self.e.CambiaModo(modo)
             return True
         elif num is "f" or 6:
-            self.f.activa = True
-            self.f.modo = modo
+            self.f.CambiaModo(modo)
             return True
         elif num is "g" or 7:
-            self.g.activa = True
-            self.g.modo = modo
+            self.g.CambiaModo(modo)
             return True
         elif num is "h" or 8:
-            self.h.activa = True
-            self.h.modo = modo
+            self.h.CambiaModo(modo)
             return True
         elif num is "i" or 9:
-            self.i.activa = True
-            self.i.modo = modo
+            self.i.CambiaModo(modo)
             return True
         elif num is "j" or 10:
-            self.j.activa = True
-            self.j.modo = modo
+            self.j.CambiaModo(modo)
             return True
         elif num is "k" or 11:
-            self.k.activa = True
-            self.k.modo = modo
+            self.k.CambiaModo(modo)
             return True
         elif num is "l" or 12:
-            self.l.activa = True
-            self.l.modo = modo
+            self.l.CambiaModo(modo)
             return True
         elif num is "m" or 13:
-            self.m.activa = True
-            self.m.modo = modo
+            self.m.CambiaModo(modo)
             return True
         elif num is "n" or 14:
-            self.n.activa = True
-            self.n.modo = modo
+            self.n.CambiaModo(modo)
             return True
         elif num is "o" or 15:
-            self.o.activa = True
-            self.o.modo = modo
+            self.o.CambiaModo(modo)
             return True
         elif num is "p" or 16:
-            self.p.activa = True
-            self.p.modo = modo
+            self.p.CambiaModo(modo)
             return True
         else:
             print "[DIND] datos independientes - Atrib error"

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore
+from PyQt4.Qt import QMutex
 
 import time, serial
 from DatosIndependientes import DatosCompartidos
@@ -18,6 +19,9 @@ class LECTURA(QtCore.QThread):
                  parent = None):
 
         QtCore.QThread.__init__(self)
+
+        self.daemon = True
+        self.mutex = QMutex()
 
         self.serial_port = None
         self.serial_arg = dict(port=port_num,
@@ -54,13 +58,19 @@ class LECTURA(QtCore.QThread):
             """variables para guardado"""
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
-                print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
-                print "[PORT] a is activa? " + str(self.Datos.xIsActive("a"))
-                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(1))
-                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(5))
-                print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(2))
+                #print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
+                #print "[PORT] a is activa? " + str(self.Datos.xIsActive("a"))
+                # print "[PORT] a " + str(type(self.Datos.a)) + " id " +str(id(self.Datos.a))
+                # print "[PORT] b " + str(type(self.Datos.b)) + " id " +str(id(self.Datos.b))
+                # print "[PORT] c " + str(type(self.Datos.c)) + " id " +str(id(self.Datos.c))
+                # print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(5))
+                # print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(2))
                 """chequeo que sea una de las que active, descarto los envios nulos"""
-                if self.Datos.xIsActive(celda) is True:
+                self.mutex.lock()
+                a = self.Datos.xIsActive(celda)
+                print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
+                self.mutex.unlock()
+                if a is True:
                     """conversion de tension (pasa a mV)"""
                     #(-1)*int((int(separado[1])*(3.0/8))-6144)
                     Tension = int((int(separado[1]) * (0.375)) - 6144)
