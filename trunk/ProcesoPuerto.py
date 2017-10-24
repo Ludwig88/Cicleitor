@@ -47,6 +47,7 @@ class LECTURA(QtCore.QThread):
             return
 
         while self.serial_port.is_open:
+            time.sleep(0.01)
             try:
                 recepcion = self.RecibirPS() + '#' + str(time.time() - 1500000000)
             except:
@@ -63,18 +64,14 @@ class LECTURA(QtCore.QThread):
                 Corriente = int(separado[2]) - 1024
                 Tiempo = float(separado[3])
                 #Append en la deque de salida
-                print "[PORT|" + str(celda) + "]  append Corriente: " + str(Corriente) + " Tiempo: "+str(Tiempo)
+                #print "[PORT|" + str(celda) + "]  append Corriente: " + str(Corriente) + " Tiempo: "+str(Tiempo)
+                self.mutex.lock()
                 self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
-                #self.Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
-                Barrido, tiempo = self.Datos.xGetBarrYTiempo(celda)
-                self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
-                # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
-                #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
-                #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
-            if len(self.dequeIN) >= 0:
+                self.mutex.unlock()
+            if int(len(self.dequeIN)) > 0:
                 [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
                 """Hay celdas por setear"""
-                if 112 >= ord(celda) >= 97 :
+                if 112 >= ord(celda) >= 97:
                     print "[PORT|" + str(celda) + "]  " + str(Corriente)
                     self.EnviarPS_I(Corriente, False, str(celda))
                     #podría hacer un append de OK
@@ -154,7 +151,7 @@ class LECTURA(QtCore.QThread):
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:
             s = s[:len(s) - 1]
-            print "[PORT] "+ str(s)
+            #print "[PORT] "+ str(s)
             return s
         else:
             return '$#$#$'

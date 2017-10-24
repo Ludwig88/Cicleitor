@@ -250,7 +250,7 @@ class DatosCelda:
             print "[DCELD] esta en modo de barrido de Voltaje a circuito abierto"
 
     def Activada(self):
-        print "[DECELD|"+str(self.nombre)+"] list " + str(self.activa) + " id self " + str(id(self))
+        print "[DCELD|"+str(self.nombre)+"] list " + str(self.activa) + " id self " + str(id(self))
         if int(self.activa[0]) is 1:
             return True
         else:
@@ -338,7 +338,7 @@ class DatosCompartidos(QtCore.QThread):
     PoolThread = []
     celdasAenviar = []
 
-    def __init__(self, dequeSettings, parent = None):
+    def __init__(self, dequeSettings, dequePLOT, parent = None):
         print "[DCOMP] initing"
         self.a = DatosCelda("a")
         self.b = DatosCelda("b") #2
@@ -363,29 +363,43 @@ class DatosCompartidos(QtCore.QThread):
 
         """DEQUES de comunicacion"""
         self.dequeSettings = dequeSettings #desde UI
-        self.dequePLOT = deque(maxlen=16000) #hacia UI??
+        self.dequePLOT = dequePLOT  #hacia UI??
         self.dequeOUT = deque(maxlen=16000) #seteos de celdas a puerto
         self.dequeIN = deque(maxlen=16000) #desde puerto crudo
 
         """"""
         #print "arranco thread de lectura desde DatosIndependientes"
         self.PoolThread.append(ProcesoPuerto.LECTURA(self.dequePLOT, self.dequeOUT, self.dequeIN))
+        #self.PoolThread[len(self.PoolThread) - 1].start()
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
         #inicia thread de LECTURA
-        self.threadPool[len(self.threadPool) - 1].start()
-        time.sleep(0.5)
+        self.PoolThread[len(self.PoolThread) - 1].start()
         while (True):
-            if len(self.dequeSettings) >= 1:
-                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeSettings.pop()
-                if mensaje == "SET":
-                    self.xCondicionesDeGuardado()
-                #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
-            if len(self.dequeIN) >= 1:
-                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeSettings.pop()
+            time.sleep(0.001)
+            print " deque settings "+str(self.dequeSettings)
+            #print "[DIND] deque IN "+str(self.dequeIN)
+            if int(len(self.dequeSettings))>= 1:
+                try:
+                    self.mutex.lock()
+                    [mensaje, Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga] = self.dequeSettings.pop()
+                    self.mutex.unlock()
+                except IndexError:
+                    mensaje = None
+                if mensaje is "SETC" or mensaje is "SETV":
+                    print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+                    self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            if int(len(self.dequeIN)) >= 1:
+                try:
+                    self.mutex.lock()
+                    [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
+                    self.mutex.unlock()
+                except IndexError:
+                    mensaje = None
+                    #print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
                     if (self.xIsActive(celda)):
                         self.xActualizoCampo(celda, Tension, Corriente, Tiempo )

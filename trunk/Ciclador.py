@@ -33,8 +33,14 @@ class Myform(QtGui.QMainWindow):
 
         self.filaPloteo = deque(maxlen=16000)
         self.filaDatos = deque(maxlen=16000)
+        self.dequeSetting = deque(maxlen=100)
 
-        self.threadPool.append(ProcesoPuerto.LECTURA(self.filaPloteo, self.filaDatos))
+        self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
+        self.threadPool[len(self.threadPool) - 1].start()
+
+        # self.connect(self.threadPool[len(self.threadPool) - 1],
+        #              self.threadPool[len(self.threadPool) - 1].signal,
+        #              self.ActualValores)
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -45,7 +51,10 @@ class Myform(QtGui.QMainWindow):
         Celda = self.ui.cmbCelV.currentText()
         Promedio = float(self.ui.cmbPromV.currentText())
         T_Max = int(self.ui.LinEdTiemV.text())
-        #Datos.xIniciaVoc(Celda, Promedio, T_Max)
+        print "[UICICL] datos " + str(["SETV", Celda, 1, 999999, -999999, T_Max, 0, Promedio, False])
+        self.mutex.lock()
+        self.dequeSetting.append(["SETV", Celda, 1, 999999, -999999, T_Max, 0, Promedio, False])
+        self.mutex.unlock()
         self.inicio(Celda) #, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
     def inicioCiclado(self):
@@ -61,52 +70,29 @@ class Myform(QtGui.QMainWindow):
             CargaOdescarga = True
         else:
             CargaOdescarga = False
-        #Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-        print " datos " + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+        print "[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+        self.mutex.lock()
+        self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+        self.mutex.unlock()
         self.inicio(Celda)  # Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
-        # if Datos.xIsActive(Celda) is not True:
-        #     Promedio = float(self.ui.cmbProm.currentText())
-        #     Corriente = int(self.ui.LinEdCorri.text())
-        #     Ciclos = int(self.ui.LinEdCiclos.text())
-        #     V_lim_inf = int(self.ui.LinEdVLInf.text())
-        #     V_lim_sup = int(self.ui.LinEdVLSup.text())
-        #     T_Max = int(self.ui.LinEdTMax.text())
-        #     if Corriente > 0:
-        #         CargaOdescarga = True
-        #     else:
-        #         CargaOdescarga = False
-        #     self.mutex.lock()
-        #     Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-        #     self.mutex.unlock()
-        #     self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        # if answer is True:
+        #     print "[UICICL] recibi ACK"
+        #     self.ui.labelInfo("Seting OK")
         # else:
-        #     #imprimirlo en UI
-        #     print "[UICICL] No puedo pisar valores definidos"
+        #      print "[UICICL] No puedo pisar valores definidos"
 
-    def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+    def inicio(self, Celda):
         if self.ui.BotActivo.isChecked():
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
-            #Datos.xEnviarPS(Celda, 1)
+            # print "[UICICL] Setting Not OK"
+            # self.ui.labelInfo("no puedo setear la celda")
         else:
             #Iniciar Ciclado con start de Datos
             self.chequeaRB(Celda, True)
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
             self.ui.BotActivo.setChecked(True)
-            #Datos.PrimerInicio()
-            #self.threadPool[len(self.threadPool)-1].setDaemons(True)
-            self.threadPool[len(self.threadPool)-1].start()
-            #time.sleep(0.5) #ver si es necesario!
-            # if Datos.xEnviarPS(Celda, 1):
-            #     print "[UICICL] Enviando a PORT"
-            #     #tendria q mostrarlo en la ventana
-            # else:
-            #     print "[UICICL] No puedo enviar a PORT"
-            # barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
-            # self.connect(self.threadPool[len(self.threadPool) - 1],
-            #              self.threadPool[len(self.threadPool) - 1].signal,
-            #              self.ActualValores(barrido, Vin, Iin, Tiem))
 
     def chequeaRB(self, celda, estado):
         if celda == 'a':
@@ -143,8 +129,12 @@ class Myform(QtGui.QMainWindow):
             self.ui.RBp.setChecked(estado)
 
     def PararCelda(self):
-        celda = self.ui.cmbCelPlot.currentText()
-        Datos.xPararCelda(celda)
+        Celda = self.ui.cmbCelPlot.currentText()
+        print "[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
+        self.mutex.lock()
+        self.dequeSetting.append(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
+        self.mutex.unlock()
+        self.inicio(Celda)
 
     def ActCondUi(self):
         Celda=self.ui.cmbCelC.currentText()
