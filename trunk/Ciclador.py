@@ -32,8 +32,9 @@ class Myform(QtGui.QMainWindow):
         self.mutex = QMutex()
 
         self.filaPloteo = deque(maxlen=16000)
+        self.filaDatos = deque(maxlen=16000)
 
-        self.threadPool.append(ProcesoPuerto.LECTURA(self.filaPloteo, Datos))
+        self.threadPool.append(ProcesoPuerto.LECTURA(self.filaPloteo, self.filaDatos))
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -44,36 +45,49 @@ class Myform(QtGui.QMainWindow):
         Celda = self.ui.cmbCelV.currentText()
         Promedio = float(self.ui.cmbPromV.currentText())
         T_Max = int(self.ui.LinEdTiemV.text())
-        Datos.xIniciaVoc(Celda, Promedio, T_Max)
+        #Datos.xIniciaVoc(Celda, Promedio, T_Max)
         self.inicio(Celda) #, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 
     def inicioCiclado(self):
         # seteo valores para el proceso
         Celda = self.ui.cmbCelC.currentText()
-        if Datos.xIsActive(Celda) is not True:
-            Promedio = float(self.ui.cmbProm.currentText())
-            Corriente = int(self.ui.LinEdCorri.text())
-            Ciclos = int(self.ui.LinEdCiclos.text())
-            V_lim_inf = int(self.ui.LinEdVLInf.text())
-            V_lim_sup = int(self.ui.LinEdVLSup.text())
-            T_Max = int(self.ui.LinEdTMax.text())
-            if Corriente > 0:
-                CargaOdescarga = True
-            else:
-                CargaOdescarga = False
-            self.mutex.lock()
-            Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-            self.mutex.unlock()
-            self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        Promedio = float(self.ui.cmbProm.currentText())
+        Corriente = int(self.ui.LinEdCorri.text())
+        Ciclos = int(self.ui.LinEdCiclos.text())
+        V_lim_inf = int(self.ui.LinEdVLInf.text())
+        V_lim_sup = int(self.ui.LinEdVLSup.text())
+        T_Max = int(self.ui.LinEdTMax.text())
+        if Corriente > 0:
+            CargaOdescarga = True
         else:
-            #imprimirlo en UI
-            print "[UICICL] No puedo pisar valores definidos"
+            CargaOdescarga = False
+        #Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+        print " datos " + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+        self.inicio(Celda)  # Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        # if Datos.xIsActive(Celda) is not True:
+        #     Promedio = float(self.ui.cmbProm.currentText())
+        #     Corriente = int(self.ui.LinEdCorri.text())
+        #     Ciclos = int(self.ui.LinEdCiclos.text())
+        #     V_lim_inf = int(self.ui.LinEdVLInf.text())
+        #     V_lim_sup = int(self.ui.LinEdVLSup.text())
+        #     T_Max = int(self.ui.LinEdTMax.text())
+        #     if Corriente > 0:
+        #         CargaOdescarga = True
+        #     else:
+        #         CargaOdescarga = False
+        #     self.mutex.lock()
+        #     Datos.xIniciaCiclado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+        #     self.mutex.unlock()
+        #     self.inicio(Celda) #Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        # else:
+        #     #imprimirlo en UI
+        #     print "[UICICL] No puedo pisar valores definidos"
 
     def inicio(self, Celda): #, Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
         if self.ui.BotActivo.isChecked():
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
-            Datos.xEnviarPS(Celda, 1)
+            #Datos.xEnviarPS(Celda, 1)
         else:
             #Iniciar Ciclado con start de Datos
             self.chequeaRB(Celda, True)
@@ -84,11 +98,11 @@ class Myform(QtGui.QMainWindow):
             #self.threadPool[len(self.threadPool)-1].setDaemons(True)
             self.threadPool[len(self.threadPool)-1].start()
             #time.sleep(0.5) #ver si es necesario!
-            if Datos.xEnviarPS(Celda, 1):
-                print "[UICICL] Enviando a PORT"
-                #tendria q mostrarlo en la ventana
-            else:
-                print "[UICICL] No puedo enviar a PORT"
+            # if Datos.xEnviarPS(Celda, 1):
+            #     print "[UICICL] Enviando a PORT"
+            #     #tendria q mostrarlo en la ventana
+            # else:
+            #     print "[UICICL] No puedo enviar a PORT"
             # barrido, Vin, Iin, Tiem = Datos.xGetValTiempoReal(Celda)
             # self.connect(self.threadPool[len(self.threadPool) - 1],
             #              self.threadPool[len(self.threadPool) - 1].signal,
@@ -425,8 +439,8 @@ class PLOTEOTR(pg.QtCore.QThread):
 
 if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)
-    global Datos
-    Datos = DatosIndependientes.DatosCompartidos()
+    #global Datos
+    #Datos = DatosIndependientes.DatosCompartidos()
     myapp = Myform()
     myapp.show()
     sys.exit(app.exec_())

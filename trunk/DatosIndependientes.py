@@ -30,9 +30,11 @@
 # corriente = 0
 # tiempoMaxBarrido = 0
 import csv
+from PyQt4 import QtCore
+from PyQt4.Qt import QMutex
 from collections import deque
-#import ProcesoPuerto
-
+import ProcesoPuerto
+import time
 
 class DatosCelda:
 
@@ -329,17 +331,16 @@ class DatosCelda:
         self.tiempoMaxBarrido = 12
 
 
-class DatosCompartidos:
+class DatosCompartidos(QtCore.QThread):
 
     class Modos:
         inactiva, ciclando, voc = range(3)
     PoolThread = []
     celdasAenviar = []
-    filaPloteo = deque(maxlen=16000)
 
-    def __init__(self):
+    def __init__(self, dequeSettings, parent = None):
         print "[DCOMP] initing"
-        self.a = DatosCelda("a") #1
+        self.a = DatosCelda("a")
         self.b = DatosCelda("b") #2
         self.c = DatosCelda("c") #3
         self.d = DatosCelda("d") #4
@@ -356,9 +357,39 @@ class DatosCompartidos:
         self.o = DatosCelda("o") #15
         self.p = DatosCelda("p") #16
 
-        # # inicio lectura
+        QtCore.QThread.__init__(self)
+        self.mutex = QMutex()
+        self.daemon = True
+
+        """DEQUES de comunicacion"""
+        self.dequeSettings = dequeSettings #desde UI
+        self.dequePLOT = deque(maxlen=16000) #hacia UI??
+        self.dequeOUT = deque(maxlen=16000) #seteos de celdas a puerto
+        self.dequeIN = deque(maxlen=16000) #desde puerto crudo
+
+        """"""
         #print "arranco thread de lectura desde DatosIndependientes"
-        #self.PoolThread.append(ProcesoPuerto.LECTURA(self.filaPloteo))
+        self.PoolThread.append(ProcesoPuerto.LECTURA(self.dequePLOT, self.dequeOUT, self.dequeIN))
+
+    def __del__(self):
+        self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
+
+    def run(self):
+        #inicia thread de LECTURA
+        self.threadPool[len(self.threadPool) - 1].start()
+        time.sleep(0.5)
+        while (True):
+            if len(self.dequeSettings) >= 1:
+                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeSettings.pop()
+                if mensaje == "SET":
+                    self.xCondicionesDeGuardado()
+                #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
+            if len(self.dequeIN) >= 1:
+                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeSettings.pop()
+                if mensaje == "RAW":
+                    if (self.xIsActive(celda)):
+                        self.xActualizoCampo(celda, Tension, Corriente, Tiempo )
+                # verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
 
     def xIsActive(self, num):
         if num is "a" or 1:

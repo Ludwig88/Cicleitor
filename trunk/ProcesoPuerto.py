@@ -3,14 +3,13 @@
 
 from PyQt4 import QtCore
 from PyQt4.Qt import QMutex
-
+from collections import deque # double ended queue
 import time, serial
-from DatosIndependientes import DatosCompartidos
 
 """########################################################## CLASE PARA Recepcion"""
 
 class LECTURA(QtCore.QThread):
-    def __init__(self, filaPlot, Datos,
+    def __init__(self, dequePLOT, dequeIN, dequeOUT,
                  port_num = '/dev/ttyACM0',
                  port_baud = 115200,
                  port_stopbits = serial.STOPBITS_ONE,
@@ -31,15 +30,14 @@ class LECTURA(QtCore.QThread):
                                timeout=port_timeout)
         #print "Initing Puerto desde Proceso Puerto"
         self.signal = QtCore.SIGNAL("signal")
-        self.CONTENEDORplot = filaPlot
-        self.Datos = Datos
+        self.CONTENEDORplot = dequePLOT
+        self.dequeIN = dequeIN
+        self.dequeOUT = dequeOUT
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
-        por_setear = corrSet = celdaSet = celda = None
-        finalizo = False
         try:
             if self.serial_port:
                 self.serial_port.close()
@@ -58,45 +56,32 @@ class LECTURA(QtCore.QThread):
             """variables para guardado"""
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 celda = separado[0]
-                #print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
-                #print "[PORT] a is activa? " + str(self.Datos.xIsActive("a"))
-                # print "[PORT] a " + str(type(self.Datos.a)) + " id " +str(id(self.Datos.a))
-                # print "[PORT] b " + str(type(self.Datos.b)) + " id " +str(id(self.Datos.b))
-                # print "[PORT] c " + str(type(self.Datos.c)) + " id " +str(id(self.Datos.c))
-                # print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(5))
-                # print "[PORT] b CG " + str(self.Datos.xGetCondGuardado(2))
-                """chequeo que sea una de las que active, descarto los envios nulos"""
-                self.mutex.lock()
-                a = self.Datos.xIsActive(celda)
-                print "[PORT]" + str(celda) + " is activa? " + str(self.Datos.xIsActive(str(celda)))
-                self.mutex.unlock()
-                if a is True:
-                    """conversion de tension (pasa a mV)"""
-                    #(-1)*int((int(separado[1])*(3.0/8))-6144)
-                    Tension = int((int(separado[1]) * (0.375)) - 6144)
-                    """conversion de corriente (pasa a uA)"""
-                    Corriente = int(separado[2]) - 1024
-                    Tiempo = float(separado[3])
-                    self.Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
-                    Barrido, tiempo = self.Datos.xGetBarrYTiempo(celda)
-                    ###################################################################PromPlot += [Tension, Corriente, tiempo],
-                    self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
-                    # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
-                    #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
-                    #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
-            """Hay celdas por setear"""
-            if self.Datos.enColaPorEnviar() >= 1:
-                celdaSet, corrSet = self.Datos.xGetPorSetear(celda)
-                print "Proceso puerto " + str(celdaSet) + "  " + str(corrSet)
-                self.EnviarPS_I(corrSet, False, str(celdaSet))
-                if self.Datos.xEnviarPS(celdaSet, 2):
-                    print "Send - ok"
-                else:
-                    print "retry Send??"
-            """Ninguna activa"""
-            # if self.Datos.AllDisable():
-            #     print "cortando loop de lectura"
-            #     break
+                """conversion de tension (pasa a mV)"""
+                Tension = int((int(separado[1]) * (0.375)) - 6144)
+                #(-1)*int((int(separado[1])*(3.0/8))-6144)
+                """conversion de corriente (pasa a uA)"""
+                Corriente = int(separado[2]) - 1024
+                Tiempo = float(separado[3])
+                #Append en la deque de salida
+                print "[PORT|" + str(celda) + "]  append Corriente: " + str(Corriente) + " Tiempo: "+str(Tiempo)
+                self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
+                #self.Datos.xActualizoCampo(celda, Tension, Corriente, Tiempo)
+                Barrido, tiempo = self.Datos.xGetBarrYTiempo(celda)
+                self.CONTENEDORplot.append([celda, Barrido, Tension, Corriente, tiempo])
+                # if celda == str(myapp.ui.cmbCelPlot.currentText()) and Tension != '%':
+                #     # print 'tiempo ' +str(tiempo) +' tension ' +str(Tension)
+                #     self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(tiempo))
+            if len(self.dequeIN) >= 0:
+                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
+                """Hay celdas por setear"""
+                if 112 >= ord(celda) >= 97 :
+                    print "[PORT|" + str(celda) + "]  " + str(Corriente)
+                    self.EnviarPS_I(Corriente, False, str(celda))
+                    #podría hacer un append de OK
+                """Ninguna activa"""
+                if mensaje is "END":
+                     print "cortando loop de lectura"
+                     break
 
         # clean up
         if self.serial_port:
