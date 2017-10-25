@@ -48,12 +48,12 @@ class Myform(QtGui.QMainWindow):
         self.ui.BotParaPlot.setCheckable(True)
 
     def inicioVOC(self):
-        Celda = self.ui.cmbCelV.currentText()
+        Celda = unicode(self.ui.cmbCelV.currentText())
         Promedio = float(self.ui.cmbPromV.currentText())
         T_Max = int(self.ui.LinEdTiemV.text())
-        print "[UICICL] datos " + str(["SETV", Celda, 1, 999999, -999999, T_Max, 0, Promedio, False])
+        print "[UICICL] datos " + str(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
         self.mutex.lock()
-        self.dequeSetting.append(["SETV", Celda, 1, 999999, -999999, T_Max, 0, Promedio, False])
+        self.dequeSetting.append(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
         self.mutex.unlock()
         self.inicio(Celda) #, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
 

@@ -380,7 +380,6 @@ class DatosCompartidos(QtCore.QThread):
         self.PoolThread[len(self.PoolThread) - 1].start()
         while (True):
             time.sleep(0.001)
-            print " deque settings "+str(self.dequeSettings)
             #print "[DIND] deque IN "+str(self.dequeIN)
             if int(len(self.dequeSettings))>= 1:
                 try:
@@ -392,6 +391,7 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje is "SETC" or mensaje is "SETV":
                     print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
                     self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            time.sleep(0.001)
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
@@ -401,7 +401,7 @@ class DatosCompartidos(QtCore.QThread):
                     mensaje = None
                     #print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
-                    if (self.xIsActive(celda)):
+                    if False: #(self.xIsActive(celda)):
                         self.xActualizoCampo(celda, Tension, Corriente, Tiempo )
                 # verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
 
