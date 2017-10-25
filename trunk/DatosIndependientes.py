@@ -49,7 +49,7 @@ class DatosCelda:
                  milivoltios=0, microAmperes=0, ingresos=0,
                  segundos=0):
 
-        print "[DCELD] initing " + str(nomb)
+        print "[DCELD] initing " + str(nomb) + " id " + str(id(self))
         #atributos de 1 sola vez
         self.nombre = nomb
         self.promediado = prom
@@ -185,23 +185,31 @@ class DatosCelda:
                 return False
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
-        if barridos >= 0:
-            self.ingresos = 1
+        BadArgument = 0
+        self.ingresos = 1
+        if barridos > 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
-            # hacer filtro de valores correctos
-            self.CargaDescarga = ComienzaEnCarga
-            self.promediado = Promedio
-            self.voltajeLimSuperior = VLS
-            self.voltajeLimInferior = VLI
-            self.tiempoMaxBarrido = TMAX
-            self.corrienteSetActual = Corr
-            print "[DCELD][CONDGUARD] barridos="+str(barridos)+", VLS="+str(VLS)+", " \
-                  "VLI="+str(VLI)+", TMAX="+str(TMAX)+", Corr="+str(Corr)+", " \
-                  "Promedio="+str(Promedio)+", ComienzaEnCarga="+str(ComienzaEnCarga)+""
-            return True
         else:
-            #especificar que dio mal para informarlo
+            BadArgument = 1
+        self.CargaDescarga = ComienzaEnCarga
+        if 0 < Promedio > 100:
+            self.promediado = Promedio
+        else:
+            BadArgument = 1
+        self.voltajeLimSuperior = VLS
+        self.voltajeLimInferior = VLI
+        self.tiempoMaxBarrido = TMAX
+        if -999999 < Corr > 999999:
+            self.corrienteSetActual = Corr
+        else:
+            BadArgument = 1
+        print "[CELD|"+str(self.nombre)+"][CONDGUARD] barridos="+str(barridos)+", VLS="+str(VLS)+", " \
+              "VLI="+str(VLI)+", TMAX="+str(TMAX)+", Corr="+str(Corr)+", " \
+              "Promedio="+str(Promedio)+", ComienzaEnCarga="+str(ComienzaEnCarga)+""
+        if BadArgument is not 0:
             return False
+        else:
+            return True
 
     def PrimerIngreso(self):
         if self.ingresos is None:
@@ -390,8 +398,12 @@ class DatosCompartidos(QtCore.QThread):
                     mensaje = None
                 if mensaje is "SETC" or mensaje is "SETV":
                     print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
-                    self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-            time.sleep(0.001)
+                    if self.xIsActive(Celda):
+                        print "[DIND|"+str(Celda)+"]activada"
+                    else:
+                        self.xSetActive(Celda,self.Modos.ciclando)
+                        self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+            #time.sleep(0.001)
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
@@ -497,85 +509,37 @@ class DatosCompartidos(QtCore.QThread):
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
         if num is "a" or 1:
-            if (self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "b" or 2:
-            if (self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "c" or 3:
-            if (self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "d" or 4:
-            if (self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "e" or 5:
-            if (self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "f" or 6:
-            if (self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "g" or 7:
-            if (self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "h" or 8:
-            if (self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "i" or 9:
-            if (self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "j" or 10:
-            if (self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "k" or 11:
-            if (self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "l" or 12:
-            if (self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "m" or 13:
-            if (self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "n" or 14:
-            if (self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "o" or 15:
-            if (self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         elif num is "p" or 16:
-            if (self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)) is True:
-                return True
-            else:
-                return False
+            return self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         else:
             print "error"
             return False
@@ -792,7 +756,6 @@ class DatosCompartidos(QtCore.QThread):
             print "[DIND][CICLADO] no puedo setear celda activa"
         else:
             self.xSetActive(num, self.Modos.ciclando)
-            #def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
             if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
                 print "[DIND][CICLADO] actualizadas condiciones de guardado"
             else:
