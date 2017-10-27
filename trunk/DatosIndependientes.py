@@ -48,13 +48,25 @@ class DatosCompartidos(QtCore.QThread):
     def __init__(self, dequeSettings, dequePLOT, parent = None):
         print "[DCOMP] initing"
         self.a = DatosCelda("a")
+        self.a.CambiaModo(self.Modos.inactiva)
+        print " a esta " + str(self.a.Activada())
         self.b = DatosCelda("b") #2
+        self.b.CambiaModo(self.Modos.inactiva)
+        print " b esta " + str(self.b.Activada())
         self.c = DatosCelda("c") #3
+        self.c.CambiaModo(self.Modos.inactiva)
+        print " c esta " + str(self.c.Activada())
         self.d = DatosCelda("d") #4
+        self.d.CambiaModo(self.Modos.inactiva)
+        print " d esta " + str(self.d.Activada())
         self.e = DatosCelda("e") #5
+        self.e.CambiaModo(self.Modos.inactiva)
         self.f = DatosCelda("f") #6
+        self.f.CambiaModo(self.Modos.inactiva)
         self.g = DatosCelda("g") #7
+        self.g.CambiaModo(self.Modos.inactiva)
         self.h = DatosCelda("h") #8
+        self.h.CambiaModo(self.Modos.inactiva)
         self.i = DatosCelda("i") #9
         self.j = DatosCelda("j") #10
         self.k = DatosCelda("k") #11
@@ -73,7 +85,6 @@ class DatosCompartidos(QtCore.QThread):
         self.dequePLOT = dequePLOT  #hacia UI??
         self.dequeOUT = deque(maxlen=16000) #seteos de celdas a puerto
         self.dequeIN = deque(maxlen=16000) #desde puerto crudo
-
         """"""
         #print "arranco thread de lectura desde DatosIndependientes"
         self.PoolThread.append(ProcesoPuerto.LECTURA(self.dequePLOT, self.dequeOUT, self.dequeIN))
@@ -120,11 +131,14 @@ class DatosCompartidos(QtCore.QThread):
         if num is "a" or 1:
             return self.a.Activada()
         elif num is "b" or 2:
-            return self.b.Activada()
+            return False
+            #return self.b.Activada()
         elif num is "c" or 3:
-            return self.c.Activada()
+            return False
+            #return self.c.Activada()
         elif num is "d" or 4:
-            return self.d.Activada()
+            return False
+            #return self.d.Activada()
         elif num is "e" or 5:
             return self.e.Activada()
         elif num is "f" or 6:

@@ -8,7 +8,7 @@ class DatosCelda:
 
     encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
 
-    def __init__(self, nomb, activ=0,
+    def __init__(self, nomb, activ=False,
                  prom=0.0, barr=0, barrM=0, vli=0,
                  vls=0, corr=0, tmb=0,
                  milivoltios=0, microAmperes=0, ingresos=0,
@@ -19,8 +19,7 @@ class DatosCelda:
         self.nombre = nomb
         self.promediado = prom
         # activa puede sacarse a cambio de leer un modo distinto a cero
-        self.activa = deque(maxlen=1)
-        self.activa.append(str(activ))
+        self.activa = activ
         self.modo = self.Modos.inactiva
 
         # atributos para procesos de extremo
@@ -51,7 +50,6 @@ class DatosCelda:
        val=1: Tengo q enviar (ui a port)
        val=2: Ya envie Port a UI
     """
-
     def NecesitoEnviar(self, val):
         if val is 0:
             if self.porenviar is 0:
@@ -214,29 +212,20 @@ class DatosCelda:
 
     def Activada(self):
         print "[DCELD|" + str(self.nombre) + "] list " + str(self.activa) + " id self " + str(id(self))
-        if int(self.activa[0]) is 1:
-            return True
-        else:
-            return False
+        return self.activa
 
     def CambiaModo(self, modo):
-        print "[DCELD] modo " + str(modo) + " comp a inactiva " + str(self.Modos.inactiva)
+        print "[DCELD|"+str(self.nombre)+"] activ? " + str(self.activa)
         if modo is self.Modos.inactiva:
-            self.activa.pop()
-            self.activa.append(str(1))
+            self.activa = False
             self.modo = self.Modos.inactiva
             return True
         elif modo is self.Modos.ciclando:
-            print "activa list " + str(self.activa)
-            aux = int(self.activa.pop())
-            aux += 1
-            self.activa.append(str(aux))
-            print "activa list " + str(self.activa)
+            self.activa = True
             self.modo = self.Modos.ciclando
             return True
         elif modo is self.Modos.voc:
-            self.activa.pop()
-            self.activa.append(str(1))
+            self.activa = True
             self.modo = self.Modos.voc
             return True
         else:
