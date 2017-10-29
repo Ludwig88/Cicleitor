@@ -47,9 +47,6 @@ class DatosCompartidos(QtCore.QThread):
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
         print "[DCOMP] initing"
-        self.a = DatosCelda("a")
-        self.a.CambiaModo(self.Modos.inactiva)
-        print " a esta " + str(self.a.Activada())
         self.b = DatosCelda("b") #2
         self.b.CambiaModo(self.Modos.inactiva)
         print " b esta " + str(self.b.Activada())
@@ -67,6 +64,9 @@ class DatosCompartidos(QtCore.QThread):
         self.g.CambiaModo(self.Modos.inactiva)
         self.h = DatosCelda("h") #8
         self.h.CambiaModo(self.Modos.inactiva)
+        self.a = DatosCelda("a")
+        self.a.CambiaModo(self.Modos.inactiva)
+        print " a esta " + str(self.a.Activada())
         self.i = DatosCelda("i") #9
         self.j = DatosCelda("j") #10
         self.k = DatosCelda("k") #11
@@ -94,11 +94,9 @@ class DatosCompartidos(QtCore.QThread):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
 
     def run(self):
-        #inicia thread de LECTURA
         self.PoolThread[len(self.PoolThread) - 1].start()
         while (True):
             time.sleep(0.001)
-            #print "[DIND] deque IN "+str(self.dequeIN)
             if int(len(self.dequeSettings))>= 1:
                 try:
                     self.mutex.lock()
@@ -111,9 +109,11 @@ class DatosCompartidos(QtCore.QThread):
                     if self.xIsActive(Celda):
                         print "[DIND|"+str(Celda)+"]activada"
                     else:
-                        self.xSetActive(Celda,self.Modos.ciclando)
+                        if mensaje is "SETC":
+                            self.xSetActive(Celda,self.Modos.ciclando)
+                        elif mensaje is "SETV":
+                            self.xSetActive(Celda,self.Modos.ciclando)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
-            #time.sleep(0.001)
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
@@ -123,22 +123,21 @@ class DatosCompartidos(QtCore.QThread):
                     mensaje = None
                     #print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
-                    if False: #(self.xIsActive(celda)):
+                    if self.xIsActive(celda):
+                        print "."
                         self.xActualizoCampo(celda, Tension, Corriente, Tiempo )
                 # verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
 
     def xIsActive(self, num):
+        print "[DIND|xIsActive] num: "+str(num)
         if num is "a" or 1:
             return self.a.Activada()
         elif num is "b" or 2:
-            return False
-            #return self.b.Activada()
+            return self.b.Activada()
         elif num is "c" or 3:
-            return False
-            #return self.c.Activada()
+            return self.c.Activada()
         elif num is "d" or 4:
-            return False
-            #return self.d.Activada()
+            return self.d.Activada()
         elif num is "e" or 5:
             return self.e.Activada()
         elif num is "f" or 6:
@@ -464,25 +463,25 @@ class DatosCompartidos(QtCore.QThread):
         # self.PoolThread[len(self.PoolThread)-1].start()
         # time.sleep(0.5)
 
-    def xIniciaCiclado(self, num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD):
-        if self.xIsActive(num):
-            print "[DIND][CICLADO] no puedo setear celda activa"
-        else:
-            self.xSetActive(num, self.Modos.ciclando)
-            if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
-                print "[DIND][CICLADO] actualizadas condiciones de guardado"
-            else:
-                print "[DIND][CICLADO] no pudo actualizar condiciones de guardado"
+    # def xIniciaCiclado(self, num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD):
+    #     if self.xIsActive(num):
+    #         print "[DIND][CICLADO] no puedo setear celda activa"
+    #     else:
+    #         self.xSetActive(num, self.Modos.ciclando)
+    #         if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
+    #             print "[DIND][CICLADO] actualizadas condiciones de guardado"
+    #         else:
+    #             print "[DIND][CICLADO] no pudo actualizar condiciones de guardado"
 
-    def xIniciaVoc(self, num, Promedio, T_Max):
-        if self.xIsActive(num):
-            print "[DIND|VOC] no puedo setear celda activa"
-        else:
-            self.xSetActive(num, self.Modos.voc)
-            if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
-                print "[DIND|VOC] actualizadas condiciones de guardado"
-            else:
-                print "[DIND|VOC] no pudo actualizar condiciones de guardado"
+    # def xIniciaVoc(self, num, Promedio, T_Max):
+    #     if self.xIsActive(num):
+    #         print "[DIND|VOC] no puedo setear celda activa"
+    #     else:
+    #         self.xSetActive(num, self.Modos.voc)
+    #         if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
+    #             print "[DIND|VOC] actualizadas condiciones de guardado"
+    #         else:
+    #             print "[DIND|VOC] no pudo actualizar condiciones de guardado"
 
     def xPararCelda(self, num):
         if num is "a" or 1:

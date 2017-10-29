@@ -211,11 +211,11 @@ class DatosCelda:
             print "[DCELD] esta en modo de barrido de Voltaje a circuito abierto"
 
     def Activada(self):
-        print "[DCELD|" + str(self.nombre) + "] list " + str(self.activa) + " id self " + str(id(self))
+        print "[DCELD|" + str(self.nombre) + "] ID ? " + str(id(self))
         return self.activa
 
     def CambiaModo(self, modo):
-        print "[DCELD|"+str(self.nombre)+"] activ? " + str(self.activa)
+        #print "[DCELD|"+str(self.nombre)+"] ID ? " + str(id(self))
         if modo is self.Modos.inactiva:
             self.activa = False
             self.modo = self.Modos.inactiva
