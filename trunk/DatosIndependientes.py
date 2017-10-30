@@ -47,26 +47,14 @@ class DatosCompartidos(QtCore.QThread):
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
         print "[DCOMP] initing"
-        self.b = DatosCelda("b") #2
-        self.b.CambiaModo(self.Modos.inactiva)
-        print " b esta " + str(self.b.Activada())
-        self.c = DatosCelda("c") #3
-        self.c.CambiaModo(self.Modos.inactiva)
-        print " c esta " + str(self.c.Activada())
-        self.d = DatosCelda("d") #4
-        self.d.CambiaModo(self.Modos.inactiva)
-        print " d esta " + str(self.d.Activada())
-        self.e = DatosCelda("e") #5
-        self.e.CambiaModo(self.Modos.inactiva)
-        self.f = DatosCelda("f") #6
-        self.f.CambiaModo(self.Modos.inactiva)
-        self.g = DatosCelda("g") #7
-        self.g.CambiaModo(self.Modos.inactiva)
-        self.h = DatosCelda("h") #8
-        self.h.CambiaModo(self.Modos.inactiva)
         self.a = DatosCelda("a")
-        self.a.CambiaModo(self.Modos.inactiva)
-        print " a esta " + str(self.a.Activada())
+        self.b = DatosCelda("b") #2
+        self.c = DatosCelda("c") #3
+        self.d = DatosCelda("d") #4
+        self.e = DatosCelda("e") #5
+        self.f = DatosCelda("f") #6
+        self.g = DatosCelda("g") #7
+        self.h = DatosCelda("h") #8
         self.i = DatosCelda("i") #9
         self.j = DatosCelda("j") #10
         self.k = DatosCelda("k") #11
@@ -104,14 +92,14 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = None
-                if mensaje is "SETC" or mensaje is "SETV":
+                if mensaje == "SETC" or mensaje == "SETV":
                     print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
                     if self.xIsActive(Celda):
                         print "[DIND|"+str(Celda)+"]activada"
                     else:
-                        if mensaje is "SETC":
+                        if mensaje == "SETC":
                             self.xSetActive(Celda,self.Modos.ciclando)
-                        elif mensaje is "SETV":
+                        elif mensaje == "SETV":
                             self.xSetActive(Celda,self.Modos.ciclando)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
             if int(len(self.dequeIN)) >= 1:
@@ -121,139 +109,121 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = None
-                    #print "[DIND] error extrayendo datos"
+                    print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
                     if self.xIsActive(celda):
-                        print "."
-                        self.xActualizoCampo(celda, Tension, Corriente, Tiempo )
+                        self.xActualizoCampo(celda, Tension, Corriente, Tiempo)
                 # verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
 
     def xIsActive(self, num):
-        print "[DIND|xIsActive] num: "+str(num)
-        if num is "a" or 1:
+        if num == "a" or num == 1:
             return self.a.Activada()
-        elif num is "b" or 2:
+        elif num == "b" or num == 2:
             return self.b.Activada()
-        elif num is "c" or 3:
+        elif num == "c" or num == 3:
             return self.c.Activada()
-        elif num is "d" or 4:
+        elif num == "d" or num == 4:
             return self.d.Activada()
-        elif num is "e" or 5:
+        elif num == "e" or num == 5:
             return self.e.Activada()
-        elif num is "f" or 6:
+        elif num == "f" or num == 6:
             return self.f.Activada()
-        elif num is "g" or 7:
+        elif num=="g" or num == 7:
             return self.g.Activada()
-        elif num is "h" or 8:
+        elif num=="h" or num == 8:
             return self.h.Activada()
-        elif num is "i" or 9:
+        elif num=="i" or num == 9:
             return self.i.Activada()
-        elif num is "j" or 10:
+        elif num=="j" or num == 10:
             return self.j.Activada()
-        elif num is "k" or 11:
+        elif num=="k" or num == 11:
             return self.k.Activada()
-        elif num is "l" or 12:
+        elif num=="l" or num == 12:
             return self.l.Activada()
-        elif num is "m" or 13:
+        elif num=="m" or num == 13:
             return self.m.Activada()
-        elif num is "n" or 14:
+        elif num=="n" or num == 14:
             return self.n.Activada()
-        elif num is "o" or 15:
+        elif num == "o" or num == 15:
             return self.o.Activada()
-        elif num is "p" or 16:
+        elif num == "p" or num == 16:
             return self.p.Activada()
         else:
-            print "datos independientes - Atrib error"
+            print "[DIND|xIsActive]- Atrib error"
             return False
 
     def xSetActive(self, num, modo):
-        if num is "a" or 1:
-            self.a.CambiaModo(modo)
-            return True
-        elif num is "b" or 2:
-            self.b.CambiaModo(modo)
-            return True
-        elif num is "c" or 3:
-            self.c.CambiaModo(modo)
-            return True
-        elif num is "d" or 4:
-            self.d.CambiaModo(modo)
-            return True
-        elif num is "e" or 5:
-            self.e.CambiaModo(modo)
-            return True
-        elif num is "f" or 6:
-            self.f.CambiaModo(modo)
-            return True
-        elif num is "g" or 7:
-            self.g.CambiaModo(modo)
-            return True
-        elif num is "h" or 8:
-            self.h.CambiaModo(modo)
-            return True
-        elif num is "i" or 9:
-            self.i.CambiaModo(modo)
-            return True
-        elif num is "j" or 10:
-            self.j.CambiaModo(modo)
-            return True
-        elif num is "k" or 11:
-            self.k.CambiaModo(modo)
-            return True
-        elif num is "l" or 12:
-            self.l.CambiaModo(modo)
-            return True
-        elif num is "m" or 13:
-            self.m.CambiaModo(modo)
-            return True
-        elif num is "n" or 14:
-            self.n.CambiaModo(modo)
-            return True
-        elif num is "o" or 15:
-            self.o.CambiaModo(modo)
-            return True
-        elif num is "p" or 16:
-            self.p.CambiaModo(modo)
-            return True
+        if num in (1, "a"):
+            return self.a.CambiaModo(modo)
+        elif num == "b" or num == 2:
+            return self.b.CambiaModo(modo)
+        elif num == "c" or num == 3:
+            return self.c.CambiaModo(modo)
+        elif num == "d" or num == 4:
+            return self.d.CambiaModo(modo)
+        elif num == "e" or num ==  5:
+            return self.e.CambiaModo(modo)
+        elif num == "f" or num == 6:
+            return self.f.CambiaModo(modo)
+        elif num == "g" or num == 7:
+            return self.g.CambiaModo(modo)
+        elif num == "h" or num == 8:
+            return self.h.CambiaModo(modo)
+        elif num == "i" or num == 9:
+            return self.i.CambiaModo(modo)
+        elif num == "j" or num == 10:
+            return self.j.CambiaModo(modo)
+        elif num == "k" or num == 11:
+            return self.k.CambiaModo(modo)
+        elif num == "l" or num == 12:
+            return self.l.CambiaModo(modo)
+        elif num == "m" or num == 13:
+            return self.m.CambiaModo(modo)
+        elif num == "n" or num == 14:
+            return self.n.CambiaModo(modo)
+        elif num == "o" or num == 15:
+            return self.o.CambiaModo(modo)
+        elif num == "p" or num == 16:
+            return self.p.CambiaModo(modo)
         else:
-            print "[DIND] datos independientes - Atrib error"
+            print "[DIND|xSetActive]- Atrib error"
             return False
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
-        if num is "a" or 1:
+        if num == "a" or num == 1:
             return self.a.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "b" or 2:
+        elif num == "b" or num == 2:
             return self.b.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "c" or 3:
+        elif num == "c" or num == 3:
             return self.c.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "d" or 4:
+        elif num == "d" or num == 4:
             return self.d.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "e" or 5:
+        elif num == "e" or num == 5:
             return self.e.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "f" or 6:
+        elif num == "f" or num == 6:
             return self.f.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "g" or 7:
+        elif num == "g" or num == 7:
             return self.g.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "h" or 8:
+        elif num == "h" or num == 8:
             return self.h.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "i" or 9:
+        elif num == "i" or num == 9:
             return self.i.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "j" or 10:
+        elif num == "j" or num == 10:
             return self.j.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "k" or 11:
+        elif num == "k" or num == 11:
             return self.k.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "l" or 12:
+        elif num == "l" or num == 12:
             return self.l.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "m" or 13:
+        elif num == "m" or num == 13:
             return self.m.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "n" or 14:
+        elif num == "n" or num == 14:
             return self.n.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "o" or 15:
+        elif num == "o" or num == 15:
             return self.o.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
-        elif num is "p" or 16:
+        elif num == "p" or num == 16:
             return self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         else:
-            print "error"
+            print "[DIND|xCondGuard] Attr Error"
             return False
 
     def enColaPorEnviar(self):
@@ -263,11 +233,11 @@ class DatosCompartidos(QtCore.QThread):
         print "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar())
         print "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val)
 
-        if num is "a" or 1:
-            if (self.a.NecesitoEnviar(val)) is True:
-                if val is 1:
+        if num == "a" or num ==1:
+            if (self.a.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     print "[DIND][xEnvPS] popeo"
                     self.celdasAenviar.pop(0)
                 print "[DIND][xEnvPS] por enviar corriente"
@@ -276,11 +246,11 @@ class DatosCompartidos(QtCore.QThread):
                 print "[DIND][xEnvPS] no se pudo enviar corriente"
                 return False
 
-        elif num is "b" or 2:
-            if (self.b.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "b" or num == 2:
+            if (self.b.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                 print "DInd - por enviar corriente"
                 return True
@@ -288,11 +258,11 @@ class DatosCompartidos(QtCore.QThread):
                 print "DInd - no se pudo enviar corriente"
                 return False
 
-        elif num is "c" or 3:
-            if (self.c.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "c" or num == 3:
+            if (self.c.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                 print "DInd - por enviar corriente"
                 return True
@@ -300,11 +270,11 @@ class DatosCompartidos(QtCore.QThread):
                 print "DInd - no se pudo enviar corriente"
                 return False
 
-        elif num is "d" or 4:
-            if (self.d.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "d" or num == 4:
+            if (self.d.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -312,11 +282,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "e" or 5:
-            if (self.e.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "e" or num == 5:
+            if (self.e.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -324,11 +294,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "f" or 6:
-            if (self.f.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "f" or num == 6:
+            if (self.f.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -336,11 +306,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "g" or 7:
-            if (self.g.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "g" or num == 7:
+            if (self.g.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -348,11 +318,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "h" or 8:
-            if (self.h.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "h" or num == 8:
+            if (self.h.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -360,11 +330,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "i" or 9:
-            if (self.i.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "i" or num == 9:
+            if (self.i.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -372,11 +342,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "j" or 10:
-            if (self.j.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "j" or num == 10:
+            if (self.j.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -384,11 +354,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "k" or 11:
-            if (self.k.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "k" or num == 11:
+            if (self.k.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -396,11 +366,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "l" or 12:
-            if (self.l.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "l" or num == 12:
+            if (self.l.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -408,11 +378,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "m" or 13:
-            if (self.m.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "m" or num == 13:
+            if (self.m.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -420,11 +390,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "n" or 14:
-            if (self.n.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "n" or num == 14:
+            if (self.n.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -432,11 +402,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "o" or 15:
-            if (self.o.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "o" or num == 15:
+            if (self.o.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -444,11 +414,11 @@ class DatosCompartidos(QtCore.QThread):
                     print "DInd - no se pudo enviar corriente"
                     return False
 
-        elif num is "p" or 16:
-            if (self.p.NecesitoEnviar(val)) is True:
-                if val is 1:
+        elif num == "p" or num == 16:
+            if (self.p.NecesitoEnviar(val)) == True:
+                if val == 1:
                     self.celdasAenviar.extend(str(num))
-                elif val is 2:
+                elif val == 2:
                     self.celdasAenviar.pop(0)
                     print "DInd - por enviar corriente"
                     return True
@@ -458,124 +428,99 @@ class DatosCompartidos(QtCore.QThread):
         else:
             print "datos independientes- EnviarPS - Atrib error"
 
-    def PrimerInicio(self):
-        print "NO arranco el thread del puerto"
-        # self.PoolThread[len(self.PoolThread)-1].start()
-        # time.sleep(0.5)
-
-    # def xIniciaCiclado(self, num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD):
-    #     if self.xIsActive(num):
-    #         print "[DIND][CICLADO] no puedo setear celda activa"
-    #     else:
-    #         self.xSetActive(num, self.Modos.ciclando)
-    #         if (self.xCondicionesDeGuardado(num, ciclos, VLIMS, VLIMI, T_Max, Corr, Promedio, CoD)) is True:
-    #             print "[DIND][CICLADO] actualizadas condiciones de guardado"
-    #         else:
-    #             print "[DIND][CICLADO] no pudo actualizar condiciones de guardado"
-
-    # def xIniciaVoc(self, num, Promedio, T_Max):
-    #     if self.xIsActive(num):
-    #         print "[DIND|VOC] no puedo setear celda activa"
-    #     else:
-    #         self.xSetActive(num, self.Modos.voc)
-    #         if (self.xCondicionesDeGuardado(num, 1, 9999, -9999, T_Max, 0, Promedio, True)) is True:
-    #             print "[DIND|VOC] actualizadas condiciones de guardado"
-    #         else:
-    #             print "[DIND|VOC] no pudo actualizar condiciones de guardado"
-
     def xPararCelda(self, num):
-        if num is "a" or 1:
-            if (self.a.PararCelda()) is True:
+        if num == "a" or 1:
+            if (self.a.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "b" or 2:
-            if (self.b.PararCelda()) is True:
+        elif num == "b" or 2:
+            if (self.b.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "c" or 3:
-            if (self.c.PararCelda()) is True:
+        elif num == "c" or 3:
+            if (self.c.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "d" or 4:
-            if (self.d.PararCelda()) is True:
+        elif num == "d" or 4:
+            if (self.d.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "e" or 5:
-            if (self.e.PararCelda()) is True:
+        elif num == "e" or 5:
+            if (self.e.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "f" or 6:
-            if (self.f.PararCelda()) is True:
+        elif num == "f" or 6:
+            if (self.f.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "g" or 7:
-            if (self.g.PararCelda()) is True:
+        elif num == "g" or 7:
+            if (self.g.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "h" or 8:
-            if (self.h.PararCelda()) is True:
+        elif num == "h" or 8:
+            if (self.h.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "i" or 9:
-            if (self.i.PararCelda()) is True:
+        elif num == "i" or 9:
+            if (self.i.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "j" or 10:
-            if (self.j.PararCelda()) is True:
+        elif num == "j" or 10:
+            if (self.j.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "k" or 11:
-            if (self.k.PararCelda()) is True:
+        elif num == "k" or 11:
+            if (self.k.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "l" or 12:
-            if (self.l.PararCelda()) is True:
+        elif num == "l" or 12:
+            if (self.l.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "m" or 13:
-            if (self.m.PararCelda()) is True:
+        elif num == "m" or 13:
+            if (self.m.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "n" or 14:
-            if (self.n.PararCelda()) is True:
+        elif num == "n" or 14:
+            if (self.n.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "o" or 15:
-            if (self.o.PararCelda()) is True:
+        elif num == "o" or 15:
+            if (self.o.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
 
-        elif num is "p" or 16:
-            if (self.p.PararCelda()) is True:
+        elif num == "p" or 16:
+            if (self.p.PararCelda()) == True:
                 print "DInd - parando celda"
             else:
                 print "DInd - no se pudo parar celda"
@@ -584,7 +529,7 @@ class DatosCompartidos(QtCore.QThread):
 
     """FALTA multiplicar"""
     def xGetCondGuardado(self, num):
-        if num is "a" or 1:
+        if num == "a" or 1:
             corriente = self.a.corrienteSetActual
             ciclos = self.a.barridosMax
             vli = self.a.voltajeLimInferior
@@ -594,112 +539,114 @@ class DatosCompartidos(QtCore.QThread):
         return corriente, ciclos, vli, vls, tmax, prom
 
     def xActualizoCampo(self, num, tension, corriente, tiempo):
-        if num is "a" or 1:
+        if num == "a" or num == 1:
             return self.a.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "b" or 2:
+        elif num == "b" or num == 2:
             return self.b.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "c" or 3:
+        elif num == "c" or num == 3:
             return self.c.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "d" or 4:
+        elif num == "d" or num == 4:
             return self.d.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "e" or 5:
+        elif num == "e" or num == 5:
             return self.e.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "f" or 6:
+        elif num == "f" or num == 6:
             return self.f.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "g" or 7:
+        elif num == "g" or num == 7:
             return self.g.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "h" or 8:
+        elif num == "h" or num == 8:
             return self.h.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "i" or 9:
+        elif num == "i" or num == 9:
             return self.i.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "j" or 10:
+        elif num == "j" or num == 10:
             return self.j.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "k" or 11:
+        elif num == "k" or num == 11:
             return self.k.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "l" or 12:
+        elif num == "l" or num == 12:
             return self.l.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "m" or 13:
+        elif num == "m" or num == 13:
             return self.m.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "n" or 14:
+        elif num == "n" or num == 14:
             return self.n.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "o" or 15:
+        elif num == "o" or num == 15:
             return self.o.ActualizoCampos(tiempo, tension, corriente)
-        elif num is "p" or 16:
+        elif num == "p" or num == 16:
             return self.p.ActualizoCampos(tiempo, tension, corriente)
         else:
-            print "datos independientes - Atrib error"
+            print "[DIND|xActCampo] - Atrib error"
 
+    """
     def xGetBarrYTiempo(self, num):
-        if num is "a" or 1:
+        if num == "a" or 1:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "b" or 2:
+        elif num == "b" or 2:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "c" or 3:
+        elif num == "c" or 3:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "d" or 4:
+        elif num == "d" or 4:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "e" or 5:
+        elif num == "e" or 5:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "f" or 6:
+        elif num == "f" or 6:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "g" or 7:
+        elif num == "g" or 7:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "h" or 8:
+        elif num == "h" or 8:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "i" or 9:
+        elif num == "i" or 9:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "j" or 10:
+        elif num == "j" or 10:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "k" or 11:
+        elif num == "k" or 11:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "l" or 12:
+        elif num == "l" or 12:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "m" or 13:
+        elif num == "m" or 13:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "n" or 14:
+        elif num == "n" or 14:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "o" or 15:
+        elif num == "o" or 15:
             return self.a.barridoActual, self.a.tiempoCicloActual
-        elif num is "p" or 16:
+        elif num == "p" or 16:
             return self.a.barridoActual, self.a.tiempoCicloActual
         else:
-            print "datos independientes - Atrib error"
+            print "[DIND|xGetBarryT- Atrib error"
 
     def xGetValTiempoReal(self, num):
-        if num is "a" or 1:
+        if num == "a" or 1:
             return self.a.barridoActual, self.a.milivoltios, self.a.microAmperes, self.a.tiempoCicloActual
-        elif num is "b" or 2:
+        elif num == "b" or 2:
             return self.b.barridoActual, self.b.milivoltios, self.b.microAmperes, self.b.tiempoCicloActual
-        elif num is "c" or 3:
+        elif num == "c" or 3:
             return self.c.barridoActual, self.c.milivoltios, self.c.microAmperes, self.c.tiempoCicloActual
-        elif num is "d" or 4:
+        elif num == "d" or 4:
             return self.d.barridoActual, self.d.milivoltios, self.d.microAmperes, self.d.tiempoCicloActual
-        elif num is "e" or 5:
+        elif num == "e" or 5:
             return self.e.barridoActual, self.e.milivoltios, self.e.microAmperes, self.e.tiempoCicloActual
-        elif num is "f" or 6:
+        elif num == "f" or 6:
             return self.f.barridoActual, self.f.milivoltios, self.f.microAmperes, self.f.tiempoCicloActual
-        elif num is "g" or 7:
+        elif num == "g" or 7:
             return self.g.barridoActual, self.g.milivoltios, self.g.microAmperes, self.g.tiempoCicloActual
-        elif num is "h" or 8:
+        elif num == "h" or 8:
             return self.h.barridoActual, self.h.milivoltios, self.h.microAmperes, self.h.tiempoCicloActual
-        elif num is "i" or 9:
+        elif num == "i" or 9:
             return self.i.barridoActual, self.i.milivoltios, self.i.microAmperes, self.i.tiempoCicloActual
-        elif num is "j" or 10:
+        elif num == "j" or 10:
             return self.j.barridoActual, self.j.milivoltios, self.j.microAmperes, self.j.tiempoCicloActual
-        elif num is "k" or 11:
+        elif num == "k" or 11:
             return self.k.barridoActual, self.k.milivoltios, self.k.microAmperes, self.k.tiempoCicloActual
-        elif num is "l" or 12:
+        elif num == "l" or 12:
             return self.l.barridoActual, self.l.milivoltios, self.l.microAmperes, self.l.tiempoCicloActual
-        elif num is "m" or 13:
+        elif num == "m" or 13:
             return self.m.barridoActual, self.m.milivoltios, self.m.microAmperes, self.m.tiempoCicloActual
-        elif num is "n" or 14:
+        elif num == "n" or 14:
             return self.n.barridoActual, self.n.milivoltios, self.n.microAmperes, self.n.tiempoCicloActual
-        elif num is "o" or 15:
+        elif num == "o" or 15:
             return self.o.barridoActual, self.o.milivoltios, self.o.microAmperes, self.o.tiempoCicloActual
-        elif num is "p" or 16:
+        elif num == "p" or 16:
             return self.p.barridoActual, self.p.milivoltios, self.p.microAmperes, self.p.tiempoCicloActual
         else:
             print "datos independientes - Atrib error"
+    """
 
     """tengo que devolver"""
     #celda = char

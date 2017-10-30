@@ -28,7 +28,6 @@ class LECTURA(QtCore.QThread):
                                stopbits=port_stopbits,
                                parity=port_parity,
                                timeout=port_timeout)
-        #print "Initing Puerto desde Proceso Puerto"
         self.signal = QtCore.SIGNAL("signal")
         self.CONTENEDORplot = dequePLOT
         self.dequeIN = dequeIN

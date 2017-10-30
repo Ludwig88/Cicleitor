@@ -51,7 +51,7 @@ class DatosCelda:
        val=2: Ya envie Port a UI
     """
     def NecesitoEnviar(self, val):
-        if val is 0:
+        if val == 0:
             if self.porenviar is 0:
                 # no puedo limpiar un flag ya limpio
                 return False
@@ -65,7 +65,7 @@ class DatosCelda:
             else:
                 print "[DCELD][xEnvPS] 1 Necesito Enviar Error"
                 return False
-        elif val is 1:
+        elif val == 1:
             if self.porenviar is 0:
                 self.porenviar = 1
                 return True
@@ -79,7 +79,7 @@ class DatosCelda:
             else:
                 print "[DCELD][xEnvPS] 2 2 Necesito Enviar Error"
                 return False
-        elif val is 2:
+        elif val == 2:
             if self.porenviar is 0:
                 # si nadie me levanto el flag no puedo limpiar
                 print "[DCELD][xEnvPS] 3 Necesito Enviar Error"
@@ -98,19 +98,18 @@ class DatosCelda:
             return False
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
-        if self.ingresos is 1:
+        if self.ingresos == 1:
             """primer ingreso"""
-            print "[DCELD] primer ingreso " + str(self.ingresos)
-            self.ingresos = self.ingresos + 1
-            print "[DCELD] sumo ingreso " + str(self.ingresos)
+            self.ingresos = 2
+            print "[DCELD] primer ingreso = "+str(self.ingresos)
             self.tiempoInicioCiclo = tiempo
-            self.ingresos = self.barridoActual = 1
+            self.barridoActual = 1
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.GuardaCsv()
             ############################################################Inicio Promediado
             return True
-        elif self.modo is self.Modos.ciclando:
+        elif self.modo == self.Modos.ciclando:
             """Ciclando"""
             print "[DCELD] ciclando"
             self.ingresos = +1
@@ -126,7 +125,7 @@ class DatosCelda:
                 return True
             else:
                 return False
-        elif self.modo is self.Modos.voc:
+        elif self.modo == self.Modos.voc:
             print "[DCELD] VOC"
             self.ingresos = +1
             self.microAmperes = corriente
@@ -144,14 +143,17 @@ class DatosCelda:
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         BadArgument = 0
         self.ingresos = 1
+        print "[CELD] ingresos " + str(self.ingresos)
         if barridos > 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
         else:
+            print "[CELD] Bad Arg"
             BadArgument = 1
         self.CargaDescarga = ComienzaEnCarga
         if 0 < Promedio > 100:
             self.promediado = Promedio
         else:
+            print "[CELD] Bad Arg"
             BadArgument = 1
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
@@ -159,13 +161,12 @@ class DatosCelda:
         if -999999 < Corr > 999999:
             self.corrienteSetActual = Corr
         else:
+            print "[CELD] Bad Arg"
             BadArgument = 1
         print "[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(barridos) + ", VLS=" + str(VLS) + ", " \
-                                                                                                             "VLI=" + str(
-            VLI) + ", TMAX=" + str(TMAX) + ", Corr=" + str(Corr) + ", " \
-                                                                   "Promedio=" + str(
-            Promedio) + ", ComienzaEnCarga=" + str(ComienzaEnCarga) + ""
+              "VLI=" + str(VLI) + ", TMAX=" + str(TMAX) + ", Corr=" + str(Corr) + ", Promedio=" + str(Promedio) + ", ComienzaEnCarga=" + str(ComienzaEnCarga)
         if BadArgument is not 0:
+            print "[CELD] Bad Arg"
             return False
         else:
             return True
@@ -211,20 +212,18 @@ class DatosCelda:
             print "[DCELD] esta en modo de barrido de Voltaje a circuito abierto"
 
     def Activada(self):
-        print "[DCELD|" + str(self.nombre) + "] ID ? " + str(id(self))
         return self.activa
 
     def CambiaModo(self, modo):
-        #print "[DCELD|"+str(self.nombre)+"] ID ? " + str(id(self))
-        if modo is self.Modos.inactiva:
+        if modo == self.Modos.inactiva:
             self.activa = False
             self.modo = self.Modos.inactiva
             return True
-        elif modo is self.Modos.ciclando:
+        elif modo == self.Modos.ciclando:
             self.activa = True
             self.modo = self.Modos.ciclando
             return True
-        elif modo is self.Modos.voc:
+        elif modo == self.Modos.voc:
             self.activa = True
             self.modo = self.Modos.voc
             return True
@@ -232,7 +231,7 @@ class DatosCelda:
             return False
 
     def PararCelda(self):
-        if self.modo is not self.Modos.inactiva:
+        if self.modo != self.Modos.inactiva:
             self.CambiaModo(self.Modos.inactiva)
             self.CerrarCSV()
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
