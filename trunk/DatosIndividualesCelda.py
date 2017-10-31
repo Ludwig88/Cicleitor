@@ -6,7 +6,7 @@ class DatosCelda:
     class Modos:
         inactiva, ciclando, voc = range(3)
 
-    encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ']
+    encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ', ' TCicloActual[Seg] ', ' Ingresos[n] ']
 
     def __init__(self, nomb, activ=False,
                  prom=0.0, barr=0, barrM=0, vli=0,
@@ -118,13 +118,19 @@ class DatosCelda:
             self.segundos = tiempo
             tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
+            print "[DCELD] tiempo ciclo actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
             if self.SuperaLimite() != 2:
                 ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
                 return True
-            else:
+            elif self.SuperaLimite() == 2:
+                #self.porenviar() mando I=0
+                self.PararCelda()
+                self.CerrarCSV()
                 return False
+            elif self.SuperaLimite() == 1:
+                return True
         elif self.modo == self.Modos.voc:
             print "[DCELD] VOC"
             self.ingresos = +1
@@ -185,6 +191,7 @@ class DatosCelda:
             else:
                 print "[DCELD] invierto corriente"
                 self.barridoActual = + 1
+                self.corrienteSetActual = - self.corrienteSetActual
                 self.CargaDescarga = not self.CargaDescarga
                 self.porenviar = -1
                 return 1
@@ -233,7 +240,6 @@ class DatosCelda:
     def PararCelda(self):
         if self.modo != self.Modos.inactiva:
             self.CambiaModo(self.Modos.inactiva)
-            self.CerrarCSV()
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             return True
         else:
@@ -241,8 +247,8 @@ class DatosCelda:
             return False
 
     def GuardaCsv(self):
-        columna = [self.barridoActual, self.milivoltios, self.segundos]
-        # [Barrido, Tension, Corriente, Tiempo]
+        columna = [self.barridoActual, self.milivoltios, self.microAmperes, self.segundos, self.tiempoCicloActual, self.ingresos]
+        # [Barrido, Tension, Corriente, TiempoTotal, TiempoCiclo, Ingresos]
         fileName = 'Arch_Cn-' + str(self.nombre) + '.csv'
         try:
             open(fileName, 'r')
@@ -258,7 +264,7 @@ class DatosCelda:
                 f.close()
 
     def CerrarCSV(self):
-        columna = [' ----- ', ' ----- ', ' ----- ', ' ----- ']
+        columna = [' ----- ', ' ----- ', ' ----- ',' ----- ', ' ----- ', ' ----- ']
         filename = 'Arch_Cn-' + str(self.nombre) + '.csv'
         try:
             open(filename, 'r')

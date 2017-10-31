@@ -112,8 +112,12 @@ class DatosCompartidos(QtCore.QThread):
                     print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
-                        self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
-                        #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
+                        if self.xActualizoCampo(Celda, Tension, Corriente, Tiempo) != True:
+                            #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
+                            Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
+                            self.mutex.lock()
+                            self.dequeOUT.append(["INV", Celda, None, Corriente, None])
+                            self.mutex.unlock()
 
     def xIsActive(self, num):
         if num == "a" or num == 1:
@@ -529,14 +533,134 @@ class DatosCompartidos(QtCore.QThread):
 
     """FALTA multiplicar"""
     def xGetCondGuardado(self, num):
-        if num == "a" or 1:
+        if num == "a" or num == 1:
             corriente = self.a.corrienteSetActual
             ciclos = self.a.barridosMax
             vli = self.a.voltajeLimInferior
             vls = self.a.voltajeLimSuperior
             tmax = self.a.tiempoMaxBarrido
             prom = self.a.promediado
-        return corriente, ciclos, vli, vls, tmax, prom
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "b" or num == 2:
+            corriente = self.b.corrienteSetActual
+            ciclos = self.b.barridosMax
+            vli = self.b.voltajeLimInferior
+            vls = self.b.voltajeLimSuperior
+            tmax = self.b.tiempoMaxBarrido
+            prom = self.b.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "c" or num == 3:
+            corriente = self.c.corrienteSetActual
+            ciclos = self.c.barridosMax
+            vli = self.c.voltajeLimInferior
+            vls = self.c.voltajeLimSuperior
+            tmax = self.c.tiempoMaxBarrido
+            prom = self.c.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "d" or num == 4:
+            corriente = self.d.corrienteSetActual
+            ciclos = self.d.barridosMax
+            vli = self.d.voltajeLimInferior
+            vls = self.d.voltajeLimSuperior
+            tmax = self.d.tiempoMaxBarrido
+            prom = self.d.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "e" or num == 5:
+            corriente = self.e.corrienteSetActual
+            ciclos = self.e.barridosMax
+            vli = self.e.voltajeLimInferior
+            vls = self.e.voltajeLimSuperior
+            tmax = self.e.tiempoMaxBarrido
+            prom = self.e.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "f" or num == 6:
+            corriente = self.f.corrienteSetActual
+            ciclos = self.f.barridosMax
+            vli = self.f.voltajeLimInferior
+            vls = self.f.voltajeLimSuperior
+            tmax = self.f.tiempoMaxBarrido
+            prom = self.f.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "g" or num == 7:
+            corriente = self.g.corrienteSetActual
+            ciclos = self.g.barridosMax
+            vli = self.g.voltajeLimInferior
+            vls = self.g.voltajeLimSuperior
+            tmax = self.g.tiempoMaxBarrido
+            prom = self.g.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "h" or num == 8:
+            corriente = self.h.corrienteSetActual
+            ciclos = self.h.barridosMax
+            vli = self.h.voltajeLimInferior
+            vls = self.h.voltajeLimSuperior
+            tmax = self.h.tiempoMaxBarrido
+            prom = self.h.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "i" or num == 9:
+            corriente = self.i.corrienteSetActual
+            ciclos = self.i.barridosMax
+            vli = self.i.voltajeLimInferior
+            vls = self.i.voltajeLimSuperior
+            tmax = self.i.tiempoMaxBarrido
+            prom = self.i.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "j" or num == 10:
+            corriente = self.j.corrienteSetActual
+            ciclos = self.j.barridosMax
+            vli = self.j.voltajeLimInferior
+            vls = self.j.voltajeLimSuperior
+            tmax = self.j.tiempoMaxBarrido
+            prom = self.j.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "k" or num == 11:
+            corriente = self.k.corrienteSetActual
+            ciclos = self.k.barridosMax
+            vli = self.k.voltajeLimInferior
+            vls = self.k.voltajeLimSuperior
+            tmax = self.k.tiempoMaxBarrido
+            prom = self.k.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "l" or num == 12:
+            corriente = self.l.corrienteSetActual
+            ciclos = self.l.barridosMax
+            vli = self.l.voltajeLimInferior
+            vls = self.l.voltajeLimSuperior
+            tmax = self.l.tiempoMaxBarrido
+            prom = self.l.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "m" or num == 13:
+            corriente = self.m.corrienteSetActual
+            ciclos = self.m.barridosMax
+            vli = self.m.voltajeLimInferior
+            vls = self.m.voltajeLimSuperior
+            tmax = self.m.tiempoMaxBarrido
+            prom = self.m.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "n" or num == 14:
+            corriente = self.n.corrienteSetActual
+            ciclos = self.n.barridosMax
+            vli = self.n.voltajeLimInferior
+            vls = self.n.voltajeLimSuperior
+            tmax = self.n.tiempoMaxBarrido
+            prom = self.n.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "o" or num == 15:
+            corriente = self.o.corrienteSetActual
+            ciclos = self.o.barridosMax
+            vli = self.o.voltajeLimInferior
+            vls = self.o.voltajeLimSuperior
+            tmax = self.o.tiempoMaxBarrido
+            prom = self.o.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
+        if num == "p" or num == 16:
+            corriente = self.p.corrienteSetActual
+            ciclos = self.p.barridosMax
+            vli = self.p.voltajeLimInferior
+            vls = self.p.voltajeLimSuperior
+            tmax = self.p.tiempoMaxBarrido
+            prom = self.p.promediado
+            return corriente, ciclos, vli, vls, tmax, prom
 
     def xActualizoCampo(self, num, tension, corriente, tiempo):
         if num == "a" or num == 1:
