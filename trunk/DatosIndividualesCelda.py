@@ -14,7 +14,7 @@ class DatosCelda:
                  milivoltios=0, microAmperes=0, ingresos=0,
                  segundos=0):
 
-        print "[DCELD] initing " + str(nomb) + " id " + str(id(self))
+        #print "[DCELD] initing " + str(nomb) + " id " + str(id(self))
         # atributos de 1 sola vez
         self.nombre = nomb
         self.promediado = prom
@@ -52,13 +52,13 @@ class DatosCelda:
     """
     def NecesitoEnviar(self, val):
         if val == 0:
-            if self.porenviar is 0:
+            if self.porenviar == 0:
                 # no puedo limpiar un flag ya limpio
                 return False
-            elif self.porenviar is 1:
+            elif self.porenviar == 1:
                 self.porenviar = 0
                 return True
-            elif self.porenviar is 2:
+            elif self.porenviar == 2:
                 # Puede limpiar su propia flag??
                 self.porenviar = 0
                 return True
@@ -66,13 +66,13 @@ class DatosCelda:
                 print "[DCELD][xEnvPS] 1 Necesito Enviar Error"
                 return False
         elif val == 1:
-            if self.porenviar is 0:
+            if self.porenviar == 0:
                 self.porenviar = 1
                 return True
-            elif self.porenviar is 1:
+            elif self.porenviar == 1:
                 print "[DCELD][xEnvPS] 2 Necesito Enviar Error"
                 return False
-            elif self.porenviar is 2:
+            elif self.porenviar == 2:
                 self.porenviar = 1
                 # puerto ya envio y levanto nuevamente
                 return True
@@ -80,14 +80,14 @@ class DatosCelda:
                 print "[DCELD][xEnvPS] 2 2 Necesito Enviar Error"
                 return False
         elif val == 2:
-            if self.porenviar is 0:
+            if self.porenviar == 0:
                 # si nadie me levanto el flag no puedo limpiar
                 print "[DCELD][xEnvPS] 3 Necesito Enviar Error"
                 return False
-            elif self.porenviar is 1:
+            elif self.porenviar == 1:
                 self.porenviar = 2
                 return True
-            elif self.porenviar is 2:
+            elif self.porenviar == 2:
                 # ya hice ack
                 return False
             else:
@@ -101,7 +101,7 @@ class DatosCelda:
         if self.ingresos == 1:
             """primer ingreso"""
             self.ingresos = 2
-            print "[DCELD] primer ingreso = "+str(self.ingresos)
+            print "[DCELD|"+str(self.nombre)+"] primer ingreso = "+str(self.ingresos)
             self.tiempoInicioCiclo = tiempo
             self.barridoActual = 1
             self.microAmperes = corriente
@@ -111,14 +111,14 @@ class DatosCelda:
             return True
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
-            print "[DCELD] ciclando"
-            self.ingresos = +1
+            self.ingresos = self.ingresos + 1
+            print "[DCELD] ciclando - ingresos: "+str(self.ingresos)
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
             tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
-            if self.SuperaLimite() is not 2:
+            if self.SuperaLimite() != 2:
                 ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
@@ -132,7 +132,7 @@ class DatosCelda:
             self.milivoltios = voltios
             self.segundos = tiempo
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
-            if self.SuperaLimite() is not 2:
+            if self.SuperaLimite() != 2:
                 ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
@@ -147,26 +147,26 @@ class DatosCelda:
         if barridos > 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
         else:
-            print "[CELD] Bad Arg"
+            print "[CELD] Bad Arg: Barridos"
             BadArgument = 1
         self.CargaDescarga = ComienzaEnCarga
-        if 0 < Promedio > 100:
+        if 0 <= Promedio >= 100:
             self.promediado = Promedio
         else:
-            print "[CELD] Bad Arg"
+            print "[CELD] Bad Arg: Promedio"
             BadArgument = 1
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
         self.tiempoMaxBarrido = TMAX
-        if -999999 < Corr > 999999:
+        if -999999 <= Corr >= 999999:
             self.corrienteSetActual = Corr
         else:
-            print "[CELD] Bad Arg"
+            print "[CELD] Bad Arg: Corriente"
             BadArgument = 1
         print "[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(barridos) + ", VLS=" + str(VLS) + ", " \
               "VLI=" + str(VLI) + ", TMAX=" + str(TMAX) + ", Corr=" + str(Corr) + ", Promedio=" + str(Promedio) + ", ComienzaEnCarga=" + str(ComienzaEnCarga)
-        if BadArgument is not 0:
-            print "[CELD] Bad Arg"
+        if BadArgument != 0:
+            print "[CELD] Some Bad Arg return False"
             return False
         else:
             return True
@@ -200,7 +200,7 @@ class DatosCelda:
         self.tiempoMaxBarrido = 0
 
     def IniciaVoc(self, prom, tmax):
-        if self.modo is not self.Modos.voc:
+        if self.modo != self.Modos.voc:
             self.modo = self.Modos.voc
             self.corrienteSetActual = 0
             self.barridosMax = 1

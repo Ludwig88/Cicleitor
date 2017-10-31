@@ -85,35 +85,35 @@ class DatosCompartidos(QtCore.QThread):
         self.PoolThread[len(self.PoolThread) - 1].start()
         while (True):
             time.sleep(0.001)
-            if int(len(self.dequeSettings))>= 1:
+            if int(len(self.dequeSettings)) >= 1:
                 try:
                     self.mutex.lock()
                     [mensaje, Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga] = self.dequeSettings.pop()
                     self.mutex.unlock()
                 except IndexError:
-                    mensaje = None
+                    mensaje = Celda = Corriente = None
                 if mensaje == "SETC" or mensaje == "SETV":
                     print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
                     if self.xIsActive(Celda):
                         print "[DIND|"+str(Celda)+"]activada"
                     else:
                         if mensaje == "SETC":
-                            self.xSetActive(Celda,self.Modos.ciclando)
+                            self.xSetActive(Celda, self.Modos.ciclando)
                         elif mensaje == "SETV":
-                            self.xSetActive(Celda,self.Modos.ciclando)
+                            self.xSetActive(Celda, self.Modos.ciclando)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
-                    [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
+                    [mensaje, Celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
                     self.mutex.unlock()
                 except IndexError:
-                    mensaje = None
+                    mensaje = Celda = Tension = Corriente = Tiempo = None
                     print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
-                    if self.xIsActive(celda):
-                        self.xActualizoCampo(celda, Tension, Corriente, Tiempo)
-                # verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
+                    if self.xIsActive(Celda):
+                        self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
+                        #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
 
     def xIsActive(self, num):
         if num == "a" or num == 1:
