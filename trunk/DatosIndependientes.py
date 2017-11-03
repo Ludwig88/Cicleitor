@@ -98,6 +98,7 @@ class DatosCompartidos(QtCore.QThread):
                         print "[DIND|"+str(Celda)+"]activada"
                     else:
                         if mensaje == "SETC":
+                            self.xEnviarPS(Celda, 1)
                             self.xSetActive(Celda, self.Modos.ciclando)
                         elif mensaje == "SETV":
                             self.xSetActive(Celda, self.Modos.ciclando)
@@ -112,12 +113,22 @@ class DatosCompartidos(QtCore.QThread):
                     print "[DIND] error extrayendo datos"
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
-                        if self.xActualizoCampo(Celda, Tension, Corriente, Tiempo) != True:
-                            #verifico que pueda setear, en cuanto, o si debo guardar datos para futuro seteo
+                        cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
+                        if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
                             self.mutex.lock()
-                            self.dequeOUT.append(["INV", Celda, None, Corriente, None])
+                            self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
+                        if self.enColaPorEnviar() != 0:
+                            Celda, Corriente = self.xGetPorSetear()
+                            self.mutex.lock()
+                            self.dequeOUT.append(["SETI", Celda, Corriente])
+                            self.mutex.unlock()
+                # if self.AllDisable() == True:
+                #     self.mutex.lock()
+                #     self.dequeOUT.append(["END", None, None])
+                #     self.mutex.unlock()
+
 
     def xIsActive(self, num):
         if num == "a" or num == 1:
@@ -531,7 +542,6 @@ class DatosCompartidos(QtCore.QThread):
         else:
             print "datos independientes - parar celda - Atrib error"
 
-    """FALTA multiplicar"""
     def xGetCondGuardado(self, num):
         if num == "a" or num == 1:
             corriente = self.a.corrienteSetActual
@@ -775,10 +785,10 @@ class DatosCompartidos(QtCore.QThread):
     """tengo que devolver"""
     #celda = char
     #corriente = por setearle
-    def xGetPorSetear(self, num):
+    def xGetPorSetear(self):
         celda = self.celdasAenviar[self.enColaPorEnviar()-1]
-        corriente, a, b, c, d, e = self.xGetCondGuardado(num)
-        print "xget por setear " + str(celda) + "  " + str(corriente)
+        corriente, a, b, c, d, e = self.xGetCondGuardado(celda)
+        print "[DIND] xget por setear " + str(celda) + "  " + str(corriente)
         return celda, corriente
 
     def AllDisable(self):

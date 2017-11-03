@@ -68,22 +68,26 @@ class LECTURA(QtCore.QThread):
                 self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
                 self.mutex.unlock()
             if int(len(self.dequeIN)) > 0:
-                [mensaje, celda, Tension, Corriente, Tiempo] = self.dequeIN.pop()
-                """Hay celdas por setear"""
-                if 112 >= ord(celda) >= 97:
-                    print "[PORT|" + str(celda) + "]  " + str(Corriente)
-                    self.EnviarPS_I(Corriente, False, str(celda))
-                    #podría hacer un append de OK
+                self.mutex.lock()
+                [mensaje, celda, Corriente] = self.dequeIN.pop()
+                print "mensaje y demas " + str([mensaje, celda, Corriente])
+                self.mutex.unlock()
                 """Ninguna activa"""
                 if mensaje is "END":
-                     print "cortando loop de lectura"
+                     print "[PORT] cortando loop de lectura"
                      break
+                """Hay celdas por setear"""
+                if 112 >= ord(celda) >= 97 :
+                    if mensaje == "SETI":
+                        print "[PORT|" + str(celda) + "] SETI arrived with " + str(Corriente)
+                        self.EnviarPS_I(Corriente, celda)
+                        #podría hacer un append de OK
 
         # clean up
         if self.serial_port:
             self.serial_port.close()
 
-    def EnviarPS_I(self, ua, Descarga, celda):
+    def EnviarPS_I(self, ua, celda):
         print "celda a enviar " + str(celda) +" len es: " + str(len(celda))
         self.serial_port.write_timeout = 0.1
         #print "out waiting " + str(self.serial_port.out_waiting)

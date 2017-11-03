@@ -108,7 +108,7 @@ class DatosCelda:
             self.milivoltios = voltios
             self.GuardaCsv()
             ############################################################Inicio Promediado
-            return True
+            return 0
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
             self.ingresos = self.ingresos + 1
@@ -119,18 +119,19 @@ class DatosCelda:
             tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
             print "[DCELD] tiempo ciclo actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
-            if self.SuperaLimite() != 2:
-                ############################################################ENVIO
+            if self.SuperaLimite() == 0:
                 self.GuardaCsv()
                 ############################################################append Promediado
-                return True
+                return 0
             elif self.SuperaLimite() == 2:
                 #self.porenviar() mando I=0
+                # ENVIO I = 0
                 self.PararCelda()
                 self.CerrarCSV()
-                return False
+                return 2
             elif self.SuperaLimite() == 1:
-                return True
+                # ENVIO inversion de I
+                return 1
         elif self.modo == self.Modos.voc:
             print "[DCELD] VOC"
             self.ingresos = +1
@@ -142,9 +143,9 @@ class DatosCelda:
                 ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
-                return True
+                return 0
             else:
-                return False
+                return 2
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         BadArgument = 0
@@ -164,7 +165,7 @@ class DatosCelda:
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
         self.tiempoMaxBarrido = TMAX
-        if -999999 <= Corr >= 999999:
+        if -999999 <= Corr <= 999999:
             self.corrienteSetActual = Corr
         else:
             print "[CELD] Bad Arg: Corriente"
