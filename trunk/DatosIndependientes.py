@@ -68,6 +68,8 @@ class DatosCompartidos(QtCore.QThread):
         self.mutex = QMutex()
         self.daemon = True
 
+        self.signal = QtCore.SIGNAL("realTimeData")
+
         """DEQUES de comunicacion"""
         self.dequeSettings = dequeSettings #desde UI
         self.dequePLOT = dequePLOT  #hacia UI??
@@ -115,6 +117,8 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
+                        #self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(Tiempo))
+                        self.emit(self.signal, str(Tension), str(Corriente), str(Tiempo))
                         print "[DIND] Cambio= "+str(cambio)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)

@@ -75,6 +75,7 @@ class Myform(QtGui.QMainWindow):
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
         self.mutex.unlock()
         self.inicio(Celda)  # Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        self.connect(self.threadPool[len(self.threadPool) - 1], self.threadPool[len(self.threadPool) - 1].signal, self.ActualValores)
         # if answer is True:
         #     print "[UICICL] recibi ACK"
         #     self.ui.labelInfo("Seting OK")
@@ -175,8 +176,9 @@ class Myform(QtGui.QMainWindow):
         self.ui.LinEdTMax.setText('12')
         self.ui.cmbProm.setCurrentIndex(7)
 
-    def ActualValores(self, barrido, Vin, Iin, Tiem):
-        self.ui.SalBarrido.setText(str(barrido))
+    #def ActualValores(self, barrido, Vin, Iin, Tiem):
+    def ActualValores(self, Vin, Iin, Tiem):
+        #self.ui.SalBarrido.setText(str(barrido))
         self.ui.SalVInst.setText(str(Vin))
         self.ui.SalIInst.setText(str(Iin))
         self.ui.SalTiemp.setText(str(Tiem))
