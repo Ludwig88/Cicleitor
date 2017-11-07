@@ -116,25 +116,27 @@ class DatosCelda:
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
-            tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
-            self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
-            print " tiempo ciclo actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
-            if self.SuperaLimite() == 0:
+            #tiempoFinAnteriorBarrido =  + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
+            self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
+            print " tiempo ciclo("+str(self.barridoActual)+") actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
+            limite = self.SuperaLimite()
+            if limite == 0:
                 self.GuardaCsv()
                 ############################################################append Promediado
                 return 0
-            elif self.SuperaLimite() == 2:
+            elif limite == 2:
                 #self.porenviar() mando I=0
                 # ENVIO I = 0
                 self.PararCelda()
                 self.ResetValCiclado()
                 self.CerrarCSV()
                 return 2
-            elif self.SuperaLimite() == 1:
-                self.barridoActual = + 1
+            elif limite == 1:
+                self.barridoActual = self.barridoActual + 1
                 self.corrienteSetActual = - self.corrienteSetActual
                 self.CargaDescarga = not self.CargaDescarga
-                self.tiempoCicloActual = tiempo
+                self.tiempoInicioCiclo = tiempo
+                self.tiempoCicloActual = 0
                 self.GuardaCsv()
                 return 1
         elif self.modo == self.Modos.voc:
@@ -187,8 +189,8 @@ class DatosCelda:
         if (self.milivoltios >= self.voltajeLimSuperior) \
                 or (self.milivoltios <= self.voltajeLimInferior) \
                 or (self.tiempoCicloActual >= self.tiempoMaxBarrido):
-            print "[DCELD] supere algun extremo"
-            if self.barridoActual > self.barridosMax:
+            print "[DCELD|supLim] supere algun extremo"
+            if (self.barridoActual + 1)  > self.barridosMax:
                 print "[DCELD] termine ciclado"
                 return 2
             else:
@@ -239,6 +241,7 @@ class DatosCelda:
     def PararCelda(self):
         if self.modo != self.Modos.inactiva:
             self.CambiaModo(self.Modos.inactiva)
+            self.activa = False
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             return True
         else:
@@ -246,7 +249,8 @@ class DatosCelda:
             return False
 
     def GuardaCsv(self):
-        columna = [self.barridoActual, self.milivoltios, self.microAmperes, self.segundos, self.tiempoCicloActual, self.ingresos]
+        barrido = (self.barridoActual / 2) + (self.barridoActual % 2)
+        columna = [barrido, self.milivoltios, self.microAmperes, self.segundos, self.tiempoCicloActual, self.ingresos]
         # [Barrido, Tension, Corriente, TiempoTotal, TiempoCiclo, Ingresos]
         fileName = 'Arch_Cn-' + str(self.nombre) + '.csv'
         try:

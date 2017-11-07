@@ -127,6 +127,7 @@ class DatosCompartidos(QtCore.QThread):
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
                 if mensaje == "OK!":
+                    print "[DIND] recibo OK!"
                     self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
