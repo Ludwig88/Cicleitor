@@ -112,13 +112,13 @@ class DatosCelda:
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
             self.ingresos = self.ingresos + 1
-            print "[DCELD] ciclando - ingresos: "+str(self.ingresos)
+            print "[DCELD] ciclando - ingresos: "+str(self.ingresos),
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
             tiempoFinAnteriorBarrido = self.tiempoInicioCiclo + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - tiempoFinAnteriorBarrido
-            print "[DCELD] tiempo ciclo actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
+            print " tiempo ciclo actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
             if self.SuperaLimite() == 0:
                 self.GuardaCsv()
                 ############################################################append Promediado
@@ -127,10 +127,15 @@ class DatosCelda:
                 #self.porenviar() mando I=0
                 # ENVIO I = 0
                 self.PararCelda()
+                self.ResetValCiclado()
                 self.CerrarCSV()
                 return 2
             elif self.SuperaLimite() == 1:
-                # ENVIO inversion de I
+                self.barridoActual = + 1
+                self.corrienteSetActual = - self.corrienteSetActual
+                self.CargaDescarga = not self.CargaDescarga
+                self.tiempoCicloActual = tiempo
+                self.GuardaCsv()
                 return 1
         elif self.modo == self.Modos.voc:
             print "[DCELD] VOC"
@@ -170,8 +175,8 @@ class DatosCelda:
         else:
             print "[CELD] Bad Arg: Corriente"
             BadArgument = 1
-        print "[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(barridos) + ", VLS=" + str(VLS) + ", " \
-              "VLI=" + str(VLI) + ", TMAX=" + str(TMAX) + ", Corr=" + str(Corr) + ", Promedio=" + str(Promedio) + ", ComienzaEnCarga=" + str(ComienzaEnCarga)
+        print "[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
+              "VLI=" + str(self.voltajeLimInferior) + ", TMAX=" + str(self.tiempoMaxBarrido) + ", Corr=" + str(self.corrienteSetActual) + ", Promedio=" + str(self.promediado) + ", ComienzaEnCarga=" + str(self.iniciaEnCarga)
         if BadArgument != 0:
             print "[CELD] Some Bad Arg return False"
             return False
@@ -179,22 +184,15 @@ class DatosCelda:
             return True
 
     def SuperaLimite(self):
-        if self.milivoltios >= self.voltajeLimSuperior \
-                or self.milivoltios <= self.voltajeLimInferior \
-                or self.tiempoCicloActual > (self.tiempoInicioCiclo + self.tiempoMaxBarrido):
+        if (self.milivoltios >= self.voltajeLimSuperior) \
+                or (self.milivoltios <= self.voltajeLimInferior) \
+                or (self.tiempoCicloActual >= self.tiempoMaxBarrido):
             print "[DCELD] supere algun extremo"
             if self.barridoActual > self.barridosMax:
                 print "[DCELD] termine ciclado"
-                self.CerrarCSV()
-                self.ResetValCiclado()
-                self.porenviar = 0
                 return 2
             else:
-                print "[DCELD] invierto corriente"
-                self.barridoActual = + 1
-                self.corrienteSetActual = - self.corrienteSetActual
-                self.CargaDescarga = not self.CargaDescarga
-                self.porenviar = -1
+                print "[DCELD] invertir corriente"
                 return 1
         else:
             return 0

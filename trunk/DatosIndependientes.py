@@ -101,7 +101,8 @@ class DatosCompartidos(QtCore.QThread):
                             self.xEnviarPS(Celda, 1)
                             self.xSetActive(Celda, self.Modos.ciclando)
                         elif mensaje == "SETV":
-                            self.xSetActive(Celda, self.Modos.ciclando)
+                            self.xEnviarPS(Celda, 1)
+                            self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
             if int(len(self.dequeIN)) >= 1:
                 try:
@@ -114,6 +115,7 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
+                        print "[DIND] Cambio= "+str(cambio)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
                             self.mutex.lock()
@@ -124,10 +126,12 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
-                # if self.AllDisable() == True:
-                #     self.mutex.lock()
-                #     self.dequeOUT.append(["END", None, None])
-                #     self.mutex.unlock()
+                if mensaje == "OK!":
+                    self.xEnviarPS(Celda, 2)
+                #if self.AllDisable() == True:
+                #    self.mutex.lock()
+                #    self.dequeOUT.append(["END", None, None])
+                #    self.mutex.unlock()
 
 
     def xIsActive(self, num):

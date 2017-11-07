@@ -47,6 +47,7 @@ class LECTURA(QtCore.QThread):
 
         while self.serial_port.is_open:
             time.sleep(0.01)
+            flagSend = False
             try:
                 recepcion = self.RecibirPS() + '#' + str(time.time() - 1500000000)
             except:
@@ -77,18 +78,20 @@ class LECTURA(QtCore.QThread):
                      print "[PORT] cortando loop de lectura"
                      break
                 """Hay celdas por setear"""
-                if 112 >= ord(celda) >= 97 :
+                if 112 >= ord(celda) >= 97:
                     if mensaje == "SETI":
                         print "[PORT|" + str(celda) + "] SETI arrived with " + str(Corriente)
                         self.EnviarPS_I(Corriente, celda)
-                        #podría hacer un append de OK
+                        self.mutex.lock()
+                        self.dequeOUT.append(["OK!", celda, None, Corriente, None])
+                        self.mutex.unlock()
 
         # clean up
         if self.serial_port:
             self.serial_port.close()
 
     def EnviarPS_I(self, ua, celda):
-        print "celda a enviar " + str(celda) +" len es: " + str(len(celda))
+        print "[PORT|send] celda a enviar " + str(celda) +" len es: " + str(len(celda))
         self.serial_port.write_timeout = 0.1
         #print "out waiting " + str(self.serial_port.out_waiting)
         """si uso el time out de escritura meter un try catch"""
@@ -97,11 +100,13 @@ class LECTURA(QtCore.QThread):
             #bytes escritos
             print self.serial_port.write(celda)
             time.sleep(0.25)
-            print "Envio OK"
+            print "[PORT|send] Envio OK"
             self.serial_port.flushOutput()
-        #time.sleep(0.25)
+            print "[PORT|send] "+str(self.serial_port.write(celda))
+            self.serial_port.flushOutput()
+            #time.sleep(0.25)
         except serial.SerialTimeoutException:
-            print "timeOut de envio Serie"
+            print "[PORT|send] timeOut de envio Serie"
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
         # global ser
