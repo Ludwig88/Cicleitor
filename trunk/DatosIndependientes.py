@@ -69,6 +69,7 @@ class DatosCompartidos(QtCore.QThread):
         self.daemon = True
 
         self.signal = QtCore.SIGNAL("realTimeData")
+        self.celdaEnTiempoReal = None
 
         """DEQUES de comunicacion"""
         self.dequeSettings = dequeSettings #desde UI
@@ -106,6 +107,10 @@ class DatosCompartidos(QtCore.QThread):
                             self.xEnviarPS(Celda, 1)
                             self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
+                if mensaje == "VTR":
+                    print "[DIND] Celda en tiempo REAL"
+                    self.celdaEnTiempoReal = Celda
+
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
@@ -117,8 +122,6 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
-                        #self.emit(self.signal, str(Barrido), str(Tension), str(Corriente), str(Tiempo))
-                        self.emit(self.signal, str(Tension), str(Corriente), str(Tiempo))
                         print "[DIND] Cambio= "+str(cambio)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
@@ -130,6 +133,10 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
+                    if Celda == self.celdaEnTiempoReal:
+                        print "[DIND] EMIT val en tiempo REAL"
+                        [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
+                        self.emit(self.signal, str(ciclos), str(Tension), str(Corriente), str(tiempoCAct), str(tiempoTot), str(ingresos))
                 if mensaje == "OK!":
                     print "[DIND] recibo OK!"
                     self.xEnviarPS(Celda, 2)
@@ -550,6 +557,136 @@ class DatosCompartidos(QtCore.QThread):
                 print "DInd - no se pudo parar celda"
         else:
             print "datos independientes - parar celda - Atrib error"
+
+    def xGetCondTiempoReal(self, num):
+        if num == "a" or num == 1:
+            corriente = self.a.microAmperes
+            ciclos = self.a.barridoActual
+            voltios = self.a.milivoltios
+            ingresos = self.a.ingresos
+            tiempoTot = self.a.segundos
+            tiempoCAct = self.a.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "b" or num == 2:
+            corriente = self.b.microAmperes
+            ciclos = self.b.barridoActual
+            voltios = self.b.milivoltios
+            ingresos = self.b.ingresos
+            tiempoTot = self.b.segundos
+            tiempoCAct = self.b.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "c" or num == 3:
+            corriente = self.c.microAmperes
+            ciclos = self.c.barridoActual
+            voltios = self.c.milivoltios
+            ingresos = self.c.ingresos
+            tiempoTot = self.c.segundos
+            tiempoCAct = self.c.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "d" or num == 4:
+            corriente = self.d.microAmperes
+            ciclos = self.d.barridoActual
+            voltios = self.d.milivoltios
+            ingresos = self.d.ingresos
+            tiempoTot = self.d.segundos
+            tiempoCAct = self.d.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "e" or num == 5:
+            corriente = self.e.microAmperes
+            ciclos = self.e.barridoActual
+            voltios = self.e.milivoltios
+            ingresos = self.e.ingresos
+            tiempoTot = self.e.segundos
+            tiempoCAct = self.e.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "f" or num == 6:
+            corriente = self.f.microAmperes
+            ciclos = self.f.barridoActual
+            voltios = self.f.milivoltios
+            ingresos = self.f.ingresos
+            tiempoTot = self.f.segundos
+            tiempoCAct = self.f.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "g" or num == 7:
+            corriente = self.g.microAmperes
+            ciclos = self.g.barridoActual
+            voltios = self.g.milivoltios
+            ingresos = self.g.ingresos
+            tiempoTot = self.g.segundos
+            tiempoCAct = self.g.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "h" or num == 8:
+            corriente = self.h.microAmperes
+            ciclos = self.h.barridoActual
+            voltios = self.h.milivoltios
+            ingresos = self.h.ingresos
+            tiempoTot = self.h.segundos
+            tiempoCAct = self.h.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "i" or num == 9:
+            corriente = self.i.microAmperes
+            ciclos = self.i.barridoActual
+            voltios = self.i.milivoltios
+            ingresos = self.i.ingresos
+            tiempoTot = self.i.segundos
+            tiempoCAct = self.i.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "j" or num == 10:
+            corriente = self.j.microAmperes
+            ciclos = self.j.barridoActual
+            voltios = self.j.milivoltios
+            ingresos = self.j.ingresos
+            tiempoTot = self.j.segundos
+            tiempoCAct = self.j.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "k" or num == 11:
+            corriente = self.k.microAmperes
+            ciclos = self.k.barridoActual
+            voltios = self.k.milivoltios
+            ingresos = self.k.ingresos
+            tiempoTot = self.k.segundos
+            tiempoCAct = self.k.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "l" or num == 12:
+            corriente = self.l.microAmperes
+            ciclos = self.l.barridoActual
+            voltios = self.l.milivoltios
+            ingresos = self.l.ingresos
+            tiempoTot = self.l.segundos
+            tiempoCAct = self.l.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "m" or num == 13:
+            corriente = self.m.microAmperes
+            ciclos = self.m.barridoActual
+            voltios = self.m.milivoltios
+            ingresos = self.m.ingresos
+            tiempoTot = self.m.segundos
+            tiempoCAct = self.m.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "n" or num == 14:
+            corriente = self.n.microAmperes
+            ciclos = self.n.barridoActual
+            voltios = self.n.milivoltios
+            ingresos = self.n.ingresos
+            tiempoTot = self.n.segundos
+            tiempoCAct = self.n.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "o" or num == 15:
+            corriente = self.o.microAmperes
+            ciclos = self.o.barridoActual
+            voltios = self.o.milivoltios
+            ingresos = self.o.ingresos
+            tiempoTot = self.o.segundos
+            tiempoCAct = self.o.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
+        if num == "p" or num == 16:
+            corriente = self.p.microAmperes
+            ciclos = self.p.barridoActual
+            voltios = self.p.milivoltios
+            ingresos = self.p.ingresos
+            tiempoTot = self.p.segundos
+            tiempoCAct = self.p.tiempoCicloActual
+            return corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct
 
     def xGetCondGuardado(self, num):
         if num == "a" or num == 1:

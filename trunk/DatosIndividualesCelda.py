@@ -24,21 +24,21 @@ class DatosCelda:
 
         # atributos para procesos de extremo
         self.porenviar = 0  # 0=nada por hacer, 1=enviar algo, 2, ack de envio
-        self.tiempoInicioCiclo = 0
-        self.tiempoCicloActual = 0
         self.barridosMax = barrM
         self.voltajeLimInferior = vli
         self.voltajeLimSuperior = vls
         self.tiempoMaxBarrido = tmb
         self.iniciaEnCarga = True
+        self.corrienteSetActual = corr
 
         self.corrienteSetNueva = 0  ####
 
+        self.tiempoInicioCiclo = 0
         # atributos tiempo real
+        self.tiempoCicloActual = 0
         self.PaPromediar = []
         self.ingresos = ingresos  # cantidad de tramas cargadas
         self.barridoActual = barr
-        self.corrienteSetActual = corr
         self.milivoltios = milivoltios
         self.microAmperes = microAmperes
         self.segundos = segundos
@@ -112,13 +112,13 @@ class DatosCelda:
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
             self.ingresos = self.ingresos + 1
-            print "[DCELD] ciclando - ingresos: "+str(self.ingresos),
+            #print "[DCELD] ciclando - ingresos: "+str(self.ingresos),
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
             #tiempoFinAnteriorBarrido =  + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
-            print " tiempo ciclo("+str(self.barridoActual)+") actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
+            #print " tiempo ciclo("+str(self.barridoActual)+") actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo)
             limite = self.SuperaLimite()
             if limite == 0:
                 self.GuardaCsv()

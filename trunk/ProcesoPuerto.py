@@ -100,7 +100,7 @@ class LECTURA(QtCore.QThread):
             #bytes escritos
             print self.serial_port.write(celda)
             time.sleep(0.25)
-            print "[PORT|send] Envio OK"
+            #print "[PORT|send] Envio OK"
             self.serial_port.flushOutput()
             print "[PORT|send] "+str(self.serial_port.write(celda))
             self.serial_port.flushOutput()
