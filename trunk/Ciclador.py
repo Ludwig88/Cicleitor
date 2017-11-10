@@ -22,7 +22,8 @@ class Myform(QtGui.QMainWindow):
     def __init__(self, parent=None):
         locale = unicode(QtCore.QLocale.system().name())
         QtGui.QWidget.__init__(self, parent)
-        self.ui = loadUi("CicladorIG.ui", self)
+        self.ui = loadUi("CicladorIG-2.ui", self)
+        #self.ui = loadUi("CicladorIG.ui", self)
 
         self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0)
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
@@ -185,6 +186,8 @@ class Myform(QtGui.QMainWindow):
         self.ui.SalVInst.setText(str(Vin))
         self.ui.SalIInst.setText(str(Iin))
         self.ui.SalTiemp.setText(str(Tiem))
+        self.ui.SalTiempTot.setText(str(TiempoTotal))
+        self.ui.SalMuestrasInst.setText(str(Ingresos))
 
     """ ############################################################## PLOTEO """
     def LimPant(self):

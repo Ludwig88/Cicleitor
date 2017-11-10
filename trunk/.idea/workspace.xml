@@ -6,9 +6,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CicladorIG.ui" afterPath="$PROJECT_DIR$/CicladorIG.ui" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndependientes.py" afterPath="$PROJECT_DIR$/DatosIndependientes.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndividualesCelda.py" afterPath="$PROJECT_DIR$/DatosIndividualesCelda.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProcesoPuerto.py" afterPath="$PROJECT_DIR$/ProcesoPuerto.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,16 +19,13 @@
       <file leaf-file-name="DatosIndependientes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
-              <caret line="138" column="137" lean-forward="true" selection-start-line="138" selection-start-column="137" selection-end-line="138" selection-end-column="137" />
+            <state relative-caret-position="-103">
+              <caret line="109" column="36" lean-forward="true" selection-start-line="109" selection-start-column="36" selection-end-line="109" selection-end-column="36" />
               <folding>
                 <element signature="n#!!doc" expanded="false" />
                 <element signature="e#1498#1508#0" expanded="true" />
                 <element signature="e#3915#4635#0" expanded="false" />
-                <element signature="e#4693#4779#0" expanded="false" />
-                <element signature="e#5234#6404#0" expanded="false" />
                 <element signature="e#5284#6028#0" expanded="false" />
-                <element signature="e#6462#6722#0" expanded="false" />
                 <element signature="e#6763#8016#0" expanded="false" />
                 <element signature="e#8063#9423#0" expanded="false" />
                 <element signature="e#9550#12178#0" expanded="false" />
@@ -39,6 +33,7 @@
                 <element signature="e#12299#19884#0" expanded="false" />
                 <element signature="e#19397#19805#0" expanded="false" />
                 <element signature="e#19926#23108#0" expanded="false" />
+                <element signature="e#23157#29075#0" expanded="false" />
                 <element signature="e#29122#34752#0" expanded="false" />
                 <element signature="e#34826#36599#0" expanded="false" />
                 <element signature="e#36605#40562#1" expanded="false" />
@@ -49,50 +44,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Ciclador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2430">
-              <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+            <state relative-caret-position="-180">
+              <caret line="22" column="34" lean-forward="false" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
               <folding>
                 <element signature="e#47#71#0" expanded="true" />
-                <element signature="e#3696#4805#0" expanded="false" />
-                <element signature="e#8327#8606#0" expanded="false" />
-                <element signature="e#8646#8833#0" expanded="false" />
-                <element signature="e#8883#10563#0" expanded="false" />
-                <element signature="e#10627#12538#0" expanded="false" />
-                <element signature="e#12596#14345#0" expanded="false" />
-                <element signature="e#14375#14502#0" expanded="false" />
-                <element signature="e#14643#16536#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProcesoPuerto.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="81" column="41" lean-forward="false" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
-              <folding>
-                <element signature="e#2069#2735#0" expanded="false" />
-                <element signature="e#3306#3603#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatosIndividualesCelda.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-469">
-              <caret line="120" column="13" lean-forward="false" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-                <element signature="e#1764#3407#0" expanded="false" />
-                <element signature="e#6079#7362#0" expanded="false" />
-                <element signature="e#8628#8646#0" expanded="false" />
-                <element signature="e#10275#10823#0" expanded="false" />
+                <element signature="e#3747#4856#0" expanded="false" />
+                <element signature="e#8487#8766#0" expanded="false" />
+                <element signature="e#8806#8993#0" expanded="false" />
+                <element signature="e#9043#10723#0" expanded="false" />
+                <element signature="e#10787#12698#0" expanded="false" />
+                <element signature="e#12756#14505#0" expanded="false" />
+                <element signature="e#14535#14662#0" expanded="false" />
+                <element signature="e#14803#16696#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -537,16 +503,23 @@
       <option name="project" value="LOCAL" />
       <updated>1510095840568</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="por mejorar interfaz grafica, falta plot en T real --- mejorar casi a la par de lot en tiempo real">
+      <created>1510188492285</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1510188492285</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="50" y="-11" width="1317" height="780" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14026792" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14499606" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87540454" sideWeight="0.427896" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27346277" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27184466" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24595469" sideWeight="0.4144996" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -570,7 +543,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="borro deque de proceso" />
     <MESSAGE value="inicio de mensajeria con thread para envio por puerto serie" />
     <MESSAGE value="&quot;Necesito enviar&quot;" />
     <MESSAGE value="habilitada thread de recepcion" />
@@ -595,7 +567,8 @@
     <MESSAGE value="envio ok, Pendiente: cambio de barrido, nuevo tiempo inicio" />
     <MESSAGE value="ciclando mas de una celda, loguea bien, achicar todos los tiempos, arrancar con tiempo real en UI" />
     <MESSAGE value="tiempo real valores, falta barrido, emitirlo desde la otra clase!" />
-    <option name="LAST_COMMIT_MESSAGE" value="tiempo real valores, falta barrido, emitirlo desde la otra clase!" />
+    <MESSAGE value="por mejorar interfaz grafica, falta plot en T real --- mejorar casi a la par de lot en tiempo real" />
+    <option name="LAST_COMMIT_MESSAGE" value="por mejorar interfaz grafica, falta plot en T real --- mejorar casi a la par de lot en tiempo real" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -626,10 +599,7 @@
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -637,6 +607,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -672,10 +643,7 @@
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -683,6 +651,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -718,10 +687,7 @@
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -729,6 +695,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -775,10 +742,7 @@
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -786,6 +750,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -810,10 +775,7 @@
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -821,6 +783,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -1055,10 +1018,10 @@
     <entry file="file://$PROJECT_DIR$/Arch_Cn-o.csv" />
     <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-469">
+        <state relative-caret-position="361">
           <caret line="120" column="13" lean-forward="false" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="false" />
             <element signature="e#1764#3407#0" expanded="false" />
             <element signature="e#6079#7362#0" expanded="false" />
             <element signature="e#8628#8646#0" expanded="false" />
@@ -1067,36 +1030,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ciclador.py">
+    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2430">
-          <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+        <state relative-caret-position="-345">
+          <caret line="81" column="41" lean-forward="false" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
           <folding>
-            <element signature="e#47#71#0" expanded="true" />
-            <element signature="e#3696#4805#0" expanded="false" />
-            <element signature="e#8327#8606#0" expanded="false" />
-            <element signature="e#8646#8833#0" expanded="false" />
-            <element signature="e#8883#10563#0" expanded="false" />
-            <element signature="e#10627#12538#0" expanded="false" />
-            <element signature="e#12596#14345#0" expanded="false" />
-            <element signature="e#14375#14502#0" expanded="false" />
-            <element signature="e#14643#16536#0" expanded="false" />
+            <element signature="e#2069#2735#0" expanded="false" />
+            <element signature="e#3306#3603#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
-          <caret line="138" column="137" lean-forward="true" selection-start-line="138" selection-start-column="137" selection-end-line="138" selection-end-column="137" />
+        <state relative-caret-position="-103">
+          <caret line="109" column="36" lean-forward="true" selection-start-line="109" selection-start-column="36" selection-end-line="109" selection-end-column="36" />
           <folding>
             <element signature="n#!!doc" expanded="false" />
             <element signature="e#1498#1508#0" expanded="true" />
             <element signature="e#3915#4635#0" expanded="false" />
-            <element signature="e#4693#4779#0" expanded="false" />
-            <element signature="e#5234#6404#0" expanded="false" />
             <element signature="e#5284#6028#0" expanded="false" />
-            <element signature="e#6462#6722#0" expanded="false" />
             <element signature="e#6763#8016#0" expanded="false" />
             <element signature="e#8063#9423#0" expanded="false" />
             <element signature="e#9550#12178#0" expanded="false" />
@@ -1104,6 +1057,7 @@
             <element signature="e#12299#19884#0" expanded="false" />
             <element signature="e#19397#19805#0" expanded="false" />
             <element signature="e#19926#23108#0" expanded="false" />
+            <element signature="e#23157#29075#0" expanded="false" />
             <element signature="e#29122#34752#0" expanded="false" />
             <element signature="e#34826#36599#0" expanded="false" />
             <element signature="e#36605#40562#1" expanded="false" />
@@ -1113,13 +1067,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
+    <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="81" column="41" lean-forward="false" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="41" />
+        <state relative-caret-position="-180">
+          <caret line="22" column="34" lean-forward="false" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
           <folding>
-            <element signature="e#2069#2735#0" expanded="false" />
-            <element signature="e#3306#3603#0" expanded="false" />
+            <element signature="e#47#71#0" expanded="true" />
+            <element signature="e#3747#4856#0" expanded="false" />
+            <element signature="e#8487#8766#0" expanded="false" />
+            <element signature="e#8806#8993#0" expanded="false" />
+            <element signature="e#9043#10723#0" expanded="false" />
+            <element signature="e#10787#12698#0" expanded="false" />
+            <element signature="e#12756#14505#0" expanded="false" />
+            <element signature="e#14535#14662#0" expanded="false" />
+            <element signature="e#14803#16696#0" expanded="false" />
           </folding>
         </state>
       </provider>
