@@ -122,7 +122,7 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
-                        print "[DIND] Cambio= "+str(cambio)
+                        #print "[DIND] Cambio = "+str(cambio)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
                             self.mutex.lock()

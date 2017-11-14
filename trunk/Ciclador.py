@@ -22,8 +22,7 @@ class Myform(QtGui.QMainWindow):
     def __init__(self, parent=None):
         locale = unicode(QtCore.QLocale.system().name())
         QtGui.QWidget.__init__(self, parent)
-        self.ui = loadUi("CicladorIG-2.ui", self)
-        #self.ui = loadUi("CicladorIG.ui", self)
+        self.ui = loadUi("CicladorIG-3.ui", self)
 
         self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0)
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)

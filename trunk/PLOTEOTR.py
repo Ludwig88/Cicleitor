@@ -22,7 +22,6 @@ class PLOTEOTR(pg.QtCore.QThread):
 
     def run(self):
         # global CondPaBarrer     #         [celda, barrido (actual), Tinicio]
-        global FIN
         Listax = deque(maxlen=16000)
         Listay = deque(maxlen=16000)
 
