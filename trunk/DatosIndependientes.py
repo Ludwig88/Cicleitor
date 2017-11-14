@@ -137,6 +137,10 @@ class DatosCompartidos(QtCore.QThread):
                         print "[DIND] EMIT val en tiempo REAL"
                         [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                         self.emit(self.signal, str(ciclos), str(Tension), str(Corriente), str(tiempoCAct), str(tiempoTot), str(ingresos))
+                        self.mutex.lock()
+                        #[celda, Barrido, Tension, Corriente, tiempo]
+                        self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
+                        self.mutex.unlock()
                 if mensaje == "OK!":
                     print "[DIND] recibo OK!"
                     self.xEnviarPS(Celda, 2)

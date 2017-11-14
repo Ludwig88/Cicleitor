@@ -402,7 +402,7 @@
          </property>
          <widget class="QWidget" name="tab_3">
           <attribute name="title">
-           <string>Page</string>
+           <string>Ayuda</string>
           </attribute>
           <widget class="QWidget" name="gridLayoutWidget_2">
            <property name="geometry">
@@ -431,7 +431,7 @@
            </size>
           </property>
           <attribute name="title">
-           <string>Tab 1</string>
+           <string>Configuración</string>
           </attribute>
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
@@ -1090,7 +1090,7 @@
          </widget>
          <widget class="QWidget" name="Graficado">
           <attribute name="title">
-           <string>Tab 2</string>
+           <string>Graficado</string>
           </attribute>
           <layout class="QFormLayout" name="formLayout">
            <item row="1" column="0">
@@ -1932,6 +1932,25 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="BotSetearC_3">
+    <property name="geometry">
+     <rect>
+      <x>-270</x>
+      <y>1240</y>
+      <width>109</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Setear e Iniciar</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1975,12 +1994,108 @@
    <slot>ValTiempoReal()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>922</x>
-     <y>643</y>
+     <x>158</x>
+     <y>660</y>
     </hint>
     <hint type="destinationlabel">
      <x>357</x>
      <y>622</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotSetearC</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>inicioCiclado()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>482</x>
+     <y>-12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>Reseteo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>434</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>659</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotSetearV</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>inicioVOC()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>875</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>622</x>
+     <y>768</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>ActCondUi()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>209</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>453</x>
+     <y>-3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotStop</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>PararCelda()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>227</x>
+     <y>457</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>504</x>
+     <y>669</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotPlot</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>Plot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>263</x>
+     <y>469</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>241</x>
+     <y>715</y>
     </hint>
    </hints>
   </connection>

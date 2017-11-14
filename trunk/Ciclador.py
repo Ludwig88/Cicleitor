@@ -39,10 +39,6 @@ class Myform(QtGui.QMainWindow):
         self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         self.threadPool[len(self.threadPool) - 1].start()
 
-        # self.connect(self.threadPool[len(self.threadPool) - 1],
-        #              self.threadPool[len(self.threadPool) - 1].signal,
-        #              self.ActualValores)
-
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
         self.ui.BotSetearV.setCheckable(True)
@@ -84,14 +80,13 @@ class Myform(QtGui.QMainWindow):
         if self.ui.BotActivo.isChecked():
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
-            # print "[UICICL] Setting Not OK"
             # self.ui.labelInfo("no puedo setear la celda")
         else:
             #Iniciar Ciclado con start de Datos
-            self.chequeaRB(Celda, True)
             self.ui.BotSetearV.setChecked(False)
             self.ui.BotSetearC.setChecked(False)
             self.ui.BotActivo.setChecked(True)
+        self.chequeaRB(Celda, True)
 
     def chequeaRB(self, celda, estado):
         if celda == 'a':
@@ -195,12 +190,12 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2.clear()
 
     def Plot(self):
-        Celda=self.ui.cmbCelPlot. currentText()
+        Celda = self.ui.cmbCelPlot. currentText()
         if self.ui.RBTiemReal.isChecked():
             ploteo1 = self.Ploteo1.plot()
             ploteo2 = self.Ploteo2.plot()
 
-            self.threadPool.append( PLOTEOTR(Celda,self.filaPloteo) )
+            self.threadPool.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
 
             self.threadPool[len(self.threadPool)-1].newData1.connect(self. update1)
             self.threadPool[len(self.threadPool)-1].newData2.connect(self. update2)
@@ -379,61 +374,6 @@ def NumDeCelda(celda):
         if celda == string. ascii_letters[i]:
             return i
             break
-
-
-"""########################################################## CLASE PARA Ploteo en tiempo real"""
-
-class PLOTEOTR(pg.QtCore.QThread):
-    newData1 = pg.QtCore.Signal(object)
-    newData2 = pg.QtCore.Signal(object)
-
-    def __init__(self, Celda, FilaPlot, parent=None):
-        # QtCore.QThread.__init__(self)
-        super(PLOTEOTR, self).__init__()
-        self.Celda = Celda
-        self.CONTENEDOR = FilaPlot
-
-    def __del__(self):
-        self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
-
-    def run(self):
-        # global CondPaBarrer     #         [celda, barrido (actual), Tinicio]
-        global FIN
-        Listax = deque(maxlen=16000)
-        Listay = deque(maxlen=16000)
-
-        while True:
-
-            if len(self.CONTENEDOR) == 0:
-                print '-',
-                # time.sleep(3)
-                if len(self.CONTENEDOR) == 0:
-                    print '-',
-                    # time.sleep(3)
-                    if len(self.CONTENEDOR) == 0:
-                        print 'error pila vacia -ploteo- por mucho tiempo '
-                        break
-            separado = self.CONTENEDOR.popleft()
-            if myapp.ui.BotParaPlot.isChecked() or FIN or separado[0] == '%':
-                print 'saliendo del plot desde plot class'
-                myapp.ui.BotParaPlot.setChecked(False)
-                myapp.ui.RBTiemReal.setChecked(False)
-                myapp.ui.LimPant()
-                Listax = []
-                Listay = []
-                break
-            if separado[0] == str(self.Celda):
-                Tension = separado[2]
-                Corriente = separado[3]
-                Listax.append(Tension)  # tension
-                Listay.append(Corriente)  # corriente
-                data1 = Listax
-                data2 = Listay
-                self.newData1.emit(data1)
-                self.newData2.emit(data2)
-                # time.sleep(0.05)
-                """buscar otra forma de controlarlo evitando entrar en los botones"""
-
 
 if __name__=="__main__":
     app = QtGui.QApplication(sys.argv)
