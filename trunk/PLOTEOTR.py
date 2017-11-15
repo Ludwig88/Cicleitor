@@ -3,6 +3,8 @@
 
 import pyqtgraph as pg
 
+import time
+
 from collections import deque  # double ended queue
 
 #from Ciclador import myapp
@@ -27,6 +29,7 @@ class PLOTEOTR(pg.QtCore.QThread):
 
         while True:
             if len(self.CONTENEDOR) != 0:
+                time.sleep(0.001)
                 separado = self.CONTENEDOR.popleft()
                 # if myapp.ui.BotParaPlot.isChecked() or separado[0] == '%':
                 #     print 'saliendo del plot desde plot class'
