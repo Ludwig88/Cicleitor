@@ -189,7 +189,7 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2.clear()
 
     def Plot(self):
-        Celda = self.ui.cmbCelPlot. currentText()
+        Celda = self.ui.cmbCelPlot.currentText()
         if self.ui.RBTiemReal.isChecked():
             ploteo1 = self.Ploteo1.plot()
             ploteo2 = self.Ploteo2.plot()
@@ -223,7 +223,7 @@ class Myform(QtGui.QMainWindow):
 
     def update2(self, data2):
         self.Ploteo2.plot(data2, pen='r', clear=True)
-        self.Ploteo2.setLabel('left', text='Corriente', units='uA',unitPrefix=None)
+        self.Ploteo2.setLabel('left', text='Corriente', units='uA', unitPrefix=None)
         self.Ploteo2.showGrid(x=True, y=True, alpha=None)
 
     def PlotFinal(self,Celda,barridos):

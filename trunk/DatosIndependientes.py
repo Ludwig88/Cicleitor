@@ -86,7 +86,7 @@ class DatosCompartidos(QtCore.QThread):
 
     def run(self):
         self.PoolThread[len(self.PoolThread) - 1].start()
-        while (True):
+        while True:
             time.sleep(0.001)
             if int(len(self.dequeSettings)) >= 1:
                 try:
@@ -138,7 +138,6 @@ class DatosCompartidos(QtCore.QThread):
                         [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                         self.emit(self.signal, str(ciclos), str(Tension), str(Corriente), str(tiempoCAct), str(tiempoTot), str(ingresos))
                         self.mutex.lock()
-                        #[celda, Barrido, Tension, Corriente, tiempo]
                         self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
                         self.mutex.unlock()
                 if mensaje == "OK!":

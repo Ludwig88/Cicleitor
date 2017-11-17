@@ -438,7 +438,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideLeft</enum>
@@ -548,7 +548,7 @@
                <widget class="QLabel" name="label_2">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -560,7 +560,7 @@
                <widget class="QLabel" name="label_5">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -618,7 +618,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -630,7 +630,7 @@
                <widget class="QLabel" name="label_7">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -648,7 +648,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>12</pointsize>
+                  <pointsize>13</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -686,7 +686,7 @@
                <widget class="QLabel" name="label_8">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -708,7 +708,7 @@
                <widget class="QLabel" name="label_3">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -895,7 +895,7 @@
                <widget class="QLabel" name="label_6">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -929,7 +929,7 @@
                <widget class="QLabel" name="label_28">
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -947,7 +947,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -975,7 +975,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>7</pointsize>
+                  <pointsize>11</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1049,7 +1049,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>12</pointsize>
+                  <pointsize>13</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1154,9 +1154,6 @@
             </item>
            </layout>
           </widget>
-          <zorder>horizontalLayoutWidget</zorder>
-          <zorder>layoutWidget</zorder>
-          <zorder>layoutWidget</zorder>
          </widget>
          <widget class="QWidget" name="Graficado">
           <attribute name="title">
@@ -1960,7 +1957,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="1" column="2">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -1972,6 +1969,27 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_11">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Ciclador 2.0</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

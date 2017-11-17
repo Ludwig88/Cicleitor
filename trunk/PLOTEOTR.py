@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pyqtgraph as pg
-
 import time
-
+import pyqtgraph as pg
+from PyQt4.Qt import QMutex
 from collections import deque  # double ended queue
 
 #from Ciclador import myapp
@@ -18,6 +17,7 @@ class PLOTEOTR(pg.QtCore.QThread):
         super(PLOTEOTR, self).__init__()
         self.Celda = Celda
         self.CONTENEDOR = FilaPlot
+        self.mutex = QMutex()
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
@@ -28,9 +28,12 @@ class PLOTEOTR(pg.QtCore.QThread):
         Listay = deque(maxlen=16000)
 
         while True:
-            if len(self.CONTENEDOR) != 0:
-                time.sleep(0.001)
+            time.sleep(0.01)
+            if int(len(self.CONTENEDOR)) >= 1:
+                #time.sleep(0.01)
+                self.mutex.lock()
                 separado = self.CONTENEDOR.popleft()
+                self.mutex.unlock()
                 # if myapp.ui.BotParaPlot.isChecked() or separado[0] == '%':
                 #     print 'saliendo del plot desde plot class'
                 #     myapp.ui.BotParaPlot.setChecked(False)
@@ -40,8 +43,8 @@ class PLOTEOTR(pg.QtCore.QThread):
                 #     Listay = []
                 #     break
                 if separado[0] == str(self.Celda):
-                    Tension = separado[2]
-                    Corriente = separado[3]
+                    Tension = separado[2] * (0.001)
+                    Corriente = separado[3] * (0.001)
                     Listax.append(Tension)  # tension
                     Listay.append(Corriente)  # corriente
                     data1 = Listax
