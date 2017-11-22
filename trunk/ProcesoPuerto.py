@@ -56,18 +56,28 @@ class LECTURA(QtCore.QThread):
             # [char(celda), string(tension), string(corriente), string(tiempo)]
             """variables para guardado"""
             if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
-                celda = separado[0]
+                try:
+                    celda = separado[0]
+                except:
+                    celda = "x"
                 """conversion de tension (pasa a mV)"""
-                Tension = int((int(separado[1]) * (0.375)) - 6144)
+                try:
+                    Tension = int((int(separado[1]) * (0.375)) - 6144)
+                except:
+                    Tension = "NAN"
                 #(-1)*int((int(separado[1])*(3.0/8))-6144)
                 """conversion de corriente (pasa a uA)"""
-                Corriente = int(separado[2]) - 1024
+                try:
+                    Corriente = int(separado[2]) - 1024
+                except:
+                    Corriente = "NAN"
                 Tiempo = float(separado[3])
                 #Append en la deque de salida
                 #print "[PORT|" + str(celda) + "]  append Corriente: " + str(Corriente) + " Tiempo: "+str(Tiempo)
-                self.mutex.lock()
-                self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
-                self.mutex.unlock()
+                if celda != "x" and Tension != "NAN" and Corriente != "NAN":
+                    self.mutex.lock()
+                    self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
+                    self.mutex.unlock()
             if int(len(self.dequeIN)) > 0:
                 self.mutex.lock()
                 [mensaje, celda, Corriente] = self.dequeIN.pop()
@@ -154,7 +164,7 @@ class LECTURA(QtCore.QThread):
 
     def RecibirPS(self):
         s = self.serial_port.readline()
-        #print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
+        print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
         # print 's-1' + s[len(s)-1]
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:

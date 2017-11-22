@@ -19,7 +19,7 @@
 char concat[80];
 int recibo=0;
 char Celdas[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p'};
-int a=0, b=0, c=0, d=0, e=0;
+long int a=0, b=0, c=0, d=0, e=0, f=0, g=0, h=0, i=0, j=0, k=0, l=0, m=0, n=0, o=0, p=0;
   
 void setup() {
   // initialize serial:
@@ -34,31 +34,64 @@ void loop() {
     for (int i=0;i<16;i++) {
       switch (i) {
         case 0:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, a));
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, a));
           break;
         case 1:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, b));
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, b));
           break;
         case 2:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, c));
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, c));
           break;
         case 3:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, d));
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, d));
           break;
         case 4:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, e));
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, e));
+          break;    
+        case 5:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, f));
+          break;
+        case 6:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, g));
+          break;
+        case 7:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, h));
           break;          
+        case 8:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, i));
+          break;
+        case 9:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111,j));
+          break;
+        case 10:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, k));
+          break;
+        case 11:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, l));
+          break;
+        case 12:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, m));
+          break;    
+        case 13:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, n));
+          break;
+        case 14:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, o));
+          break;
+        case 15:
+          sprintf(concat,"%c#%ld",Celdas[i],random(1111, p));
+          break;
         default:
-          sprintf(concat,"%c#%d",Celdas[i],random(1111, 10));
           break;
 
       }
       sprintf(concat,"%s#%d",concat,random(1111, 9999));
       Serial.println(concat); 
-      delay(100);
+      delay(1);
     }
       
      if (Serial.available() != 0) {
+         delay(1);
         recibo=Serial.read();
         
       switch (recibo) {
@@ -86,6 +119,61 @@ void loop() {
           e=5555;
           Serial.println("OK");
           break;
+
+        case 'f':
+          f=4444;
+          Serial.println("OK");
+          break;
+          
+        case 'g':
+          g=3333;
+          Serial.println("OK");
+          break;
+          
+        case 'h':
+          h=2222;
+          Serial.println("OK");
+          break;
+          
+        case 'i':
+          i=1111;
+          Serial.println("OK");
+          break;
+
+        case 'j':
+          j=8989;
+          Serial.println("OK");
+          break;
+          
+        case 'k':
+          k=9898;
+          Serial.println("OK");
+          break;
+          
+        case 'l':
+          l=1717;
+          Serial.println("OK");
+          break;
+          
+        case 'm':
+          m=5656;
+          Serial.println("OK");
+          break;
+          
+        case 'n':
+          n=3232;
+          Serial.println("OK");
+          break;
+          
+        case 'o':
+          o=9090;
+          Serial.println("OK");
+          break;
+          
+        case 'p':
+          p=9909;
+          Serial.println("OK");
+          break; 
           
         default:
           Serial.println("NOK");
