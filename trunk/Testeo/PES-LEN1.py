@@ -9,22 +9,22 @@ def SeteoPuerto():
     global ser
     ser = serial.Serial()
     ser.baudrate = 115200
-    ser.port = '/dev/ttyACM0' #'/dev/ttyUSB0' #
+    ser.port = '/dev/ttyUSB0' #
     ser.bytesize = 8
     ser.stopbits = 1
     ser.timeout = 0.1
     ser.parity = 'N'
-    print "el puerto se configura " + str(ser)
+    #print "el puerto se configura " + str(ser)
     ser.open()
     return ser
 
 def RecibirPS():
   s = ser.readline()
-  s = s[:len(s)-2]
+  s = s[:len(s)-1]
   return s
 
 def GuardaCsv(entrada):
-    fileName = 'Archivo_Test'
+    fileName = 'Archivo_Test_LEN1.csv'
     try:
         open(fileName, 'r')
         with open(fileName, 'a') as f:
@@ -58,7 +58,7 @@ def EnviarPS_I(ua, Descarga, celda):
         num = int(2048 - (ua * 2))
     else:
         num = int((ua * 2) + 2048)
-    print 'numero a enviar__: ' + str(num)
+    #print 'numero a enviar__: ' + str(num)
     if num >= 0 and num <= 4095:
         mil = num / 1000
         cien = (num - mil * 1000) / 100
@@ -86,6 +86,8 @@ if __name__=="__main__":
      count = count + 1
      recepcion = RecibirPS() + '#' + str(time.time() - 1500000000)
      separado = recepcion.split('#', 4)
-     print "recepcion:: "+str(separado)
+     #print "recepcion:: "+str(separado)
+     print ".",
      GuardaCsv(separado)
+ print
  print "PROCESO FINALIZADO"
