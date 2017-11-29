@@ -438,7 +438,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideLeft</enum>
@@ -578,8 +578,8 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
-                  <height>0</height>
+                  <width>200</width>
+                  <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -590,7 +590,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>6</pointsize>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
                 <property name="text">
@@ -1879,7 +1879,7 @@
        <item>
         <widget class="QRadioButton" name="RBp">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2160,6 +2160,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>BotParaPlot</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>PararGrafico()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>51</x>
+     <y>645</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Reseteo()</slot>
@@ -2175,5 +2191,6 @@
   <slot>PlotCualq()</slot>
   <slot>LimPant()</slot>
   <slot>ValTiempoReal()</slot>
+  <slot>PararGrafico()</slot>
  </slots>
 </ui>

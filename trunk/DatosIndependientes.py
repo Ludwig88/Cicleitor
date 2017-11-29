@@ -69,7 +69,10 @@ class DatosCompartidos(QtCore.QThread):
         self.daemon = True
 
         self.signal = QtCore.SIGNAL("realTimeData")
+        self.signalSingleShot = QtCore.SIGNAL("UIConditions")
         self.celdaEnTiempoReal = None
+        self.celdaCondUI = None
+        self.celdaPLOTTR = None
 
         """DEQUES de comunicacion"""
         self.dequeSettings = dequeSettings #desde UI
@@ -110,6 +113,16 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "VTR":
                     print "[DIND] Celda en tiempo REAL"
                     self.celdaEnTiempoReal = Celda
+                if mensaje == "FTR":
+                    print "[DIND] FINALIZA Celda en tiempo REAL"
+                    self.celdaEnTiempoReal = None
+                if mensaje == "Plot":
+                    print "[DIND] Celda PLOTEO en tiempo REAL"
+                    self.celdaPLOTTR = Celda
+                if mensaje == "FPlot":
+                    print "[DIND] FINALIZA Celda PLOTEO en tiempo REAL"
+                    self.dequePLOT.clear()
+                    self.celdaPLOTTR = None
 
             if int(len(self.dequeIN)) >= 1:
                 try:
@@ -134,9 +147,17 @@ class DatosCompartidos(QtCore.QThread):
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
                     if Celda == self.celdaEnTiempoReal:
-                        print "[DIND] EMIT val en tiempo REAL"
+                        #print "[DIND] EMIT val en tiempo REAL"
                         [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                         self.emit(self.signal, str(ciclos), str(Tension), str(Corriente), str(tiempoCAct), str(tiempoTot), str(ingresos))
+                    if Celda == self.celdaCondUI:
+                        #print "[DIND] EMIT val en tiempo REAL"
+                        #corriente, ciclos, vli, vls, tmax, prom
+                        [corriente, ciclos, vli, vls, tmax, prom ] = self.xGetCondGuardado(Celda)
+                        self.emit(self.signalSingleShot, str(corriente), str(ciclos), str(vli), str(vls), str(tmax), str(prom))
+                    if Celda == self.celdaPLOTTR:
+                        #print "[DIND] PLOT TIEMPO REAL"
+                        [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                         self.mutex.lock()
                         self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
                         self.mutex.unlock()

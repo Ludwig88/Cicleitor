@@ -24,10 +24,16 @@ class Myform(QtGui.QMainWindow):
         QtGui.QWidget.__init__(self, parent)
         self.ui = loadUi("CicladorIG-3.ui", self)
 
+        self.flagVTR = False
+        self.flagPLOTVTR = False
+
         self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0)
         self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
 
         self.threadPool = []
+
+        self.threadOne = [] #DatosIndependietes DatosCompartidos
+        self.threadTwo = [] #PLOTEOTR
 
         self.mutex = QMutex()
 
@@ -35,8 +41,11 @@ class Myform(QtGui.QMainWindow):
         self.filaDatos = deque(maxlen=16000)
         self.dequeSetting = deque(maxlen=100)
 
-        self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
-        self.threadPool[len(self.threadPool) - 1].start()
+        #self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
+        self.threadOne.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
+        #self.threadPool[len(self.threadPool) - 1].start()
+        print "valor de len de thread one menso 1 es "+str(len(self.threadOne) - 1)
+        self.threadOne[len(self.threadOne) - 1].start()
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -71,9 +80,10 @@ class Myform(QtGui.QMainWindow):
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
         self.mutex.unlock()
         self.inicio(Celda)  # Celda, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
-        self.connect(self.threadPool[len(self.threadPool) - 1],
-                     self.threadPool[len(self.threadPool) - 1].signal,
-                     self.ActualValores)
+        # self.connect(self.threadPool[len(self.threadPool) - 1],
+        #              self.threadPool[len(self.threadPool) - 1].signal,
+        #              self.ActualValores)
+        self.connect(self.threadOne[len(self.threadOne) - 1], self.threadOne[len(self.threadOne) - 1].signal, self.ActualValores)
 
     def inicio(self, Celda):
         if self.ui.BotActivo.isChecked():
@@ -168,11 +178,19 @@ class Myform(QtGui.QMainWindow):
         self.ui.LinEdTMax.setText('12')
         self.ui.cmbProm.setCurrentIndex(7)
 
+    def PararGrafico(self):
+        print "[UICICL] trato de parar thread"
+        self.threadTwo[len(self.threadTwo) - 1].stop()
+
     def ValTiempoReal(self):
         print "[CICL] val en tiempo REAL"
         Celda = self.ui.cmbCelC.currentText()
         self.mutex.lock()
-        self.dequeSetting.append(["VTR", Celda, None, None, None, None, None, None, None])
+        self.flagVTR = not self.flagVTR
+        if self.flagVTR:
+            self.dequeSetting.append(["VTR", Celda, None, None, None, None, None, None, None])
+        else:
+            self.dequeSetting.append(["FTR", None, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
@@ -191,15 +209,28 @@ class Myform(QtGui.QMainWindow):
     def Plot(self):
         Celda = self.ui.cmbCelPlot.currentText()
         if self.ui.RBTiemReal.isChecked():
+            print "[CICL_PLOT] Starts plot en tiempo REAL"
+            self.mutex.lock()
+            self.flagPLOTVTR = not self.flagPLOTVTR
+            if self.flagPLOTVTR:
+                self.dequeSetting.append(["Plot", Celda, None, None, None, None, None, None, None])
+            else:
+                self.dequeSetting.append(["FPlot", None, None, None, None, None, None, None, None])
+            self.mutex.unlock()
+
             ploteo1 = self.Ploteo1.plot()
             ploteo2 = self.Ploteo2.plot()
 
-            self.threadPool.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
+            #self.threadPool.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
+            self.threadTwo.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
 
-            self.threadPool[len(self.threadPool)-1].newData1.connect(self. update1)
-            self.threadPool[len(self.threadPool)-1].newData2.connect(self. update2)
+            #self.threadPool[len(self.threadPool)-1].newData1.connect(self. update1)
+            self.threadTwo[len(self.threadTwo)-1].newData1.connect(self. update1)
+            #self.threadPool[len(self.threadPool)-1].newData2.connect(self. update2)
+            self.threadTwo[len(self.threadTwo)-1].newData2.connect(self. update2)
 
-            self.threadPool[len(self.threadPool)-1].start()
+            #self.threadPool[len(self.threadPool)-1].start()
+            self.threadTwo[len(self.threadTwo)-1].start()
 
         elif self .ui.RBPlotFin.isChecked():
             listaBarr = str(self.ui.LELisBarridos.text())

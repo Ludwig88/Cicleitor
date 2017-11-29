@@ -164,7 +164,7 @@ class LECTURA(QtCore.QThread):
 
     def RecibirPS(self):
         s = self.serial_port.readline()
-        print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
+        #print 'Limpio: "' + str(s) #+ '"' + "len es: " + str(len(s))
         # print 's-1' + s[len(s)-1]
         # print 'Cortado: "' + s +'"'
         if len(s) == 13:
