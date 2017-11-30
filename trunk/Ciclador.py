@@ -83,7 +83,12 @@ class Myform(QtGui.QMainWindow):
         # self.connect(self.threadPool[len(self.threadPool) - 1],
         #              self.threadPool[len(self.threadPool) - 1].signal,
         #              self.ActualValores)
-        self.connect(self.threadOne[len(self.threadOne) - 1], self.threadOne[len(self.threadOne) - 1].signal, self.ActualValores)
+        self.connect(self.threadOne[len(self.threadOne) - 1],
+                     self.threadOne[len(self.threadOne) - 1].signal,
+                     self.ActualValores)
+        self.connect(self.threadOne[len(self.threadOne) - 1],
+                     self.threadOne[len(self.threadOne) - 1].signalSingleShot,
+                     self.LlenoCamposCondGuardado)
 
     def inicio(self, Celda):
         if self.ui.BotActivo.isChecked():
@@ -141,8 +146,11 @@ class Myform(QtGui.QMainWindow):
 
     def ActCondUi(self):
         Celda=self.ui.cmbCelC.currentText()
-        (corriente, ciclos, vli, vls, tmax, prom) = Datos.xGetCondGuardado(Celda)
-        reng=NumDeCelda(Celda)
+        self.mutex.lock()
+        self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
+        self.mutex.unlock()
+
+    def LlenoCamposCondGuardado(self,corriente, ciclos, vli, vls, tmax, prom):
         self.ui.LinEdCorri.setText(str(corriente))
         self.ui.LinEdCiclos.setText(str(ciclos))
         self.ui.LinEdVLInf.setText(str(vli))

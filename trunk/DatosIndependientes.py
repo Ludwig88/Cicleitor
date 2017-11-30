@@ -123,6 +123,9 @@ class DatosCompartidos(QtCore.QThread):
                     print "[DIND] FINALIZA Celda PLOTEO en tiempo REAL"
                     self.dequePLOT.clear()
                     self.celdaPLOTTR = None
+                if mensaje == "AUI":
+                    print "[DIND] Celda PLOTEO en tiempo REAL"
+                    self.celdaCondUI = Celda
 
             if int(len(self.dequeIN)) >= 1:
                 try:
@@ -149,12 +152,16 @@ class DatosCompartidos(QtCore.QThread):
                     if Celda == self.celdaEnTiempoReal:
                         #print "[DIND] EMIT val en tiempo REAL"
                         [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
-                        self.emit(self.signal, str(ciclos), str(Tension), str(Corriente), str(tiempoCAct), str(tiempoTot), str(ingresos))
+                        self.emit(self.signal, str(ciclos),
+                                  str(voltios), str(corriente),
+                                  str(tiempoCAct), str(tiempoTot),
+                                  str(ingresos))
                     if Celda == self.celdaCondUI:
-                        #print "[DIND] EMIT val en tiempo REAL"
-                        #corriente, ciclos, vli, vls, tmax, prom
-                        [corriente, ciclos, vli, vls, tmax, prom ] = self.xGetCondGuardado(Celda)
-                        self.emit(self.signalSingleShot, str(corriente), str(ciclos), str(vli), str(vls), str(tmax), str(prom))
+                        [corriente, ciclos, vli, vls, tmax, prom] = self.xGetCondGuardado(Celda)
+                        self.emit(self.signalSingleShot,
+                                  str(corriente), str(ciclos),
+                                  str(vli), str(vls),
+                                  str(tmax), str(prom))
                     if Celda == self.celdaPLOTTR:
                         #print "[DIND] PLOT TIEMPO REAL"
                         [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
