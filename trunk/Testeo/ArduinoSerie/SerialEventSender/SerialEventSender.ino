@@ -87,7 +87,12 @@ void loop() {
       }
       sprintf(concat,"%s#%d",concat,random(1111, 9999));
       Serial.println(concat); 
-      delay(1);
+      //delay(1);
+      //1,2 mili segundos como en el Hard
+      //0,0012 = 1,2MILI = 1200 da 0,00175 de promedio entre cada celda
+      //0,0009 = 0,9MILI = 900 da  0,00155 de promedio entre cada celda
+      //0,0006 = 0,6MILI = 600 da  0,00105 de promedio entre cada celda
+      delayMicroseconds(70);
     }
       
      if (Serial.available() != 0) {

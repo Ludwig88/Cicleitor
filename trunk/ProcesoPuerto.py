@@ -46,7 +46,8 @@ class LECTURA(QtCore.QThread):
             return
 
         while self.serial_port.is_open:
-            time.sleep(0.01)
+            #time.sleep(0.01)
+            time.sleep(0.00001)
             flagSend = False
             try:
                 recepcion = self.RecibirPS() + '#' + str(time.time() - 1500000000)
@@ -55,7 +56,15 @@ class LECTURA(QtCore.QThread):
             separado = recepcion.split('#', 4)
             # [char(celda), string(tension), string(corriente), string(tiempo)]
             """variables para guardado"""
-            if separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
+
+            if separado[0].startswith("ok"):
+                print "------------------------------------------"
+                print separado
+                print "------------------------------------------"
+                print "CONFIRMADA RECEPCION DE SETEO DE CORRIENTE"
+                print "------------------------------------------"
+                print "------------------------------------------"
+            elif separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
                 try:
                     celda = separado[0]
                 except:
@@ -78,6 +87,7 @@ class LECTURA(QtCore.QThread):
                     self.mutex.lock()
                     self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
                     self.mutex.unlock()
+
             if int(len(self.dequeIN)) > 0:
                 self.mutex.lock()
                 [mensaje, celda, Corriente] = self.dequeIN.pop()
@@ -170,6 +180,9 @@ class LECTURA(QtCore.QThread):
         if len(s) == 13:
             s = s[:len(s) - 1]
             #print "[PORT] "+ str(s)
+            return s
+        elif len(s) <= 4:
+            s = s[:len(s) - 1]
             return s
         else:
             return '$#$#$'

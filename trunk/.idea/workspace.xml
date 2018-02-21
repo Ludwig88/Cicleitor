@@ -4,8 +4,8 @@
     <list default="true" id="63c7cac0-c939-4199-b594-6697ebbc972a" name="Default" comment="ver &quot;ninguna activa&quot;, reenvio de corriente! y recepcion en arduino">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../tags/v1.0/Ciclador-1.0.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndependientes.py" afterPath="$PROJECT_DIR$/DatosIndependientes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProcesoPuerto.py" afterPath="$PROJECT_DIR$/ProcesoPuerto.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Testeo/ArduinoSerie/SerialEventSender/SerialEventSender.ino" afterPath="$PROJECT_DIR$/Testeo/ArduinoSerie/SerialEventSender/SerialEventSender.ino" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,18 +16,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ciclador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="90" column="50" lean-forward="false" selection-start-line="90" selection-start-column="50" selection-end-line="90" selection-end-column="50" />
+            <state relative-caret-position="-384">
+              <caret line="138" column="25" lean-forward="true" selection-start-line="138" selection-start-column="25" selection-end-line="138" selection-end-column="25" />
               <folding>
                 <element signature="e#47#71#0" expanded="true" />
                 <element signature="e#493#1714#0" expanded="false" />
                 <element signature="e#1749#2249#0" expanded="false" />
-                <element signature="e#3764#4198#0" expanded="false" />
                 <element signature="e#4248#5357#0" expanded="false" />
-                <element signature="e#5393#5669#0" expanded="false" />
                 <element signature="e#6770#7223#0" expanded="false" />
                 <element signature="e#7261#7354#0" expanded="false" />
                 <element signature="e#7881#8160#0" expanded="false" />
@@ -40,41 +38,44 @@
                 <element signature="e#10702#12382#0" expanded="false" />
                 <element signature="e#12446#14357#0" expanded="false" />
                 <element signature="e#14415#16164#0" expanded="false" />
-                <element signature="e#16194#16321#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QObject.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/-1247972723/PyQt4/QtCore/QObject.py">
+      <file leaf-file-name="ProcesoPuerto.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-226">
-              <caret line="24" column="8" lean-forward="false" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+            <state relative-caret-position="52">
+              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DatosIndependientes.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DatosIndependientes.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1082">
-              <caret line="151" column="55" lean-forward="false" selection-start-line="151" selection-start-column="55" selection-end-line="151" selection-end-column="55" />
+            <state relative-caret-position="103">
+              <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
               <folding>
+                <element signature="e#3649#5544#0" expanded="false" />
                 <element signature="e#4039#4759#0" expanded="false" />
-                <element signature="e#4817#4903#0" expanded="false" />
-                <element signature="e#4961#5055#0" expanded="false" />
-                <element signature="e#5114#5201#0" expanded="false" />
-                <element signature="e#5261#5399#0" expanded="false" />
-                <element signature="e#5631#5774#0" expanded="false" />
-                <element signature="e#5830#5941#0" expanded="false" />
-                <element signature="e#6259#6500#0" expanded="false" />
-                <element signature="e#6585#6795#0" expanded="false" />
-                <element signature="e#6876#7274#0" expanded="false" />
-                <element signature="e#7349#7651#0" expanded="false" />
-                <element signature="e#7726#8058#0" expanded="false" />
+                <element signature="e#5606#8376#0" expanded="false" />
+                <element signature="e#8417#9670#0" expanded="false" />
+                <element signature="e#9717#11077#0" expanded="false" />
+                <element signature="e#11204#13832#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatosIndividualesCelda.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="52" column="8" lean-forward="false" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,13 +91,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>start</find>
-      <find>dequePLOT</find>
-      <find>filaPloteo</find>
-      <find>threadPool.append</find>
-      <find>Cambio</find>
-      <find>radio</find>
-      <find>PLOTE</find>
       <find>len</find>
       <find>celplo</find>
       <find>threadPool.</find>
@@ -120,6 +114,13 @@
       <find>signal</find>
       <find>celdaCondUI</find>
       <find>||</find>
+      <find>append</find>
+      <find>[DIND] recibo OK!</find>
+      <find>sleep</find>
+      <find>dequeOUT</find>
+      <find>xEnviarPS</find>
+      <find>LECTURA</find>
+      <find>dequeIN</find>
     </findStrings>
     <replaceStrings>
       <replace>#myapp</replace>
@@ -150,17 +151,17 @@
         <option value="$PROJECT_DIR$/Testeo/pruebaEnvioSerie(LEN_1).py" />
         <option value="$PROJECT_DIR$/Testeo/PES-LEN2.py" />
         <option value="$PROJECT_DIR$/Testeo/PES-LEN1.py" />
-        <option value="$PROJECT_DIR$/ProcesoPuerto.py" />
         <option value="$PROJECT_DIR$/DatosIndependientes.py" />
         <option value="$PROJECT_DIR$/Ciclador.py" />
+        <option value="$PROJECT_DIR$/ProcesoPuerto.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="50" />
-    <option name="y" value="-11" />
-    <option name="width" value="1317" />
-    <option name="height" value="780" />
+    <option name="x" value="51" />
+    <option name="y" value="-4" />
+    <option name="width" value="1313" />
+    <option name="height" value="764" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -178,6 +179,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -189,7 +191,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -629,7 +630,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511917787478</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="falta one shot">
+      <created>1512008139562</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1512008139563</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TodoView">
@@ -642,13 +650,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="-11" width="1317" height="780" extended-state="6" />
+    <frame x="51" y="-4" width="1315" height="772" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22931442" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23325454" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87540454" sideWeight="0.427896" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18770227" sideWeight="0.5787072" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.394822" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50647247" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24595469" sideWeight="0.4144996" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -691,7 +699,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="borro el csv" />
     <MESSAGE value="cada dcelda es una instancia copiada" />
     <MESSAGE value="agregar loopeo en datos globales con interfaz de comunicacion mediante deques con el puerto, simplificar para solo pila de lectura y pila de escritura" />
     <MESSAGE value="empiezo a crear comunicacion entre threads con solamente deques" />
@@ -716,7 +723,8 @@
     <MESSAGE value="ver &quot;ninguna activa&quot;, reenvio de corriente! y recepcion en arduino" />
     <MESSAGE value="testing files sent" />
     <MESSAGE value="ver signals para UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver signals para UI" />
+    <MESSAGE value="falta one shot" />
+    <option name="LAST_COMMIT_MESSAGE" value="falta one shot" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -732,13 +740,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Ciclador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -951,58 +952,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="166" column="9" lean-forward="false" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PROCESO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1468">
           <caret line="88" column="30" lean-forward="false" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1947">
-          <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-          <folding>
-            <element signature="e#1764#3407#0" expanded="false" />
-            <element signature="e#3476#5973#0" expanded="false" />
-            <element signature="e#6079#7362#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1082">
-          <caret line="151" column="55" lean-forward="false" selection-start-line="151" selection-start-column="55" selection-end-line="151" selection-end-column="55" />
-          <folding>
-            <element signature="e#4039#4759#0" expanded="false" />
-            <element signature="e#4817#4903#0" expanded="false" />
-            <element signature="e#4961#5055#0" expanded="false" />
-            <element signature="e#5114#5201#0" expanded="false" />
-            <element signature="e#5261#5399#0" expanded="false" />
-            <element signature="e#5631#5774#0" expanded="false" />
-            <element signature="e#5830#5941#0" expanded="false" />
-            <element signature="e#6259#6500#0" expanded="false" />
-            <element signature="e#6585#6795#0" expanded="false" />
-            <element signature="e#6876#7274#0" expanded="false" />
-            <element signature="e#7349#7651#0" expanded="false" />
-            <element signature="e#7726#8058#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/-1247972723/PyQt4/QtCore/QObject.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-226">
+        <state relative-caret-position="432">
           <caret line="24" column="8" lean-forward="false" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
           <folding />
         </state>
@@ -1010,15 +969,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="90" column="50" lean-forward="false" selection-start-line="90" selection-start-column="50" selection-end-line="90" selection-end-column="50" />
+        <state relative-caret-position="-384">
+          <caret line="138" column="25" lean-forward="true" selection-start-line="138" selection-start-column="25" selection-end-line="138" selection-end-column="25" />
           <folding>
             <element signature="e#47#71#0" expanded="true" />
             <element signature="e#493#1714#0" expanded="false" />
             <element signature="e#1749#2249#0" expanded="false" />
-            <element signature="e#3764#4198#0" expanded="false" />
             <element signature="e#4248#5357#0" expanded="false" />
-            <element signature="e#5393#5669#0" expanded="false" />
             <element signature="e#6770#7223#0" expanded="false" />
             <element signature="e#7261#7354#0" expanded="false" />
             <element signature="e#7881#8160#0" expanded="false" />
@@ -1031,7 +988,45 @@
             <element signature="e#10702#12382#0" expanded="false" />
             <element signature="e#12446#14357#0" expanded="false" />
             <element signature="e#14415#16164#0" expanded="false" />
-            <element signature="e#16194#16321#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2017.2/system/python_stubs/-1247972723/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="2079" column="8" lean-forward="false" selection-start-line="2079" selection-start-column="8" selection-end-line="2079" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="52" column="8" lean-forward="false" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding>
+            <element signature="e#3649#5544#0" expanded="false" />
+            <element signature="e#4039#4759#0" expanded="false" />
+            <element signature="e#5606#8376#0" expanded="false" />
+            <element signature="e#8417#9670#0" expanded="false" />
+            <element signature="e#9717#11077#0" expanded="false" />
+            <element signature="e#11204#13832#0" expanded="false" />
           </folding>
         </state>
       </provider>
