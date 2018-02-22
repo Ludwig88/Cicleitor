@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+log = open("/home/lucho/Escritorio/Enlace hacia TrabajosGit/Cicleitor/trunk/LogProcesoPuerto.txt", "w")
+#print("INICIO", file = log)
+
 from PyQt4 import QtCore
 from PyQt4.Qt import QMutex
 from collections import deque # double ended queue
@@ -42,12 +46,11 @@ class LECTURA(QtCore.QThread):
                 self.serial_port.close()
             self.serial_port = serial.Serial(**self.serial_arg)
         except serial.SerialException:
-            print "error en el try del serial port"
+            print("error en el try del serial port",file=log)
             return
 
         while self.serial_port.is_open:
-            #time.sleep(0.01)
-            time.sleep(0.00001)
+            time.sleep(0.00001) #puede llegar a necesitar estar mas alto
             flagSend = False
             try:
                 recepcion = self.RecibirPS() + '#' + str(time.time() - 1500000000)
@@ -58,13 +61,10 @@ class LECTURA(QtCore.QThread):
             """variables para guardado"""
 
             if separado[0].startswith("ok"):
-                print "------------------------------------------"
-                print separado
-                print "------------------------------------------"
-                print "CONFIRMADA RECEPCION DE SETEO DE CORRIENTE"
-                print "------------------------------------------"
-                print "------------------------------------------"
-            elif separado[0] != '$' or separado[1] != '$' or separado[2] != '$':
+                self.mutex.lock()
+                self.dequeOUT.append(["OK!", celda, None, Corriente, None])
+                self.mutex.unlock()
+            elif separado[0] != '$' or separado[1] != '$' or separado[2] != '$' or len(separado) !=4 :
                 try:
                     celda = separado[0]
                 except:
@@ -80,10 +80,12 @@ class LECTURA(QtCore.QThread):
                     Corriente = int(separado[2]) - 1024
                 except:
                     Corriente = "NAN"
-                Tiempo = float(separado[3])
+                try:
+                    Tiempo = float(separado[3])
+                except:
+                    Tiempo = "NAN"
                 #Append en la deque de salida
-                #print "[PORT|" + str(celda) + "]  append Corriente: " + str(Corriente) + " Tiempo: "+str(Tiempo)
-                if celda != "x" and Tension != "NAN" and Corriente != "NAN":
+                if celda != "x" and Tension != "NAN" and Corriente != "NAN" and Tiempo != "NAN":
                     self.mutex.lock()
                     self.dequeOUT.append(["RAW", celda, Tension, Corriente, Tiempo])
                     self.mutex.unlock()
@@ -91,42 +93,39 @@ class LECTURA(QtCore.QThread):
             if int(len(self.dequeIN)) > 0:
                 self.mutex.lock()
                 [mensaje, celda, Corriente] = self.dequeIN.pop()
-                print "mensaje y demas " + str([mensaje, celda, Corriente])
+                #print "mensaje y demas " + str([mensaje, celda, Corriente])
                 self.mutex.unlock()
                 """Ninguna activa"""
                 if mensaje is "END":
-                     print "[PORT] cortando loop de lectura"
+                     print("[PORT] cortando loop de lectura",file=log)
                      break
                 """Hay celdas por setear"""
                 if 112 >= ord(celda) >= 97:
                     if mensaje == "SETI":
-                        print "[PORT|" + str(celda) + "] SETI arrived with " + str(Corriente)
+                        print("[PORT|" + str(celda) + "] SETI arrived with " + str(Corriente),file=log)
                         self.EnviarPS_I(Corriente, celda)
-                        self.mutex.lock()
-                        self.dequeOUT.append(["OK!", celda, None, Corriente, None])
-                        self.mutex.unlock()
 
         # clean up
         if self.serial_port:
             self.serial_port.close()
 
     def EnviarPS_I(self, ua, celda):
-        print "[PORT|send] celda a enviar " + str(celda) +" len es: " + str(len(celda))
+        print("[PORT|send] celda a enviar " + str(celda) +" len es: " + str(len(celda)),file=log)
         self.serial_port.write_timeout = 0.1
         #print "out waiting " + str(self.serial_port.out_waiting)
         """si uso el time out de escritura meter un try catch"""
         #print "settings " + str(self.serial_port.get_settings())
         try:
             #bytes escritos
-            print self.serial_port.write(celda)
+            print(self.serial_port.write(celda),file=log)
             time.sleep(0.25)
             #print "[PORT|send] Envio OK"
             self.serial_port.flushOutput()
-            print "[PORT|send] "+str(self.serial_port.write(celda))
+            print("[PORT|send] "+str(self.serial_port.write(celda)),file=log)
             self.serial_port.flushOutput()
             #time.sleep(0.25)
         except serial.SerialTimeoutException:
-            print "[PORT|send] timeOut de envio Serie"
+            print("[PORT|send] timeOut de envio Serie",file=log)
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
         # global ser
@@ -186,3 +185,4 @@ class LECTURA(QtCore.QThread):
             return s
         else:
             return '$#$#$'
+
