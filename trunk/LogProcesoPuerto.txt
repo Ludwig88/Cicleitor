@@ -1,0 +1,123 @@
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+1
+[PORT|send] 1
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+1
+[PORT|send] 1
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+1
+[PORT|send] 1
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+1
+[PORT|send] 1
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|send] celda a enviar h len es: 1
+[PORT|send] timeOut de envio Serie
+[PORT|h] SETI arrived with 1000
+[PORT|
