@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
+import os
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
+log = open(filename, "w")
+#print("error en el try del serial port",file=log)
+
+GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
+
 import csv  # , resource
 import pyqtgraph as pg
 import string
@@ -22,7 +32,7 @@ class Myform(QtGui.QMainWindow):
     def __init__(self, parent=None):
         locale = unicode(QtCore.QLocale.system().name())
         QtGui.QWidget.__init__(self, parent)
-        self.ui = loadUi("CicladorIG-3.ui", self)
+        self.ui = loadUi(GraphicInterface, self)
 
         self.flagVTR = False
         self.flagPLOTVTR = False
@@ -44,7 +54,7 @@ class Myform(QtGui.QMainWindow):
         #self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         self.threadOne.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         #self.threadPool[len(self.threadPool) - 1].start()
-        print "valor de len de thread one menso 1 es "+str(len(self.threadOne) - 1)
+        print( "valor de len de thread one menos 1 es "+str(len(self.threadOne) - 1),file=log)
         self.threadOne[len(self.threadOne) - 1].start()
 
         self.ui.BotActivo.setCheckable(True)
@@ -56,7 +66,7 @@ class Myform(QtGui.QMainWindow):
         Celda = unicode(self.ui.cmbCelV.currentText())
         Promedio = float(self.ui.cmbPromV.currentText())
         T_Max = int(self.ui.LinEdTiemV.text())
-        print "[UICICL] datos " + str(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
+        print( "[UICICL] datos " + str(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False]),file=log)
         self.mutex.lock()
         self.dequeSetting.append(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
         self.mutex.unlock()
@@ -75,7 +85,7 @@ class Myform(QtGui.QMainWindow):
             CargaOdescarga = True
         else:
             CargaOdescarga = False
-        print "[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+        print( "[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]),file=log)
         self.mutex.lock()
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
         self.mutex.unlock()
@@ -138,7 +148,7 @@ class Myform(QtGui.QMainWindow):
 
     def PararCelda(self):
         Celda = self.ui.cmbCelPlot.currentText()
-        print "[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
+        print( "[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False]),file=log)
         self.mutex.lock()
         self.dequeSetting.append(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
         self.mutex.unlock()
@@ -187,11 +197,11 @@ class Myform(QtGui.QMainWindow):
         self.ui.cmbProm.setCurrentIndex(7)
 
     def PararGrafico(self):
-        print "[UICICL] trato de parar thread"
+        print( "[UICICL] trato de parar thread",file=log)
         self.threadTwo[len(self.threadTwo) - 1].stop()
 
     def ValTiempoReal(self):
-        print "[CICL] val en tiempo REAL"
+        print( "[CICL] val en tiempo REAL",file=log)
         Celda = self.ui.cmbCelC.currentText()
         self.mutex.lock()
         self.flagVTR = not self.flagVTR
@@ -202,12 +212,13 @@ class Myform(QtGui.QMainWindow):
         self.mutex.unlock()
 
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
-        self.ui.SalBarrido.setText(str(barrido))
-        self.ui.SalVInst.setText(str(Vin))
-        self.ui.SalIInst.setText(str(Iin))
-        self.ui.SalTiemp.setText(str(Tiem))
-        self.ui.SalTiempTot.setText(str(TiempoTotal))
-        self.ui.SalMuestrasInst.setText(str(Ingresos))
+        if (barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0):
+            self.ui.SalBarrido.setText(str(barrido))
+            self.ui.SalVInst.setText(str(Vin))
+            self.ui.SalIInst.setText(str(Iin))
+            self.ui.SalTiemp.setText(str(Tiem))
+            self.ui.SalTiempTot.setText(str(TiempoTotal))
+            self.ui.SalMuestrasInst.setText(str(Ingresos))
 
     """ ############################################################## PLOTEO """
     def LimPant(self):
@@ -217,7 +228,7 @@ class Myform(QtGui.QMainWindow):
     def Plot(self):
         Celda = self.ui.cmbCelPlot.currentText()
         if self.ui.RBTiemReal.isChecked():
-            print "[CICL_PLOT] Starts plot en tiempo REAL"
+            print( "[CICL_PLOT] Starts plot en tiempo REAL",file=log)
             self.mutex.lock()
             self.flagPLOTVTR = not self.flagPLOTVTR
             if self.flagPLOTVTR:
@@ -286,12 +297,12 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2.clear()
         for j in barridos:
             j=int(j)
-            print str(len(DequePLOT))
+            print( str(len(DequePLOT)),file=log)
             for i in range(len(DequePLOT)-2):
                 if DequePLOT[i][0] >= j:
                     if DequePLOT[i][3]==0 and len(ValT)!=0 :
                         self.Ploteo1.plot(ValT, ValX , pen=(j,len(barridos)))
-                        print 'carga ' + str(len(ValT))
+                        print( 'carga ' + str(len(ValT)),file=log)
                         ValT=[]
                         ValX=[]
                         ValT+=DequePLOT [i][3],
@@ -300,7 +311,7 @@ class Myform(QtGui.QMainWindow):
                         ValT+=DequePLOT[i][3] ,
                         ValX+=DequePLOT[i][1],  # tension
                 if DequePLOT[i][0]>j:
-                    print 'descarga ' + str(len(ValT))
+                    print( 'descarga ' + str(len(ValT)),file=log)
                     self.Ploteo1.plot(ValT, ValX, pen=(j,len(barridos)))
                     ValT=[]
                     ValX=[]
@@ -328,7 +339,7 @@ class Myform(QtGui.QMainWindow):
                 DequePLOT.append(renglon)
 
         barridoMax=DequePLOT[len(DequePLOT)-2 ][ 0]
-        print 'barrido ultimo: '+str(barridoMax)
+        print( 'barrido ultimo: '+str(barridoMax),file=log)
 
         ValCapacidades=[]
         for i in range(1 , int(barridoMax)+1):
@@ -341,7 +352,7 @@ class Myform(QtGui.QMainWindow):
                     if DequePLOT[j][3] > tiempo:
                         tiempo = DequePLOT[j][3]
             ValCapacidades+=( corriente/(samples))*(tiempo/ PesoAnodo),
-        print ValCapacidades
+        print( ValCapacidades,file=log)
         # symbol='o',
         self.Ploteo2.clear()
         self. Ploteo2.plot(ValCapacidades, symbol='+', pen= 'r') # self.Ploteo2. setLabel('left' , text='Capacidad Anodica', units='[uA*s/gr]',unitPrefix=None)

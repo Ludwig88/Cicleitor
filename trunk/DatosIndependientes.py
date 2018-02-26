@@ -29,6 +29,14 @@
 # voltajeLimSuperior = 0
 # corriente = 0
 # tiempoMaxBarrido = 0
+
+from __future__ import print_function
+
+import os
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
+log = open(filename, "w")
+
 import csv
 from PyQt4 import QtCore
 from PyQt4.Qt import QMutex
@@ -46,7 +54,7 @@ class DatosCompartidos(QtCore.QThread):
     celdasAenviar = []
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
-        print "[DCOMP] initing"
+        print("[DCOMP] initing", file=log)
         self.a = DatosCelda("a")
         self.b = DatosCelda("b") #2
         self.c = DatosCelda("c") #3
@@ -80,7 +88,7 @@ class DatosCompartidos(QtCore.QThread):
         self.dequeOUT = deque(maxlen=16000) #seteos de celdas a puerto
         self.dequeIN = deque(maxlen=16000) #desde puerto crudo
         """"""
-        #print "arranco thread de lectura desde DatosIndependientes"
+        #print( "arranco thread de lectura desde DatosIndependientes", file=log)
         self.PoolThread.append(ProcesoPuerto.LECTURA(self.dequePLOT, self.dequeOUT, self.dequeIN))
         #self.PoolThread[len(self.PoolThread) - 1].start()
 
@@ -91,6 +99,7 @@ class DatosCompartidos(QtCore.QThread):
         self.PoolThread[len(self.PoolThread) - 1].start()
         while True:
             time.sleep(0.001)
+            #proceso desde UI hacia puerto
             if int(len(self.dequeSettings)) >= 1:
                 try:
                     self.mutex.lock()
@@ -99,9 +108,9 @@ class DatosCompartidos(QtCore.QThread):
                 except IndexError:
                     mensaje = Celda = Corriente = None
                 if mensaje == "SETC" or mensaje == "SETV":
-                    print "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
+                    print( "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
                     if self.xIsActive(Celda):
-                        print "[DIND|"+str(Celda)+"]activada"
+                        print( "[DIND|"+str(Celda)+"]activada", file=log)
                     else:
                         if mensaje == "SETC":
                             self.xEnviarPS(Celda, 1)
@@ -111,22 +120,22 @@ class DatosCompartidos(QtCore.QThread):
                             self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
                 if mensaje == "VTR":
-                    print "[DIND] Celda en tiempo REAL"
+                    print( "[DIND] Celda en tiempo REAL", file=log)
                     self.celdaEnTiempoReal = Celda
                 if mensaje == "FTR":
-                    print "[DIND] FINALIZA Celda en tiempo REAL"
+                    print( "[DIND] FINALIZA Celda en tiempo REAL", file=log)
                     self.celdaEnTiempoReal = None
                 if mensaje == "Plot":
-                    print "[DIND] Celda PLOTEO en tiempo REAL"
+                    print( "[DIND] Celda PLOTEO en tiempo REAL", file=log)
                     self.celdaPLOTTR = Celda
                 if mensaje == "FPlot":
-                    print "[DIND] FINALIZA Celda PLOTEO en tiempo REAL"
+                    print( "[DIND] FINALIZA Celda PLOTEO en tiempo REAL", file=log)
                     self.dequePLOT.clear()
                     self.celdaPLOTTR = None
                 if mensaje == "AUI":
-                    print "[DIND] Celda PLOTEO en tiempo REAL"
+                    print( "[DIND] Celda PLOTEO en tiempo REAL", file=log)
                     self.celdaCondUI = Celda
-
+            # proceso desde puerto hacia csv's
             if int(len(self.dequeIN)) >= 1:
                 try:
                     self.mutex.lock()
@@ -134,42 +143,53 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = Celda = Tension = Corriente = Tiempo = None
-                    print "[DIND] error extrayendo datos"
+                    print( "[DIND] error extrayendo datos", file=log)
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
-                        #print "[DIND] Cambio = "+str(cambio)
+                        #print( "[DIND] Cambio = "+str(cambio), file=log)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
+                            if cambio == 2:
+                                self.xPararCelda(Celda)
+                                # Intento Parar Plot
+                                self.mutex.lock()
+                                self.dequePLOT.append([Celda, 0, 0, 0, 0])
+                                self.mutex.unlock()
+                                # Intento Parar datos en tiempo real
+                                self.emit(self.signal, str(0),
+                                          str(0), str(0),
+                                          str(0), str(0),
+                                          str(0))
                         if self.enColaPorEnviar() != 0:
                             Celda, Corriente = self.xGetPorSetear()
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
-                    if Celda == self.celdaEnTiempoReal:
-                        #print "[DIND] EMIT val en tiempo REAL"
-                        [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
-                        self.emit(self.signal, str(ciclos),
-                                  str(voltios), str(corriente),
-                                  str(tiempoCAct), str(tiempoTot),
-                                  str(ingresos))
-                    if Celda == self.celdaCondUI:
-                        [corriente, ciclos, vli, vls, tmax, prom] = self.xGetCondGuardado(Celda)
-                        self.emit(self.signalSingleShot,
-                                  str(corriente), str(ciclos),
-                                  str(vli), str(vls),
-                                  str(tmax), str(prom))
-                    if Celda == self.celdaPLOTTR:
-                        #print "[DIND] PLOT TIEMPO REAL"
-                        [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
-                        self.mutex.lock()
-                        self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
-                        self.mutex.unlock()
+                        if Celda == self.celdaEnTiempoReal:
+                            #print( "[DIND] EMIT val en tiempo REAL", file=log)
+                            [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
+                            self.emit(self.signal, str(ciclos),
+                                      str(voltios), str(corriente),
+                                      str(tiempoCAct), str(tiempoTot),
+                                      str(ingresos))
+                        if Celda == self.celdaCondUI:
+                            [corriente, ciclos, vli, vls, tmax, prom] = self.xGetCondGuardado(Celda)
+                            self.emit(self.signalSingleShot,
+                                      str(corriente), str(ciclos),
+                                      str(vli), str(vls),
+                                      str(tmax), str(prom))
+                        if Celda == self.celdaPLOTTR:
+                            #print( "[DIND] PLOT TIEMPO REAL", file=log)
+                            [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
+                            self.mutex.lock()
+                            self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
+                            self.mutex.unlock()
                 if mensaje == "OK!":
-                    print "[DIND] recibo OK!"
+                    print( "[DIND] recibo OK!", file=log)
                     self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
@@ -211,7 +231,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.Activada()
         else:
-            print "[DIND|xIsActive]- Atrib error"
+            print( "[DIND|xIsActive]- Atrib error", file=log)
             return False
 
     def xSetActive(self, num, modo):
@@ -248,7 +268,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.CambiaModo(modo)
         else:
-            print "[DIND|xSetActive]- Atrib error"
+            print( "[DIND|xSetActive]- Atrib error", file=log)
             return False
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
@@ -285,27 +305,27 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         else:
-            print "[DIND|xCondGuard] Attr Error"
+            print( "[DIND|xCondGuard] Attr Error", file=log)
             return False
 
     def enColaPorEnviar(self):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        print "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar())
-        print "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val)
+        print( "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
+        print( "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
         if num == "a" or num ==1:
             if (self.a.NecesitoEnviar(val)) == True:
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
-                    print "[DIND][xEnvPS] popeo"
+                    print( "[DIND][xEnvPS] popeo", file=log)
                     self.celdasAenviar.pop(0)
-                print "[DIND][xEnvPS] por enviar corriente"
+                print( "[DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print "[DIND][xEnvPS] no se pudo enviar corriente"
+                print( "[DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "b" or num == 2:
@@ -314,10 +334,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
+                print( "DInd - por enviar corriente", file=log)
                 return True
             else:
-                print "DInd - no se pudo enviar corriente"
+                print( "DInd - no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "c" or num == 3:
@@ -326,10 +346,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                print "DInd - por enviar corriente"
+                print( "DInd - por enviar corriente", file=log)
                 return True
             else:
-                print "DInd - no se pudo enviar corriente"
+                print( "DInd - no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "d" or num == 4:
@@ -338,10 +358,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "e" or num == 5:
@@ -350,10 +370,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "f" or num == 6:
@@ -362,10 +382,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "g" or num == 7:
@@ -374,10 +394,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "h" or num == 8:
@@ -386,10 +406,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "i" or num == 9:
@@ -398,10 +418,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "j" or num == 10:
@@ -410,10 +430,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "k" or num == 11:
@@ -422,10 +442,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "l" or num == 12:
@@ -434,10 +454,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "m" or num == 13:
@@ -446,10 +466,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "n" or num == 14:
@@ -458,10 +478,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "o" or num == 15:
@@ -470,10 +490,10 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "p" or num == 16:
@@ -482,112 +502,112 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print "DInd - por enviar corriente"
+                    print( "DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print "DInd - no se pudo enviar corriente"
+                    print( "DInd - no se pudo enviar corriente", file=log)
                     return False
         else:
-            print "datos independientes- EnviarPS - Atrib error"
+            print( "datos independientes- EnviarPS - Atrib error", file=log)
 
     def xPararCelda(self, num):
         if num == "a" or 1:
             if (self.a.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "b" or 2:
             if (self.b.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "c" or 3:
             if (self.c.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "d" or 4:
             if (self.d.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "e" or 5:
             if (self.e.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "f" or 6:
             if (self.f.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "g" or 7:
             if (self.g.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "h" or 8:
             if (self.h.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "i" or 9:
             if (self.i.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "j" or 10:
             if (self.j.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "k" or 11:
             if (self.k.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "l" or 12:
             if (self.l.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "m" or 13:
             if (self.m.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "n" or 14:
             if (self.n.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "o" or 15:
             if (self.o.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
 
         elif num == "p" or 16:
             if (self.p.PararCelda()) == True:
-                print "DInd - parando celda"
+                print( "DInd - parando celda", file=log)
             else:
-                print "DInd - no se pudo parar celda"
+                print( "DInd - no se pudo parar celda", file=log)
         else:
-            print "datos independientes - parar celda - Atrib error"
+            print( "datos independientes - parar celda - Atrib error", file=log)
 
     def xGetCondTiempoReal(self, num):
         if num == "a" or num == 1:
@@ -883,7 +903,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.ActualizoCampos(tiempo, tension, corriente)
         else:
-            print "[DIND|xActCampo] - Atrib error"
+            print( "[DIND|xActCampo] - Atrib error", file=log)
 
     """
     def xGetBarrYTiempo(self, num):
@@ -920,7 +940,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or 16:
             return self.a.barridoActual, self.a.tiempoCicloActual
         else:
-            print "[DIND|xGetBarryT- Atrib error"
+            print( "[DIND|xGetBarryT- Atrib error", file=log)
 
     def xGetValTiempoReal(self, num):
         if num == "a" or 1:
@@ -956,7 +976,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or 16:
             return self.p.barridoActual, self.p.milivoltios, self.p.microAmperes, self.p.tiempoCicloActual
         else:
-            print "datos independientes - Atrib error"
+            print( "datos independientes - Atrib error", file=log)
     """
 
     """tengo que devolver"""
@@ -965,7 +985,7 @@ class DatosCompartidos(QtCore.QThread):
     def xGetPorSetear(self):
         celda = self.celdasAenviar[self.enColaPorEnviar()-1]
         corriente, a, b, c, d, e = self.xGetCondGuardado(celda)
-        print "[DIND] xget por setear " + str(celda) + "  " + str(corriente)
+        print( "[DIND] xget por setear " + str(celda) + "  " + str(corriente), file=log)
         return celda, corriente
 
     def AllDisable(self):

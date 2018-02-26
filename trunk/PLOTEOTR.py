@@ -18,6 +18,7 @@ class PLOTEOTR(pg.QtCore.QThread):
         self.Celda = Celda
         self.CONTENEDOR = FilaPlot
         self.mutex = QMutex()
+        self.Active = True
 
     def __del__(self):
         self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
@@ -27,7 +28,7 @@ class PLOTEOTR(pg.QtCore.QThread):
         Listax = deque(maxlen=16000)
         Listay = deque(maxlen=16000)
 
-        while True:
+        while self.Active:
             time.sleep(0.01)
             if int(len(self.CONTENEDOR)) >= 1:
                 #time.sleep(0.01)
@@ -43,6 +44,8 @@ class PLOTEOTR(pg.QtCore.QThread):
                 #     Listay = []
                 #     break
                 if separado[0] == str(self.Celda):
+                    if separado[1] == 0 and separado[2] == 0 and separado[3] == 0 :
+                        self.Active = False
                     Tension = separado[2] * (0.001)
                     Corriente = separado[3] * (0.001)
                     Listax.append(Tension)  # tension

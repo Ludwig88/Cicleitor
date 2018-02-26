@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-log = open("/home/lucho/Escritorio/Enlace hacia TrabajosGit/Cicleitor/trunk/LogProcesoPuerto.txt", "w")
-#print("INICIO", file = log)
+
+import os
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
+log = open(filename, "w")
+#print("error en el try del serial port",file=log)
 
 from PyQt4 import QtCore
 from PyQt4.Qt import QMutex
