@@ -3,18 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="63c7cac0-c939-4199-b594-6697ebbc972a" name="Default" comment="ver &quot;ninguna activa&quot;, reenvio de corriente! y recepcion en arduino">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../tags/v1.0/Ciclador-1.0.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CicladorIG-2.ui" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CicladorIG-3.ui" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CicladorIG.ui" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LogProcesoPuerto.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/PROCESO.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/battery.ico" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndependientes.py" afterPath="$PROJECT_DIR$/DatosIndependientes.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndividualesCelda.py" afterPath="$PROJECT_DIR$/DatosIndividualesCelda.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PLOTEOTR.py" afterPath="$PROJECT_DIR$/PLOTEOTR.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProcesoPuerto.py" afterPath="$PROJECT_DIR$/ProcesoPuerto.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Testeo/Archivo_Test" afterPath="$PROJECT_DIR$/Testeo/Archivo_Test" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -53,7 +42,7 @@
       <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Ciclador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
+            <state relative-caret-position="3888">
               <caret line="216" column="0" lean-forward="false" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
               <folding>
                 <element signature="e#47#84#0" expanded="true" />
@@ -318,13 +307,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1505256713526</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Thread Serie Quilombo previo a Class DatosGlobales">
-      <created>1505951514768</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1505951514768</updated>
     </task>
     <task id="LOCAL-00003" summary="inicio parte de celda de Class DatosGlobales">
       <created>1506040265302</created>
@@ -662,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519264467881</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="separo en debug y graphics. Cambio finales de proceso. (testear) logueo todos las partes por separado">
+      <created>1519689188487</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1519689188488</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TodoView">
@@ -724,7 +713,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implementados deques entre Puerto y Proceso, y UI y Proceso" />
     <MESSAGE value="chequeo de correcta recepcion de string desde UI" />
     <MESSAGE value="Sigue sin tomar la comunicacion cuando voy de una clase a otra (dentro mismo de Datos compartidos) comiteoa ntes de meter la clase dentro de la otra clase y no solamente como instancia" />
     <MESSAGE value="Separo DatosCelda y queda pensar comuniacion thread safe con DatosIndependientes" />
@@ -749,7 +737,8 @@
     <MESSAGE value="comienzo de proceso de confirmacion de recepcion de seteo desde puerto al resto del sistema" />
     <MESSAGE value="logueo en archivo, confirmacion de recepcion OK" />
     <MESSAGE value="test for updating purpouse" />
-    <option name="LAST_COMMIT_MESSAGE" value="test for updating purpouse" />
+    <MESSAGE value="separo en debug y graphics. Cambio finales de proceso. (testear) logueo todos las partes por separado" />
+    <option name="LAST_COMMIT_MESSAGE" value="separo en debug y graphics. Cambio finales de proceso. (testear) logueo todos las partes por separado" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1047,7 +1036,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
+        <state relative-caret-position="3888">
           <caret line="216" column="0" lean-forward="false" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
           <folding>
             <element signature="e#47#84#0" expanded="true" />
