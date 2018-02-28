@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
+import os
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, 'debug/Log.txt')
+log = None #open(filename, "a+")
+
 import time
 import pyqtgraph as pg
 from PyQt4.Qt import QMutex
@@ -27,6 +34,7 @@ class PLOTEOTR(pg.QtCore.QThread):
         # global CondPaBarrer     #         [celda, barrido (actual), Tinicio]
         Listax = deque(maxlen=16000)
         Listay = deque(maxlen=16000)
+        print("runing start", file=log)
 
         while self.Active:
             time.sleep(0.01)
@@ -35,17 +43,10 @@ class PLOTEOTR(pg.QtCore.QThread):
                 self.mutex.lock()
                 separado = self.CONTENEDOR.popleft()
                 self.mutex.unlock()
-                # if myapp.ui.BotParaPlot.isChecked() or separado[0] == '%':
-                #     print 'saliendo del plot desde plot class'
-                #     myapp.ui.BotParaPlot.setChecked(False)
-                #     myapp.ui.RBTiemReal.setChecked(False)
-                #     myapp.ui.LimPant()
-                #     Listax = []
-                #     Listay = []
-                #     break
                 if separado[0] == str(self.Celda):
                     if separado[1] == 0 and separado[2] == 0 and separado[3] == 0 :
                         self.Active = False
+                        print("Parando PloteoTR", file=log)
                     Tension = separado[2] * (0.001)
                     Corriente = separado[3] * (0.001)
                     Listax.append(Tension)  # tension

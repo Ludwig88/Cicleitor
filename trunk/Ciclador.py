@@ -5,8 +5,8 @@ from __future__ import print_function
 
 import os
 dir = os.path.dirname(__file__)
-filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
-log = open(filename, "w")
+filename = os.path.join(dir, 'debug/Log.txt')
+log = None #open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
@@ -54,7 +54,8 @@ class Myform(QtGui.QMainWindow):
         #self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         self.threadOne.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         #self.threadPool[len(self.threadPool) - 1].start()
-        print( "valor de len de thread one menos 1 es "+str(len(self.threadOne) - 1),file=log)
+        print("cualquiera", file=log)
+        print("valor de len de thread one menos 1 es " + str(len(self.threadOne) - 1), file=log)
         self.threadOne[len(self.threadOne) - 1].start()
 
         self.ui.BotActivo.setCheckable(True)
@@ -85,7 +86,9 @@ class Myform(QtGui.QMainWindow):
             CargaOdescarga = True
         else:
             CargaOdescarga = False
-        print( "[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]),file=log)
+        print("[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
+        print("[UICICL] datos " + str(
+            ["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]))
         self.mutex.lock()
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
         self.mutex.unlock()
@@ -148,7 +151,7 @@ class Myform(QtGui.QMainWindow):
 
     def PararCelda(self):
         Celda = self.ui.cmbCelPlot.currentText()
-        print( "[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False]),file=log)
+        print("[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
         self.mutex.unlock()
@@ -160,7 +163,7 @@ class Myform(QtGui.QMainWindow):
         self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
-    def LlenoCamposCondGuardado(self,corriente, ciclos, vli, vls, tmax, prom):
+    def LlenoCamposCondGuardado(self, corriente, ciclos, vli, vls, tmax, prom):
         self.ui.LinEdCorri.setText(str(corriente))
         self.ui.LinEdCiclos.setText(str(ciclos))
         self.ui.LinEdVLInf.setText(str(vli))
@@ -197,28 +200,33 @@ class Myform(QtGui.QMainWindow):
         self.ui.cmbProm.setCurrentIndex(7)
 
     def PararGrafico(self):
-        print( "[UICICL] trato de parar thread",file=log)
-        self.threadTwo[len(self.threadTwo) - 1].stop()
+        print("[CICL] trato de parar thread", file=log)
+        self.mutex.lock()
+        self.dequeSetting.append(["FTR", Celda, None, None, None, None, None, None, None])
+        self.mutex.unlock()
 
     def ValTiempoReal(self):
-        print( "[CICL] val en tiempo REAL",file=log)
-        Celda = self.ui.cmbCelC.currentText()
+        Celda = self.ui.cmbCelTReal.currentText()
         self.mutex.lock()
         self.flagVTR = not self.flagVTR
         if self.flagVTR:
+            print("[CICL] inicia val en tiempo REAL con " + str(Celda), file=log)
             self.dequeSetting.append(["VTR", Celda, None, None, None, None, None, None, None])
         else:
-            self.dequeSetting.append(["FTR", None, None, None, None, None, None, None, None])
+            print("[CICL] Finaliza val en tiempo REAL con " + str(Celda), file=log)
+            self.dequeSetting.append(["FTR", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
-        if (barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0):
+        if barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0:
             self.ui.SalBarrido.setText(str(barrido))
             self.ui.SalVInst.setText(str(Vin))
             self.ui.SalIInst.setText(str(Iin))
             self.ui.SalTiemp.setText(str(Tiem))
             self.ui.SalTiempTot.setText(str(TiempoTotal))
             self.ui.SalMuestrasInst.setText(str(Ingresos))
+        else:
+            print("[] Actualizo valores - FIN")
 
     """ ############################################################## PLOTEO """
     def LimPant(self):

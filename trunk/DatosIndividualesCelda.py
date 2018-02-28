@@ -2,9 +2,8 @@ from __future__ import print_function
 
 import os
 dir = os.path.dirname(__file__)
-filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
-log = open(filename, "w")
-#print("error en el try del serial port",file=log)
+filename = os.path.join(dir, 'debug/Log.txt')
+log = None #open(filename, "a+")
 
 from collections import deque
 import csv

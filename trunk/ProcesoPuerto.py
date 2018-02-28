@@ -5,8 +5,8 @@ from __future__ import print_function
 
 import os
 dir = os.path.dirname(__file__)
-filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
-log = open(filename, "w")
+filename = os.path.join(dir, 'debug/Log.txt')
+log = None #open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 from PyQt4 import QtCore
@@ -50,7 +50,7 @@ class LECTURA(QtCore.QThread):
                 self.serial_port.close()
             self.serial_port = serial.Serial(**self.serial_arg)
         except serial.SerialException:
-            print("error en el try del serial port",file=log)
+            print("error en el try del serial port", file=log)
             return
 
         while self.serial_port.is_open:

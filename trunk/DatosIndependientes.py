@@ -34,8 +34,8 @@ from __future__ import print_function
 
 import os
 dir = os.path.dirname(__file__)
-filename = os.path.join(dir, 'debug/LogProcesoPuerto.txt')
-log = open(filename, "w")
+filename = os.path.join(dir, 'debug/Log.txt')
+log = None #open(filename, "a+")
 
 import csv
 from PyQt4 import QtCore
@@ -107,10 +107,22 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = Celda = Corriente = None
-                if mensaje == "SETC" or mensaje == "SETV":
-                    print( "[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
+                if mensaje == "SETC" or mensaje == "SETV" or mensaje == "FINV":
+                    print("[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
                     if self.xIsActive(Celda):
-                        print( "[DIND|"+str(Celda)+"]activada", file=log)
+                        print("[DIND|"+str(Celda)+"]activada", file=log)
+                        if mensaje == "FINV":
+                            print("[DIND|" + str(Celda) + "] desactiva por boton", file=log)
+                            self.xPararCelda(Celda)
+                            # Intento Parar Plot
+                            self.mutex.lock()
+                            self.dequePLOT.append([Celda, 0, 0, 0, 0])
+                            self.mutex.unlock()
+                            # Intento Parar datos en tiempo real
+                            self.emit(self.signal, str(0),
+                                      str(0), str(0),
+                                      str(0), str(0),
+                                      str(0))
                     else:
                         if mensaje == "SETC":
                             self.xEnviarPS(Celda, 1)
@@ -120,20 +132,20 @@ class DatosCompartidos(QtCore.QThread):
                             self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
                 if mensaje == "VTR":
-                    print( "[DIND] Celda en tiempo REAL", file=log)
+                    print("[DIND] Celda en tiempo REAL", file=log)
                     self.celdaEnTiempoReal = Celda
                 if mensaje == "FTR":
-                    print( "[DIND] FINALIZA Celda en tiempo REAL", file=log)
+                    print("[DIND] FINALIZA Celda en tiempo REAL", file=log)
                     self.celdaEnTiempoReal = None
                 if mensaje == "Plot":
-                    print( "[DIND] Celda PLOTEO en tiempo REAL", file=log)
+                    print("[DIND] Celda PLOTEO en tiempo REAL", file=log)
                     self.celdaPLOTTR = Celda
                 if mensaje == "FPlot":
-                    print( "[DIND] FINALIZA Celda PLOTEO en tiempo REAL", file=log)
+                    print("[DIND] FINALIZA Celda PLOTEO en tiempo REAL", file=log)
                     self.dequePLOT.clear()
                     self.celdaPLOTTR = None
                 if mensaje == "AUI":
-                    print( "[DIND] Celda PLOTEO en tiempo REAL", file=log)
+                    print("[DIND] Celda PLOTEO en tiempo REAL", file=log)
                     self.celdaCondUI = Celda
             # proceso desde puerto hacia csv's
             if int(len(self.dequeIN)) >= 1:
@@ -154,12 +166,15 @@ class DatosCompartidos(QtCore.QThread):
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
                             if cambio == 2:
+                                print("[DIND] termino ploteo en TR y datos en tiempo R ", file=log)
                                 self.xPararCelda(Celda)
                                 # Intento Parar Plot
                                 self.mutex.lock()
                                 self.dequePLOT.append([Celda, 0, 0, 0, 0])
                                 self.mutex.unlock()
                                 # Intento Parar datos en tiempo real
+                                ########################################################################
+                                #como determino si es esa celda???
                                 self.emit(self.signal, str(0),
                                           str(0), str(0),
                                           str(0), str(0),
@@ -315,14 +330,14 @@ class DatosCompartidos(QtCore.QThread):
         print( "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
         print( "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
-        if num == "a" or num ==1:
-            if (self.a.NecesitoEnviar(val)) == True:
+        if num == "a" or num == 1:
+            if self.a.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
-                    print( "[DIND][xEnvPS] popeo", file=log)
+                    print("[DIND][xEnvPS] popeo", file=log)
                     self.celdasAenviar.pop(0)
-                print( "[DIND][xEnvPS] por enviar corriente", file=log)
+                print("[DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
                 print( "[DIND][xEnvPS] no se pudo enviar corriente", file=log)
@@ -512,10 +527,10 @@ class DatosCompartidos(QtCore.QThread):
 
     def xPararCelda(self, num):
         if num == "a" or 1:
-            if (self.a.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+            if self.a.PararCelda():
+                print("DInd - parando celda " + str(num), file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda " + str(num), file=log)
 
         elif num == "b" or 2:
             if (self.b.PararCelda()) == True:
