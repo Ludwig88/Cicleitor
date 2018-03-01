@@ -150,15 +150,16 @@ class Myform(QtGui.QMainWindow):
             self.ui.RBp.setChecked(estado)
 
     def PararCelda(self):
-        Celda = self.ui.cmbCelPlot.currentText()
-        print("[UICICL] datos " + str(["SETS", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
+        Celda = self.ui.cmbCelC.currentText()
+        print("[UICICL] datos " + str(["FINV", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
         self.mutex.lock()
-        self.dequeSetting.append(["SETS", Celda, 0, 0, 0, 0, 0, 0, False])
+        self.dequeSetting.append(["FINV", Celda, 0, 0, 0, 0, 0, 0, False])
         self.mutex.unlock()
-        self.inicio(Celda)
+        self.chequeaRB(Celda, False)
 
     def ActCondUi(self):
         Celda=self.ui.cmbCelC.currentText()
+        print("[UICICL] datos " + str(["AUI", Celda, None, None, None, None, None, None, None]), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
@@ -200,9 +201,10 @@ class Myform(QtGui.QMainWindow):
         self.ui.cmbProm.setCurrentIndex(7)
 
     def PararGrafico(self):
-        print("[CICL] trato de parar thread", file=log)
+        Celda = self.ui.cmbCelPlot.currentText()
+        print("[CICL] Parar plot para " + str(Celda), file=log)
         self.mutex.lock()
-        self.dequeSetting.append(["FTR", Celda, None, None, None, None, None, None, None])
+        self.dequeSetting.append(["FPlot", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
     def ValTiempoReal(self):
@@ -219,6 +221,7 @@ class Myform(QtGui.QMainWindow):
 
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
         if barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0:
+            print("[CICL] -val-", file=log)
             self.ui.SalBarrido.setText(str(barrido))
             self.ui.SalVInst.setText(str(Vin))
             self.ui.SalIInst.setText(str(Iin))
@@ -226,7 +229,7 @@ class Myform(QtGui.QMainWindow):
             self.ui.SalTiempTot.setText(str(TiempoTotal))
             self.ui.SalMuestrasInst.setText(str(Ingresos))
         else:
-            print("[] Actualizo valores - FIN")
+            print("[CICL] Actualizo valores - FIN", file=log)
 
     """ ############################################################## PLOTEO """
     def LimPant(self):
@@ -236,7 +239,7 @@ class Myform(QtGui.QMainWindow):
     def Plot(self):
         Celda = self.ui.cmbCelPlot.currentText()
         if self.ui.RBTiemReal.isChecked():
-            print( "[CICL_PLOT] Starts plot en tiempo REAL",file=log)
+            print("[CICL_PLOT] Starts plot en tiempo REAL", file=log)
             self.mutex.lock()
             self.flagPLOTVTR = not self.flagPLOTVTR
             if self.flagPLOTVTR:

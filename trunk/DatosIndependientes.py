@@ -114,15 +114,14 @@ class DatosCompartidos(QtCore.QThread):
                         if mensaje == "FINV":
                             print("[DIND|" + str(Celda) + "] desactiva por boton", file=log)
                             self.xPararCelda(Celda)
-                            # Intento Parar Plot
-                            self.mutex.lock()
-                            self.dequePLOT.append([Celda, 0, 0, 0, 0])
-                            self.mutex.unlock()
-                            # Intento Parar datos en tiempo real
-                            self.emit(self.signal, str(0),
-                                      str(0), str(0),
-                                      str(0), str(0),
-                                      str(0))
+                            if Celda == self.celdaPLOTTR:
+                                # Intento Parar Plot
+                                self.mutex.lock()
+                                self.dequePLOT.append([Celda, 0, 0, 0, 0])
+                                self.mutex.unlock()
+                            if Celda == self.celdaPLOTTR:
+                                # Parar datos en tiempo real
+                                self.emit(self.signal, str(0), str(0), str(0), str(0), str(0), str(0))
                     else:
                         if mensaje == "SETC":
                             self.xEnviarPS(Celda, 1)
@@ -132,20 +131,25 @@ class DatosCompartidos(QtCore.QThread):
                             self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
                 if mensaje == "VTR":
-                    print("[DIND] Celda en tiempo REAL", file=log)
+                    print("[DIND] Celda en tiempo REAL " + str(Celda), file=log)
                     self.celdaEnTiempoReal = Celda
                 if mensaje == "FTR":
-                    print("[DIND] FINALIZA Celda en tiempo REAL", file=log)
+                    print("[DIND] FINALIZA Celda en tiempo REAL " + str(self.celdaEnTiempoReal), file=log)
                     self.celdaEnTiempoReal = None
                 if mensaje == "Plot":
-                    print("[DIND] Celda PLOTEO en tiempo REAL", file=log)
+                    print("[DIND] Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
                     self.celdaPLOTTR = Celda
                 if mensaje == "FPlot":
-                    print("[DIND] FINALIZA Celda PLOTEO en tiempo REAL", file=log)
-                    self.dequePLOT.clear()
+                    print("[DIND] FINALIZA Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
+                    if Celda == self.celdaPLOTTR:
+                        # Intento Parar Plot
+                        self.mutex.lock()
+                        self.dequePLOT.append([Celda, 0, 0, 0, 0])
+                        self.mutex.unlock()
                     self.celdaPLOTTR = None
+                    self.dequePLOT.clear()
                 if mensaje == "AUI":
-                    print("[DIND] Celda PLOTEO en tiempo REAL", file=log)
+                    print("[DIND] Celda valores en tiempo REAL " + str(Celda), file=log)
                     self.celdaCondUI = Celda
             # proceso desde puerto hacia csv's
             if int(len(self.dequeIN)) >= 1:
@@ -155,7 +159,7 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = Celda = Tension = Corriente = Tiempo = None
-                    print( "[DIND] error extrayendo datos", file=log)
+                    print("[DIND] error extrayendo datos", file=log)
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
@@ -168,30 +172,26 @@ class DatosCompartidos(QtCore.QThread):
                             if cambio == 2:
                                 print("[DIND] termino ploteo en TR y datos en tiempo R ", file=log)
                                 self.xPararCelda(Celda)
-                                # Intento Parar Plot
-                                self.mutex.lock()
-                                self.dequePLOT.append([Celda, 0, 0, 0, 0])
-                                self.mutex.unlock()
-                                # Intento Parar datos en tiempo real
-                                ########################################################################
-                                #como determino si es esa celda???
-                                self.emit(self.signal, str(0),
-                                          str(0), str(0),
-                                          str(0), str(0),
-                                          str(0))
+                                if Celda == self.celdaPLOTTR:
+                                    # Intento Parar Plot
+                                    self.mutex.lock()
+                                    self.dequePLOT.append([Celda, 0, 0, 0, 0])
+                                    self.mutex.unlock()
+                                if Celda == self.celdaPLOTTR:
+                                    # Parar datos en tiempo real
+                                    self.emit(self.signal, str(0), str(0), str(0), str(0), str(0), str(0))
                         if self.enColaPorEnviar() != 0:
                             Celda, Corriente = self.xGetPorSetear()
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
                         if Celda == self.celdaEnTiempoReal:
-                            #print( "[DIND] EMIT val en tiempo REAL", file=log)
                             [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
-                            self.emit(self.signal, str(ciclos),
-                                      str(voltios), str(corriente),
-                                      str(tiempoCAct), str(tiempoTot),
-                                      str(ingresos))
+                            print("[DIND] EMIT val en tiempo REAL (ingresos " + str(ingresos) + ")", file=log)
+                            self.emit(self.signal, str(ciclos), str(voltios), str(corriente),
+                                      str(tiempoCAct), str(tiempoTot), str(ingresos))
                         if Celda == self.celdaCondUI:
+                            print("[DIND] -ui-", file=log)
                             [corriente, ciclos, vli, vls, tmax, prom] = self.xGetCondGuardado(Celda)
                             self.emit(self.signalSingleShot,
                                       str(corriente), str(ciclos),
@@ -327,8 +327,8 @@ class DatosCompartidos(QtCore.QThread):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        print( "[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
-        print( "[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
+        print("[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
+        print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):
@@ -340,289 +340,289 @@ class DatosCompartidos(QtCore.QThread):
                 print("[DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print( "[DIND][xEnvPS] no se pudo enviar corriente", file=log)
+                print("[DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "b" or num == 2:
-            if (self.b.NecesitoEnviar(val)) == True:
+            if self.b.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                print( "DInd - por enviar corriente", file=log)
+                print("DInd - por enviar corriente", file=log)
                 return True
             else:
-                print( "DInd - no se pudo enviar corriente", file=log)
+                print("DInd - no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "c" or num == 3:
-            if (self.c.NecesitoEnviar(val)) == True:
+            if self.c.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                print( "DInd - por enviar corriente", file=log)
+                print("DInd - por enviar corriente", file=log)
                 return True
             else:
-                print( "DInd - no se pudo enviar corriente", file=log)
+                print("DInd - no se pudo enviar corriente", file=log)
                 return False
 
         elif num == "d" or num == 4:
-            if (self.d.NecesitoEnviar(val)) == True:
+            if self.d.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "e" or num == 5:
-            if (self.e.NecesitoEnviar(val)) == True:
+            if self.e.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "f" or num == 6:
-            if (self.f.NecesitoEnviar(val)) == True:
+            if self.f.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "g" or num == 7:
-            if (self.g.NecesitoEnviar(val)) == True:
+            if self.g.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "h" or num == 8:
-            if (self.h.NecesitoEnviar(val)) == True:
+            if self.h.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "i" or num == 9:
-            if (self.i.NecesitoEnviar(val)) == True:
+            if self.i.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "j" or num == 10:
-            if (self.j.NecesitoEnviar(val)) == True:
+            if self.j.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "k" or num == 11:
-            if (self.k.NecesitoEnviar(val)) == True:
+            if self.k.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "l" or num == 12:
-            if (self.l.NecesitoEnviar(val)) == True:
+            if self.l.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "m" or num == 13:
-            if (self.m.NecesitoEnviar(val)) == True:
+            if self.m.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "n" or num == 14:
-            if (self.n.NecesitoEnviar(val)) == True:
+            if self.n.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "o" or num == 15:
-            if (self.o.NecesitoEnviar(val)) == True:
+            if self.o.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
 
         elif num == "p" or num == 16:
-            if (self.p.NecesitoEnviar(val)) == True:
+            if self.p.NecesitoEnviar(val):
                 if val == 1:
                     self.celdasAenviar.extend(str(num))
                 elif val == 2:
                     self.celdasAenviar.pop(0)
-                    print( "DInd - por enviar corriente", file=log)
+                    print("DInd - por enviar corriente", file=log)
                     return True
                 else:
-                    print( "DInd - no se pudo enviar corriente", file=log)
+                    print("DInd - no se pudo enviar corriente", file=log)
                     return False
         else:
             print( "datos independientes- EnviarPS - Atrib error", file=log)
 
     def xPararCelda(self, num):
-        if num == "a" or 1:
+        if num == "a" or num == 1:
             if self.a.PararCelda():
                 print("DInd - parando celda " + str(num), file=log)
             else:
                 print("DInd - no se pudo parar celda " + str(num), file=log)
 
-        elif num == "b" or 2:
-            if (self.b.PararCelda()) == True:
+        elif num == "b" or num == 2:
+            if self.b.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "c" or num == 3:
+            if self.c.PararCelda() :
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "d" or num == 4:
+            if self.d.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "e" or num == 5:
+            if self.e.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "f" or num == 6:
+            if self.f.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "g" or num == 7:
+            if self.g.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "h" or num == 8:
+            if self.h.PararCelda():
+                print("DInd - parando celda", file=log)
+            else:
+                print("DInd - no se pudo parar celda", file=log)
+
+        elif num == "i" or num == 9:
+            if self.i.PararCelda():
                 print( "DInd - parando celda", file=log)
             else:
                 print( "DInd - no se pudo parar celda", file=log)
 
-        elif num == "c" or 3:
-            if (self.c.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "j" or num == 10:
+            if self.j.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "d" or 4:
-            if (self.d.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "k" or num == 11:
+            if self.k.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "e" or 5:
-            if (self.e.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "l" or num == 12:
+            if self.l.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "f" or 6:
-            if (self.f.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "m" or num == 13:
+            if self.m.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "g" or 7:
-            if (self.g.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "n" or num == 14:
+            if self.n.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "h" or 8:
-            if (self.h.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "o" or num == 15:
+            if self.o.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
 
-        elif num == "i" or 9:
-            if (self.i.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
+        elif num == "p" or num == 16:
+            if self.p.PararCelda():
+                print("DInd - parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "j" or 10:
-            if (self.j.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "k" or 11:
-            if (self.k.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "l" or 12:
-            if (self.l.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "m" or 13:
-            if (self.m.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "n" or 14:
-            if (self.n.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "o" or 15:
-            if (self.o.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
-
-        elif num == "p" or 16:
-            if (self.p.PararCelda()) == True:
-                print( "DInd - parando celda", file=log)
-            else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print("DInd - no se pudo parar celda", file=log)
         else:
-            print( "datos independientes - parar celda - Atrib error", file=log)
+            print("datos independientes - parar celda - Atrib error", file=log)
 
     def xGetCondTiempoReal(self, num):
         if num == "a" or num == 1:
