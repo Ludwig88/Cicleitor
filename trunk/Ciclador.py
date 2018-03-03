@@ -51,12 +51,18 @@ class Myform(QtGui.QMainWindow):
         self.filaDatos = deque(maxlen=16000)
         self.dequeSetting = deque(maxlen=100)
 
-        #self.threadPool.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
         self.threadOne.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
-        #self.threadPool[len(self.threadPool) - 1].start()
+
         print("cualquiera", file=log)
         print("valor de len de thread one menos 1 es " + str(len(self.threadOne) - 1), file=log)
         self.threadOne[len(self.threadOne) - 1].start()
+
+        self.connect(self.threadOne[len(self.threadOne) - 1],
+                     self.threadOne[len(self.threadOne) - 1].signal,
+                     self.ActualValores)
+        self.connect(self.threadOne[len(self.threadOne) - 1],
+                     self.threadOne[len(self.threadOne) - 1].signalSingleShot,
+                     self.LlenoCamposCondGuardado)
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -96,12 +102,12 @@ class Myform(QtGui.QMainWindow):
         # self.connect(self.threadPool[len(self.threadPool) - 1],
         #              self.threadPool[len(self.threadPool) - 1].signal,
         #              self.ActualValores)
-        self.connect(self.threadOne[len(self.threadOne) - 1],
-                     self.threadOne[len(self.threadOne) - 1].signal,
-                     self.ActualValores)
-        self.connect(self.threadOne[len(self.threadOne) - 1],
-                     self.threadOne[len(self.threadOne) - 1].signalSingleShot,
-                     self.LlenoCamposCondGuardado)
+        # self.connect(self.threadOne[len(self.threadOne) - 1],
+        #              self.threadOne[len(self.threadOne) - 1].signal,
+        #              self.ActualValores)
+        # self.connect(self.threadOne[len(self.threadOne) - 1],
+        #              self.threadOne[len(self.threadOne) - 1].signalSingleShot,
+        #              self.LlenoCamposCondGuardado)
 
     def inicio(self, Celda):
         if self.ui.BotActivo.isChecked():
@@ -251,32 +257,26 @@ class Myform(QtGui.QMainWindow):
             ploteo1 = self.Ploteo1.plot()
             ploteo2 = self.Ploteo2.plot()
 
-            #self.threadPool.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
             self.threadTwo.append(PLOTEOTR.PLOTEOTR(Celda, self.filaPloteo))
-
-            #self.threadPool[len(self.threadPool)-1].newData1.connect(self. update1)
             self.threadTwo[len(self.threadTwo)-1].newData1.connect(self. update1)
-            #self.threadPool[len(self.threadPool)-1].newData2.connect(self. update2)
             self.threadTwo[len(self.threadTwo)-1].newData2.connect(self. update2)
-
-            #self.threadPool[len(self.threadPool)-1].start()
             self.threadTwo[len(self.threadTwo)-1].start()
 
         elif self .ui.RBPlotFin.isChecked():
             listaBarr = str(self.ui.LELisBarridos.text())
-            listaBarr=listaBarr.split(',')
+            listaBarr = listaBarr.split(',')
             self.PlotFinal(str(Celda),listaBarr)
 
         elif self .ui.RDdefinido.isChecked():
-            Inicial=int(self.ui.LEBarIn.text())
-            Final=int(self.ui.LEBarFin.text())
+            Inicial = int(self.ui.LEBarIn.text())
+            Final = int(self.ui.LEBarFin.text())
             self.PlotEntreVal(Inicial,Final,Celda)
 
         elif self.ui. RBCapac.isChecked():
-            PesoAnodo=float(self.ui.LEPesoAnodo. text ())
+            PesoAnodo = float(self.ui.LEPesoAnodo. text ())
             self.PlotFinalCapacidades(Celda,PesoAnodo)
 
-    def update1( self, data1):
+    def update1(self, data1):
         self.Ploteo1.plot(data1,pen='g',clear=True)  # data2,clear=True)
         self.Ploteo1.setLabel('left', text='Tension', units='mV', unitPrefix=None)
         self.Ploteo1. showGrid(x=True, y=True, alpha=None)
@@ -287,7 +287,7 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2.setLabel('left', text='Corriente', units='uA', unitPrefix=None)
         self.Ploteo2.showGrid(x=True, y=True, alpha=None)
 
-    def PlotFinal(self,Celda,barridos):
+    def PlotFinal(self, Celda, barridos):
         DequePLOT = deque()
         nombre ='Arch_Cn-'+ str(Celda) +'.csv'
         with open(nombre) as f:
@@ -435,7 +435,7 @@ def NumDeCelda(celda):
             return i
             break
 
-if __name__=="__main__":
+if  __name__  ==  "__main__" :
     app = QtGui.QApplication(sys.argv)
     myapp = Myform()
     myapp.show()

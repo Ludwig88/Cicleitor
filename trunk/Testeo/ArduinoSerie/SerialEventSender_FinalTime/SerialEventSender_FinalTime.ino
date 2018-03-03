@@ -96,6 +96,7 @@ void loop() {
       //0,0009 = 0,9MILI = 900 da  0,00155 de promedio entre cada celda
       //0,0006 = 0,6MILI = 600 da  0,00105 de promedio entre cada celda
       delayMicroseconds(60);
+      //delay(1);
     }
       
      if (Serial.available() != 0) {
@@ -118,79 +119,169 @@ void loop() {
           break;
           
         case 'b':
-          b=8888;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            b=8888;
+          }
+          else {
+            b=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'c':
-          c=7777;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            c=8888;
+          }
+          else {
+            c=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'd':
-          d=6666;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            d=8888;
+          }
+          else {
+            d=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'e':
-          e=5555;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            e=8888;
+          }
+          else {
+            e=1111;
+          }
           Serial.println("ok");
           break;
 
         case 'f':
-          f=4444;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            f=8888;
+          }
+          else {
+            f=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'g':
-          g=3333;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            g=8888;
+          }
+          else {
+            g=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'h':
-          h=2222;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            h=8888;
+          }
+          else {
+            h=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'i':
-          i=1111;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            i=8888;
+          }
+          else {
+            i=1111;
+          }
           Serial.println("ok");
           break;
 
         case 'j':
-          j=8989;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            j=8888;
+          }
+          else {
+            j=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'k':
-          k=9898;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            k=8888;
+          }
+          else {
+            k=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'l':
-          l=1717;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            l=8888;
+          }
+          else {
+            l=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'm':
-          m=5656;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            m=8888;
+          }
+          else {
+            m=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'n':
-          n=3232;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            n=8888;
+          }
+          else {
+            n=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'o':
-          o=9090;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            o=8888;
+          }
+          else {
+            o=1111;
+          }
           Serial.println("ok");
           break;
           
         case 'p':
-          p=9909;
+          digitalWrite(led, (state) ? HIGH : LOW);
+          if(state){
+            p=8888;
+          }
+          else {
+            p=1111;
+          }
           Serial.println("ok");
-          break; 
+          break;
           
         default:
           Serial.println("nok");

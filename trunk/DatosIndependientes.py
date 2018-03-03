@@ -327,8 +327,8 @@ class DatosCompartidos(QtCore.QThread):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        print("[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
-        print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
+        #print("[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
+        #print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):

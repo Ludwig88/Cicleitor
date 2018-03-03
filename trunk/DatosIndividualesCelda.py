@@ -38,8 +38,6 @@ class DatosCelda:
         self.iniciaEnCarga = True
         self.corrienteSetActual = corr
 
-        self.corrienteSetNueva = 0  ####
-
         self.tiempoInicioCiclo = 0
         # atributos tiempo real
         self.tiempoCicloActual = 0
@@ -70,26 +68,26 @@ class DatosCelda:
                 self.porenviar = 0
                 return True
             else:
-                print( "[DCELD][xEnvPS] 1 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 1 Necesito Enviar Error",file=log)
                 return False
         elif val == 1:
             if self.porenviar == 0:
                 self.porenviar = 1
                 return True
             elif self.porenviar == 1:
-                print( "[DCELD][xEnvPS] 2 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 2 Necesito Enviar Error",file=log)
                 return False
             elif self.porenviar == 2:
                 self.porenviar = 1
                 # puerto ya envio y levanto nuevamente
                 return True
             else:
-                print( "[DCELD][xEnvPS] 2 2 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 2 2 Necesito Enviar Error",file=log)
                 return False
         elif val == 2:
             if self.porenviar == 0:
                 # si nadie me levanto el flag no puedo limpiar
-                print( "[DCELD][xEnvPS] 3 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 3 Necesito Enviar Error",file=log)
                 return False
             elif self.porenviar == 1:
                 self.porenviar = 2
@@ -98,10 +96,10 @@ class DatosCelda:
                 # ya hice ack
                 return False
             else:
-                print( "[DCELD][xEnvPS] 3 3 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 3 3 Necesito Enviar Error",file=log)
                 return False
         else:
-            print( "[DCELD][xEnvPS] 4 Necesito Enviar val error",file=log)
+            print("[DCELD][xEnvPS] 4 Necesito Enviar val error",file=log)
             return False
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
@@ -164,17 +162,17 @@ class DatosCelda:
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         BadArgument = 0
         self.ingresos = 1
-        print( "[CELD] ingresos " + str(self.ingresos),file=log)
+        print("[CELD] ingresos " + str(self.ingresos),file=log)
         if barridos > 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
         else:
-            print( "[CELD] Bad Arg: Barridos",file=log)
+            print("[CELD] Bad Arg: Barridos",file=log)
             BadArgument = 1
         self.CargaDescarga = ComienzaEnCarga
         if 0 <= Promedio >= 100:
             self.promediado = Promedio
         else:
-            print( "[CELD] Bad Arg: Promedio",file=log)
+            print("[CELD] Bad Arg: Promedio",file=log)
             BadArgument = 1
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
@@ -182,9 +180,9 @@ class DatosCelda:
         if -999999 <= Corr <= 999999:
             self.corrienteSetActual = Corr
         else:
-            print( "[CELD] Bad Arg: Corriente",file=log)
+            print("[CELD] Bad Arg: Corriente",file=log)
             BadArgument = 1
-        print( "[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
+        print("[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
               "VLI=" + str(self.voltajeLimInferior) + ", TMAX=" + str(self.tiempoMaxBarrido) + ", Corr=" + str(self.corrienteSetActual) + ", Promedio=" + str(self.promediado) + ", ComienzaEnCarga=" + str(self.iniciaEnCarga),file=log)
         if BadArgument != 0:
             print( "[CELD] Some Bad Arg return False",file=log)
@@ -196,12 +194,12 @@ class DatosCelda:
         if (self.milivoltios >= self.voltajeLimSuperior) \
                 or (self.milivoltios <= self.voltajeLimInferior) \
                 or (self.tiempoCicloActual >= self.tiempoMaxBarrido):
-            print( "[DCELD|supLim] supere algun extremo",file=log)
+            print("[DCELD|supLim] supere algun extremo",file=log)
             if (self.barridoActual + 1)  > self.barridosMax:
-                print( "[DCELD] termine ciclado",file=log)
+                print("[DCELD] termine ciclado",file=log)
                 return 2
             else:
-                print( "[DCELD] invertir corriente",file=log)
+                print("[DCELD] invertir corriente",file=log)
                 return 1
         else:
             return 0
