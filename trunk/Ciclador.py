@@ -6,7 +6,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = None #open(filename, "a+")
+log = open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
@@ -53,7 +53,6 @@ class Myform(QtGui.QMainWindow):
 
         self.threadOne.append(DatosIndependientes.DatosCompartidos(self.dequeSetting, self.filaPloteo))
 
-        print("cualquiera", file=log)
         print("valor de len de thread one menos 1 es " + str(len(self.threadOne) - 1), file=log)
         self.threadOne[len(self.threadOne) - 1].start()
 
@@ -93,8 +92,8 @@ class Myform(QtGui.QMainWindow):
         else:
             CargaOdescarga = False
         print("[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
-        print("[UICICL] datos " + str(
-            ["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]))
+        #print("[UICICL] datos " + str(
+        #    ["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]))
         self.mutex.lock()
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
         self.mutex.unlock()

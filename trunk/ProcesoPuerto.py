@@ -114,22 +114,22 @@ class LECTURA(QtCore.QThread):
             self.serial_port.close()
 
     def EnviarPS_I(self, ua, celda):
-        print("[PORT|send] celda a enviar " + str(celda) +" len es: " + str(len(celda)),file=log)
-        self.serial_port.write_timeout = 0.1
+        print("[PORT|send] celda a enviar " + str(celda) +" len es: " + str(len(celda)), file=log)
+        self.serial_port.write_timeout = 0.3
         #print "out waiting " + str(self.serial_port.out_waiting)
         """si uso el time out de escritura meter un try catch"""
         #print "settings " + str(self.serial_port.get_settings())
         try:
             #bytes escritos
-            print(self.serial_port.write(celda),file=log)
+            #print(self.serial_port.write(celda), file=log)
             time.sleep(0.25)
             #print "[PORT|send] Envio OK"
             self.serial_port.flushOutput()
-            print("[PORT|send] "+str(self.serial_port.write(celda)),file=log)
+            print("[PORT|send] "+str(self.serial_port.write(celda)), file=log)
             self.serial_port.flushOutput()
             #time.sleep(0.25)
         except serial.SerialTimeoutException:
-            print("[PORT|send] timeOut de envio Serie",file=log)
+            print("[PORT|send] timeOut de envio Serie", file=log)
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
         # global ser

@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = None #open(filename, "a+")
+log = open(filename, "a+")
 
 from collections import deque
 import csv
@@ -56,6 +56,7 @@ class DatosCelda:
        val=2: Ya envie Port a UI
     """
     def NecesitoEnviar(self, val):
+        print("[DCELD][xEnvPS] " + str(val) + " celda: " + str(self.nombre), file=log)
         if val == 0:
             if self.porenviar == 0:
                 # no puedo limpiar un flag ya limpio
@@ -68,26 +69,26 @@ class DatosCelda:
                 self.porenviar = 0
                 return True
             else:
-                print("[DCELD][xEnvPS] 1 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 1 Necesito Enviar Error", file=log)
                 return False
         elif val == 1:
             if self.porenviar == 0:
                 self.porenviar = 1
                 return True
             elif self.porenviar == 1:
-                print("[DCELD][xEnvPS] 2 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 2 Necesito Enviar Error", file=log)
                 return False
             elif self.porenviar == 2:
                 self.porenviar = 1
                 # puerto ya envio y levanto nuevamente
                 return True
             else:
-                print("[DCELD][xEnvPS] 2 2 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 2 2 Necesito Enviar Error", file=log)
                 return False
         elif val == 2:
             if self.porenviar == 0:
                 # si nadie me levanto el flag no puedo limpiar
-                print("[DCELD][xEnvPS] 3 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 3 Necesito Enviar Error", file=log)
                 return False
             elif self.porenviar == 1:
                 self.porenviar = 2
@@ -96,10 +97,10 @@ class DatosCelda:
                 # ya hice ack
                 return False
             else:
-                print("[DCELD][xEnvPS] 3 3 Necesito Enviar Error",file=log)
+                print("[DCELD][xEnvPS] 3 3 Necesito Enviar Error", file=log)
                 return False
         else:
-            print("[DCELD][xEnvPS] 4 Necesito Enviar val error",file=log)
+            print("[DCELD][xEnvPS] 4 Necesito Enviar val error", file=log)
             return False
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
@@ -273,15 +274,15 @@ class DatosCelda:
 
     def CerrarCSV(self):
         columna = [' ----- ', ' ----- ', ' ----- ',' ----- ', ' ----- ', ' ----- ']
-        filename = 'Arch_Cn-' + str(self.nombre) + '.csv'
+        Nombrefile = 'Arch_Cn-' + str(self.nombre) + '.csv'
         try:
-            open(filename, 'r')
-            with open(filename, 'a') as f:
+            open(Nombrefile, 'r')
+            with open(Nombrefile, 'a') as f:
                 f_csv = csv.writer(f)
                 f_csv.writerow(columna)
                 f.close()
         except IOError:
-            with open(filename, 'w+') as f:
+            with open(Nombrefile, 'w+') as f:
                 f_csv = csv.writer(f)
                 f_csv.writerow(self.encabezadoCSV)
                 f_csv.writerow(columna)

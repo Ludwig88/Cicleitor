@@ -35,7 +35,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = None #open(filename, "a+")
+log = open(filename, "a+")
 
 import csv
 from PyQt4 import QtCore
@@ -204,7 +204,7 @@ class DatosCompartidos(QtCore.QThread):
                             self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
                             self.mutex.unlock()
                 if mensaje == "OK!":
-                    print( "[DIND] recibo OK!", file=log)
+                    print("[DIND] recibo OK!", file=log)
                     self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
@@ -258,7 +258,7 @@ class DatosCompartidos(QtCore.QThread):
             return self.c.CambiaModo(modo)
         elif num == "d" or num == 4:
             return self.d.CambiaModo(modo)
-        elif num == "e" or num ==  5:
+        elif num == "e" or num == 5:
             return self.e.CambiaModo(modo)
         elif num == "f" or num == 6:
             return self.f.CambiaModo(modo)
@@ -283,7 +283,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.CambiaModo(modo)
         else:
-            print( "[DIND|xSetActive]- Atrib error", file=log)
+            print("[DIND|xSetActive]- Atrib error", file=log)
             return False
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
@@ -327,8 +327,8 @@ class DatosCompartidos(QtCore.QThread):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        #print("[DIND][xEnvPS] longitud de cola de envio es " + str(self.enColaPorEnviar()), file=log)
-        #print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
+        print("[DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
+        print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):
@@ -342,7 +342,6 @@ class DatosCompartidos(QtCore.QThread):
             else:
                 print("[DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
-
         elif num == "b" or num == 2:
             if self.b.NecesitoEnviar(val):
                 if val == 1:
@@ -354,7 +353,6 @@ class DatosCompartidos(QtCore.QThread):
             else:
                 print("DInd - no se pudo enviar corriente", file=log)
                 return False
-
         elif num == "c" or num == 3:
             if self.c.NecesitoEnviar(val):
                 if val == 1:
@@ -366,7 +364,6 @@ class DatosCompartidos(QtCore.QThread):
             else:
                 print("DInd - no se pudo enviar corriente", file=log)
                 return False
-
         elif num == "d" or num == 4:
             if self.d.NecesitoEnviar(val):
                 if val == 1:
@@ -378,7 +375,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "e" or num == 5:
             if self.e.NecesitoEnviar(val):
                 if val == 1:
@@ -390,7 +386,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "f" or num == 6:
             if self.f.NecesitoEnviar(val):
                 if val == 1:
@@ -402,7 +397,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "g" or num == 7:
             if self.g.NecesitoEnviar(val):
                 if val == 1:
@@ -414,7 +408,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "h" or num == 8:
             if self.h.NecesitoEnviar(val):
                 if val == 1:
@@ -426,7 +419,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "i" or num == 9:
             if self.i.NecesitoEnviar(val):
                 if val == 1:
@@ -438,7 +430,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "j" or num == 10:
             if self.j.NecesitoEnviar(val):
                 if val == 1:
@@ -450,7 +441,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "k" or num == 11:
             if self.k.NecesitoEnviar(val):
                 if val == 1:
@@ -462,7 +452,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "l" or num == 12:
             if self.l.NecesitoEnviar(val):
                 if val == 1:
@@ -474,7 +463,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "m" or num == 13:
             if self.m.NecesitoEnviar(val):
                 if val == 1:
@@ -486,7 +474,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "n" or num == 14:
             if self.n.NecesitoEnviar(val):
                 if val == 1:
@@ -498,7 +485,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "o" or num == 15:
             if self.o.NecesitoEnviar(val):
                 if val == 1:
@@ -510,7 +496,6 @@ class DatosCompartidos(QtCore.QThread):
                 else:
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
-
         elif num == "p" or num == 16:
             if self.p.NecesitoEnviar(val):
                 if val == 1:
@@ -523,7 +508,7 @@ class DatosCompartidos(QtCore.QThread):
                     print("DInd - no se pudo enviar corriente", file=log)
                     return False
         else:
-            print( "datos independientes- EnviarPS - Atrib error", file=log)
+            print("datos independientes- EnviarPS - Atrib error", file=log)
 
     def xPararCelda(self, num):
         if num == "a" or num == 1:
@@ -918,7 +903,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.ActualizoCampos(tiempo, tension, corriente)
         else:
-            print( "[DIND|xActCampo] - Atrib error", file=log)
+            print("[DIND|xActCampo] - Atrib error", file=log)
 
     """
     def xGetBarrYTiempo(self, num):
@@ -1000,7 +985,7 @@ class DatosCompartidos(QtCore.QThread):
     def xGetPorSetear(self):
         celda = self.celdasAenviar[self.enColaPorEnviar()-1]
         corriente, a, b, c, d, e = self.xGetCondGuardado(celda)
-        print( "[DIND] xget por setear " + str(celda) + "  " + str(corriente), file=log)
+        print("[DIND] xget por setear " + str(celda) + "  " + str(corriente), file=log)
         return celda, corriente
 
     def AllDisable(self):
