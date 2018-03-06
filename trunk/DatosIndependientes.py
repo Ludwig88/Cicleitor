@@ -330,13 +330,17 @@ class DatosCompartidos(QtCore.QThread):
         print("[DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
         print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
+        if val == 2:
+            if self.enColaPorEnviar():
+                num = self.celdasAenviar.pop(0)
+                print("[DIND][xEnvPS] saco a " + num + " de la fila para enviar", file=log)
+            else:
+                print("[DIND][xEnvPS] no tengo ninguna celda en cola, error ", file=log)
+        if val == 1:
+            self.celdasAenviar.extend(str(num))
+
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    print("[DIND][xEnvPS] popeo", file=log)
-                    self.celdasAenviar.pop(0)
                 print("[DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
@@ -344,10 +348,6 @@ class DatosCompartidos(QtCore.QThread):
                 return False
         elif num == "b" or num == 2:
             if self.b.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
                 print("DInd - por enviar corriente", file=log)
                 return True
             else:
@@ -355,10 +355,6 @@ class DatosCompartidos(QtCore.QThread):
                 return False
         elif num == "c" or num == 3:
             if self.c.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
                 print("DInd - por enviar corriente", file=log)
                 return True
             else:
@@ -366,147 +362,95 @@ class DatosCompartidos(QtCore.QThread):
                 return False
         elif num == "d" or num == 4:
             if self.d.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "e" or num == 5:
             if self.e.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "f" or num == 6:
             if self.f.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "g" or num == 7:
             if self.g.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "h" or num == 8:
             if self.h.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "i" or num == 9:
             if self.i.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "j" or num == 10:
             if self.j.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "k" or num == 11:
             if self.k.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "l" or num == 12:
             if self.l.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "m" or num == 13:
             if self.m.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "n" or num == 14:
             if self.n.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "o" or num == 15:
             if self.o.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         elif num == "p" or num == 16:
             if self.p.NecesitoEnviar(val):
-                if val == 1:
-                    self.celdasAenviar.extend(str(num))
-                elif val == 2:
-                    self.celdasAenviar.pop(0)
-                    print("DInd - por enviar corriente", file=log)
-                    return True
-                else:
-                    print("DInd - no se pudo enviar corriente", file=log)
-                    return False
+                print("DInd - por enviar corriente", file=log)
+                return True
+            else:
+                print("DInd - no se pudo enviar corriente", file=log)
+                return False
         else:
             print("datos independientes- EnviarPS - Atrib error", file=log)
 

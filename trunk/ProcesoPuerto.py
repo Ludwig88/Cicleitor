@@ -66,6 +66,7 @@ class LECTURA(QtCore.QThread):
 
             if separado[0].startswith("ok"):
                 self.mutex.lock()
+                print("[PORT mensaje ok completo " + str(separado), file=log)
                 self.dequeOUT.append(["OK!", celda, None, Corriente, None])
                 self.mutex.unlock()
             elif separado[0] != '$' or separado[1] != '$' or separado[2] != '$' or len(separado) !=4 :
