@@ -14,7 +14,7 @@ GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
 import csv  # , resource
 import pyqtgraph as pg
 import string
-import sys
+import sys, datetime
 import time
 from PyQt4 import QtCore, QtGui
 from PyQt4.Qt import QMutex
@@ -72,7 +72,7 @@ class Myform(QtGui.QMainWindow):
         Celda = unicode(self.ui.cmbCelV.currentText())
         Promedio = float(self.ui.cmbPromV.currentText())
         T_Max = int(self.ui.LinEdTiemV.text())
-        print( "[UICICL] datos " + str(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False]),file=log)
+        print( "["+str(datetime.datetime.now())+"][UICICL] datos " + str(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False]),file=log)
         self.mutex.lock()
         self.dequeSetting.append(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
         self.mutex.unlock()
@@ -91,8 +91,8 @@ class Myform(QtGui.QMainWindow):
             CargaOdescarga = True
         else:
             CargaOdescarga = False
-        print("[UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
-        #print("[UICICL] datos " + str(
+        print("["+str(datetime.datetime.now())+"][UICICL] datos " + str(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
+        #print("["+str(datetime.datetime.now())+"UICICL] datos " + str(
         #    ["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]))
         self.mutex.lock()
         self.dequeSetting.append(["SETC", Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga])
@@ -156,7 +156,7 @@ class Myform(QtGui.QMainWindow):
 
     def PararCelda(self):
         Celda = self.ui.cmbCelC.currentText()
-        print("[UICICL] datos " + str(["FINV", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
+        print("["+str(datetime.datetime.now())+"UICICL] datos " + str(["FINV", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["FINV", Celda, 0, 0, 0, 0, 0, 0, False])
         self.mutex.unlock()
@@ -164,7 +164,7 @@ class Myform(QtGui.QMainWindow):
 
     def ActCondUi(self):
         Celda=self.ui.cmbCelC.currentText()
-        print("[UICICL] datos " + str(["AUI", Celda, None, None, None, None, None, None, None]), file=log)
+        print("["+str(datetime.datetime.now())+"][UICICL] datos " + str(["AUI", Celda, None, None, None, None, None, None, None]), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
@@ -207,7 +207,7 @@ class Myform(QtGui.QMainWindow):
 
     def PararGrafico(self):
         Celda = self.ui.cmbCelPlot.currentText()
-        print("[CICL] Parar plot para " + str(Celda), file=log)
+        print("["+str(datetime.datetime.now())+"][CICL] Parar plot para " + str(Celda), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["FPlot", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
@@ -217,16 +217,16 @@ class Myform(QtGui.QMainWindow):
         self.mutex.lock()
         self.flagVTR = not self.flagVTR
         if self.flagVTR:
-            print("[CICL] inicia val en tiempo REAL con " + str(Celda), file=log)
+            print("["+str(datetime.datetime.now())+"][CICL] inicia val en tiempo REAL con " + str(Celda), file=log)
             self.dequeSetting.append(["VTR", Celda, None, None, None, None, None, None, None])
         else:
-            print("[CICL] Finaliza val en tiempo REAL con " + str(Celda), file=log)
+            print("["+str(datetime.datetime.now())+"][CICL] Finaliza val en tiempo REAL con " + str(Celda), file=log)
             self.dequeSetting.append(["FTR", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
         if barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0:
-            print("[CICL] -val-", file=log)
+            #print("["+str(datetime.datetime.now())+"][CICL] -val-", file=log)
             self.ui.SalBarrido.setText(str(barrido))
             self.ui.SalVInst.setText(str(Vin))
             self.ui.SalIInst.setText(str(Iin))
@@ -234,7 +234,7 @@ class Myform(QtGui.QMainWindow):
             self.ui.SalTiempTot.setText(str(TiempoTotal))
             self.ui.SalMuestrasInst.setText(str(Ingresos))
         else:
-            print("[CICL] Actualizo valores - FIN", file=log)
+            print("["+str(datetime.datetime.now())+"][CICL] Actualizo valores - FIN", file=log)
 
     """ ############################################################## PLOTEO """
     def LimPant(self):
@@ -244,7 +244,7 @@ class Myform(QtGui.QMainWindow):
     def Plot(self):
         Celda = self.ui.cmbCelPlot.currentText()
         if self.ui.RBTiemReal.isChecked():
-            print("[CICL_PLOT] Starts plot en tiempo REAL", file=log)
+            print("["+str(datetime.datetime.now())+"][CICL_PLOT] Starts plot en tiempo REAL", file=log)
             self.mutex.lock()
             self.flagPLOTVTR = not self.flagPLOTVTR
             if self.flagPLOTVTR:

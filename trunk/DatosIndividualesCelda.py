@@ -6,7 +6,7 @@ filename = os.path.join(dir, 'debug/Log.txt')
 log = open(filename, "a+")
 
 from collections import deque
-import csv
+import csv, datetime
 
 
 class DatosCelda:
@@ -21,7 +21,7 @@ class DatosCelda:
                  milivoltios=0, microAmperes=0, ingresos=0,
                  segundos=0):
 
-        #print( "[DCELD] initing " + str(nomb) + " id " + str(id(self)),file=log)
+        #print( "["+str(datetime.datetime.now())+"DCELD] initing " + str(nomb) + " id " + str(id(self)),file=log)
         # atributos de 1 sola vez
         self.nombre = nomb
         self.promediado = prom
@@ -56,7 +56,7 @@ class DatosCelda:
        val=2: Ya envie Port a UI
     """
     def NecesitoEnviar(self, val):
-        print("[DCELD][xEnvPS] " + str(val) + " celda: " + str(self.nombre), file=log)
+        print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] " + str(val) + " celda: " + str(self.nombre), file=log)
         if val == 0:
             if self.porenviar == 0:
                 # no puedo limpiar un flag ya limpio
@@ -69,26 +69,26 @@ class DatosCelda:
                 self.porenviar = 0
                 return True
             else:
-                print("[DCELD][xEnvPS] 1 Necesito Enviar Error", file=log)
+                print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 1 Necesito Enviar Error", file=log)
                 return False
         elif val == 1:
             if self.porenviar == 0:
                 self.porenviar = 1
                 return True
             elif self.porenviar == 1:
-                print("[DCELD][xEnvPS] 2 Necesito Enviar Error", file=log)
+                print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 2 Necesito Enviar Error", file=log)
                 return False
             elif self.porenviar == 2:
                 self.porenviar = 1
                 # puerto ya envio y levanto nuevamente
                 return True
             else:
-                print("[DCELD][xEnvPS] 2 2 Necesito Enviar Error", file=log)
+                print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 2 2 Necesito Enviar Error", file=log)
                 return False
         elif val == 2:
             if self.porenviar == 0:
                 # si nadie me levanto el flag no puedo limpiar
-                print("[DCELD][xEnvPS] 3 Necesito Enviar Error", file=log)
+                print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 3 Necesito Enviar Error", file=log)
                 return False
             elif self.porenviar == 1:
                 self.porenviar = 2
@@ -97,17 +97,17 @@ class DatosCelda:
                 # ya hice ack
                 return False
             else:
-                print("[DCELD][xEnvPS] 3 3 Necesito Enviar Error", file=log)
+                print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 3 3 Necesito Enviar Error", file=log)
                 return False
         else:
-            print("[DCELD][xEnvPS] 4 Necesito Enviar val error", file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD][xEnvPS] 4 Necesito Enviar val error", file=log)
             return False
 
     def ActualizoCampos(self, tiempo, voltios, corriente):
         if self.ingresos == 1:
             """primer ingreso"""
             self.ingresos = 2
-            print( "[DCELD|"+str(self.nombre)+"] primer ingreso = "+str(self.ingresos),file=log)
+            print( "["+str(datetime.datetime.now())+"DCELD|"+str(self.nombre)+"] primer ingreso = "+str(self.ingresos),file=log)
             self.tiempoInicioCiclo = tiempo
             self.barridoActual = 1
             self.microAmperes = corriente
@@ -118,7 +118,7 @@ class DatosCelda:
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
             self.ingresos = self.ingresos + 1
-            #print( "[DCELD] ciclando - ingresos: "+str(self.ingresos),,file=log)
+            #print( "["+str(datetime.datetime.now())+"DCELD] ciclando - ingresos: "+str(self.ingresos),,file=log)
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
@@ -146,7 +146,7 @@ class DatosCelda:
                 self.GuardaCsv()
                 return 1
         elif self.modo == self.Modos.voc:
-            print( "[DCELD] VOC",file=log)
+            print( "["+str(datetime.datetime.now())+"DCELD] VOC",file=log)
             self.ingresos = +1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -163,17 +163,17 @@ class DatosCelda:
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
         BadArgument = 0
         self.ingresos = 1
-        print("[CELD] ingresos " + str(self.ingresos),file=log)
+        print("["+str(datetime.datetime.now())+"][DCELD] ingresos " + str(self.ingresos),file=log)
         if barridos > 0:
             self.barridosMax = barridos * 2  # por la mala definicion original
         else:
-            print("[CELD] Bad Arg: Barridos",file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Barridos",file=log)
             BadArgument = 1
         self.CargaDescarga = ComienzaEnCarga
         if 0 <= Promedio >= 100:
             self.promediado = Promedio
         else:
-            print("[CELD] Bad Arg: Promedio",file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Promedio",file=log)
             BadArgument = 1
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
@@ -181,12 +181,12 @@ class DatosCelda:
         if -999999 <= Corr <= 999999:
             self.corrienteSetActual = Corr
         else:
-            print("[CELD] Bad Arg: Corriente",file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Corriente",file=log)
             BadArgument = 1
-        print("[CELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
+        print("["+str(datetime.datetime.now())+"][DCELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
               "VLI=" + str(self.voltajeLimInferior) + ", TMAX=" + str(self.tiempoMaxBarrido) + ", Corr=" + str(self.corrienteSetActual) + ", Promedio=" + str(self.promediado) + ", ComienzaEnCarga=" + str(self.iniciaEnCarga),file=log)
         if BadArgument != 0:
-            print( "[CELD] Some Bad Arg return False",file=log)
+            print( "["+str(datetime.datetime.now())+"][DCELD] Some Bad Arg return False",file=log)
             return False
         else:
             return True
@@ -195,12 +195,12 @@ class DatosCelda:
         if (self.milivoltios >= self.voltajeLimSuperior) \
                 or (self.milivoltios <= self.voltajeLimInferior) \
                 or (self.tiempoCicloActual >= self.tiempoMaxBarrido):
-            print("[DCELD|supLim] supere algun extremo",file=log)
+            print("["+str(datetime.datetime.now())+"DCELD|supLim] supere algun extremo",file=log)
             if (self.barridoActual + 1)  > self.barridosMax:
-                print("[DCELD] termine ciclado",file=log)
+                print("["+str(datetime.datetime.now())+"DCELD] termine ciclado",file=log)
                 return 2
             else:
-                print("[DCELD] invertir corriente",file=log)
+                print("["+str(datetime.datetime.now())+"DCELD] invertir corriente",file=log)
                 return 1
         else:
             return 0
@@ -223,7 +223,7 @@ class DatosCelda:
             self.promediado = prom
             self.tiempoMaxBarrido = tmax
         else:
-            print( "[DCELD] esta en modo de barrido de Voltaje a circuito abierto",file=log)
+            print( "["+str(datetime.datetime.now())+"DCELD] esta en modo de barrido de Voltaje a circuito abierto",file=log)
 
     def Activada(self):
         return self.activa
@@ -251,7 +251,7 @@ class DatosCelda:
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             return True
         else:
-            print( "[DCELD] imposible detener una celda inactiva",file=log)
+            print( "["+str(datetime.datetime.now())+"DCELD] imposible detener una celda inactiva",file=log)
             return False
 
     def GuardaCsv(self):

@@ -43,7 +43,7 @@ from PyQt4.Qt import QMutex
 from collections import deque
 from DatosIndividualesCelda import DatosCelda
 import ProcesoPuerto
-import time
+import datetime, time
 
 
 class DatosCompartidos(QtCore.QThread):
@@ -54,7 +54,7 @@ class DatosCompartidos(QtCore.QThread):
     celdasAenviar = []
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
-        print("[DCOMP] initing", file=log)
+        print("["+str(datetime.datetime.now())+"DCOMP] initing", file=log)
         self.a = DatosCelda("a")
         self.b = DatosCelda("b") #2
         self.c = DatosCelda("c") #3
@@ -108,11 +108,11 @@ class DatosCompartidos(QtCore.QThread):
                 except IndexError:
                     mensaje = Celda = Corriente = None
                 if mensaje == "SETC" or mensaje == "SETV" or mensaje == "FINV":
-                    print("[DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] recibo set" + str([Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga]), file=log)
                     if self.xIsActive(Celda):
-                        print("[DIND|"+str(Celda)+"]activada", file=log)
+                        print("["+str(datetime.datetime.now())+"][DIND|"+str(Celda)+"]activada", file=log)
                         if mensaje == "FINV":
-                            print("[DIND|" + str(Celda) + "] desactiva por boton", file=log)
+                            print("["+str(datetime.datetime.now())+"][DIND|" + str(Celda) + "] desactiva por boton", file=log)
                             self.xPararCelda(Celda)
                             if Celda == self.celdaPLOTTR:
                                 # Intento Parar Plot
@@ -131,16 +131,16 @@ class DatosCompartidos(QtCore.QThread):
                             self.xSetActive(Celda, self.Modos.voc)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
                 if mensaje == "VTR":
-                    print("[DIND] Celda en tiempo REAL " + str(Celda), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] Celda en tiempo REAL " + str(Celda), file=log)
                     self.celdaEnTiempoReal = Celda
                 if mensaje == "FTR":
-                    print("[DIND] FINALIZA Celda en tiempo REAL " + str(self.celdaEnTiempoReal), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] FINALIZA Celda en tiempo REAL " + str(self.celdaEnTiempoReal), file=log)
                     self.celdaEnTiempoReal = None
                 if mensaje == "Plot":
-                    print("[DIND] Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
                     self.celdaPLOTTR = Celda
                 if mensaje == "FPlot":
-                    print("[DIND] FINALIZA Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] FINALIZA Celda PLOTEO en tiempo REAL " + str(Celda), file=log)
                     if Celda == self.celdaPLOTTR:
                         # Intento Parar Plot
                         self.mutex.lock()
@@ -149,7 +149,7 @@ class DatosCompartidos(QtCore.QThread):
                     self.celdaPLOTTR = None
                     self.dequePLOT.clear()
                 if mensaje == "AUI":
-                    print("[DIND] Celda valores en tiempo REAL " + str(Celda), file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] Celda valores en tiempo REAL " + str(Celda), file=log)
                     self.celdaCondUI = Celda
             # proceso desde puerto hacia csv's
             if int(len(self.dequeIN)) >= 1:
@@ -159,18 +159,18 @@ class DatosCompartidos(QtCore.QThread):
                     self.mutex.unlock()
                 except IndexError:
                     mensaje = Celda = Tension = Corriente = Tiempo = None
-                    print("[DIND] error extrayendo datos", file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] error extrayendo datos", file=log)
                 if mensaje == "RAW":
                     if self.xIsActive(Celda):
                         cambio = self.xActualizoCampo(Celda, Tension, Corriente, Tiempo)
-                        #print( "[DIND] Cambio = "+str(cambio), file=log)
+                        #print( "["+str(datetime.datetime.now())+"][DIND] Cambio = "+str(cambio), file=log)
                         if cambio == 1 or cambio == 2:
                             Corriente, ciclos, vli, vls, tmax, prom = self.xGetCondGuardado(Celda)
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
                             if cambio == 2:
-                                print("[DIND] termino ploteo en TR y datos en tiempo R ", file=log)
+                                print("["+str(datetime.datetime.now())+"][DIND] termino ploteo en TR y datos en tiempo R ", file=log)
                                 self.xPararCelda(Celda)
                                 if Celda == self.celdaPLOTTR:
                                     # Intento Parar Plot
@@ -187,24 +187,24 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.unlock()
                         if Celda == self.celdaEnTiempoReal:
                             [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
-                            print("[DIND] EMIT val en tiempo REAL (ingresos " + str(ingresos) + ")", file=log)
+                            #print("["+str(datetime.datetime.now())+"][DIND] EMIT val en tiempo REAL (ingresos " + str(ingresos) + ")", file=log)
                             self.emit(self.signal, str(ciclos), str(voltios), str(corriente),
                                       str(tiempoCAct), str(tiempoTot), str(ingresos))
                         if Celda == self.celdaCondUI:
-                            print("[DIND] -ui-", file=log)
+                            print("["+str(datetime.datetime.now())+"][DIND] -ui-", file=log)
                             [corriente, ciclos, vli, vls, tmax, prom] = self.xGetCondGuardado(Celda)
                             self.emit(self.signalSingleShot,
                                       str(corriente), str(ciclos),
                                       str(vli), str(vls),
                                       str(tmax), str(prom))
                         if Celda == self.celdaPLOTTR:
-                            #print( "[DIND] PLOT TIEMPO REAL", file=log)
+                            #print( "["+str(datetime.datetime.now())+"][DIND] PLOT TIEMPO REAL", file=log)
                             [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                             self.mutex.lock()
                             self.dequePLOT.append([Celda, ciclos, voltios, corriente, tiempoCAct])
                             self.mutex.unlock()
                 if mensaje == "OK!":
-                    print("[DIND] recibo OK!", file=log)
+                    print("["+str(datetime.datetime.now())+"][DIND] recibo OK!", file=log)
                     self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
@@ -246,7 +246,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.Activada()
         else:
-            print( "[DIND|xIsActive]- Atrib error", file=log)
+            print("["+str(datetime.datetime.now())+"][DIND|xIsActive]- Atrib error", file=log)
             return False
 
     def xSetActive(self, num, modo):
@@ -283,7 +283,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.CambiaModo(modo)
         else:
-            print("[DIND|xSetActive]- Atrib error", file=log)
+            print("["+str(datetime.datetime.now())+"][DIND|xSetActive]- Atrib error", file=log)
             return False
 
     def xCondicionesDeGuardado(self, num, ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga):
@@ -320,136 +320,137 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.CondicionesDeGuardado(ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaoDescarga)
         else:
-            print( "[DIND|xCondGuard] Attr Error", file=log)
+            print( "["+str(datetime.datetime.now())+"][DIND|xCondGuard] Attr Error", file=log)
             return False
 
     def enColaPorEnviar(self):
+        #print("[" + str(datetime.datetime.now()) + "][DIND] longitud de cola de envio " + str(self.celdasAenviar.__len__()), file=log)
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        print("[DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
-        print("[DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
+        print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
+        #print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 
         if val == 2:
-            if self.enColaPorEnviar():
+            if self.enColaPorEnviar() >= 1:
                 num = self.celdasAenviar.pop(0)
-                print("[DIND][xEnvPS] saco a " + num + " de la fila para enviar", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] saco a " + num + " de la fila para enviar", file=log)
             else:
-                print("[DIND][xEnvPS] no tengo ninguna celda en cola, error ", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] no tengo ninguna celda en cola, error ", file=log)
         if val == 1:
             self.celdasAenviar.extend(str(num))
 
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):
-                print("[DIND][xEnvPS] por enviar corriente", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("[DIND][xEnvPS] no se pudo enviar corriente", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "b" or num == 2:
             if self.b.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "c" or num == 3:
             if self.c.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "d" or num == 4:
             if self.d.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "e" or num == 5:
             if self.e.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "f" or num == 6:
             if self.f.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "g" or num == 7:
             if self.g.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "h" or num == 8:
             if self.h.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "i" or num == 9:
             if self.i.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "j" or num == 10:
             if self.j.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "k" or num == 11:
             if self.k.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "l" or num == 12:
             if self.l.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "m" or num == 13:
             if self.m.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "n" or num == 14:
             if self.n.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "o" or num == 15:
             if self.o.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         elif num == "p" or num == 16:
             if self.p.NecesitoEnviar(val):
-                print("DInd - por enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] por enviar corriente", file=log)
                 return True
             else:
-                print("DInd - no se pudo enviar corriente", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND][xEnvPS] no se pudo enviar corriente", file=log)
                 return False
         else:
             print("datos independientes- EnviarPS - Atrib error", file=log)
@@ -457,101 +458,101 @@ class DatosCompartidos(QtCore.QThread):
     def xPararCelda(self, num):
         if num == "a" or num == 1:
             if self.a.PararCelda():
-                print("DInd - parando celda " + str(num), file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda " + str(num), file=log)
             else:
-                print("DInd - no se pudo parar celda " + str(num), file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda " + str(num), file=log)
 
         elif num == "b" or num == 2:
             if self.b.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "c" or num == 3:
             if self.c.PararCelda() :
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "d" or num == 4:
             if self.d.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "e" or num == 5:
             if self.e.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "f" or num == 6:
             if self.f.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "g" or num == 7:
             if self.g.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "h" or num == 8:
             if self.h.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "i" or num == 9:
             if self.i.PararCelda():
-                print( "DInd - parando celda", file=log)
+                print( "[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print( "DInd - no se pudo parar celda", file=log)
+                print( "[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "j" or num == 10:
             if self.j.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "k" or num == 11:
             if self.k.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "l" or num == 12:
             if self.l.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "m" or num == 13:
             if self.m.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "n" or num == 14:
             if self.n.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "o" or num == 15:
             if self.o.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
 
         elif num == "p" or num == 16:
             if self.p.PararCelda():
-                print("DInd - parando celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- parando celda", file=log)
             else:
-                print("DInd - no se pudo parar celda", file=log)
+                print("[" + str(datetime.datetime.now()) + "][DIND]- no se pudo parar celda", file=log)
         else:
-            print("datos independientes - parar celda - Atrib error", file=log)
+            print("[" + str(datetime.datetime.now()) + "][DIND] - parar celda - Atrib error", file=log)
 
     def xGetCondTiempoReal(self, num):
         if num == "a" or num == 1:
@@ -847,7 +848,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or num == 16:
             return self.p.ActualizoCampos(tiempo, tension, corriente)
         else:
-            print("[DIND|xActCampo] - Atrib error", file=log)
+            print("["+str(datetime.datetime.now())+"][DIND|xActCampo] - Atrib error", file=log)
 
     """
     def xGetBarrYTiempo(self, num):
@@ -884,7 +885,7 @@ class DatosCompartidos(QtCore.QThread):
         elif num == "p" or 16:
             return self.a.barridoActual, self.a.tiempoCicloActual
         else:
-            print( "[DIND|xGetBarryT- Atrib error", file=log)
+            print( "["+str(datetime.datetime.now())+"][DIND|xGetBarryT- Atrib error", file=log)
 
     def xGetValTiempoReal(self, num):
         if num == "a" or 1:
@@ -929,7 +930,7 @@ class DatosCompartidos(QtCore.QThread):
     def xGetPorSetear(self):
         celda = self.celdasAenviar[self.enColaPorEnviar()-1]
         corriente, a, b, c, d, e = self.xGetCondGuardado(celda)
-        print("[DIND] xget por setear " + str(celda) + "  " + str(corriente), file=log)
+        print("["+str(datetime.datetime.now())+"][DIND] xget por setear " + str(celda) + "  " + str(corriente), file=log)
         return celda, corriente
 
     def AllDisable(self):
