@@ -35,10 +35,11 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = open(filename, "a+")
+log = None #open(filename, "a+")
 
 import csv
 from PyQt4 import QtCore
+from PyQt4.QtCore import QTimer
 from PyQt4.Qt import QMutex
 from collections import deque
 from DatosIndividualesCelda import DatosCelda
@@ -52,9 +53,10 @@ class DatosCompartidos(QtCore.QThread):
         inactiva, ciclando, voc = range(3)
     PoolThread = []
     celdasAenviar = []
+    timerOkRececpcion = QTimer()
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
-        print("["+str(datetime.datetime.now())+"DCOMP] initing", file=log)
+        print("["+str(datetime.datetime.now())+"][DCOMP] initing", file=log)
         self.a = DatosCelda("a")
         self.b = DatosCelda("b") #2
         self.c = DatosCelda("c") #3
@@ -205,7 +207,11 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.unlock()
                 if mensaje == "OK!":
                     print("["+str(datetime.datetime.now())+"][DIND] recibo OK!", file=log)
-                    self.xEnviarPS(Celda, 2)
+                    if self.timerOkRececpcion.isActive():
+                        print("[" + str(datetime.datetime.now()) + "][DIND] timer activo no levanto flag", file=log)
+                    else:
+                        print("[" + str(datetime.datetime.now()) + "][DIND] enviarPS", file=log)
+                    #self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
                 #    self.dequeOUT.append(["END", None, None])
@@ -328,6 +334,7 @@ class DatosCompartidos(QtCore.QThread):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
+        #############################self.timerOkRececpcion.start(0.1)
         print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
         #print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
 

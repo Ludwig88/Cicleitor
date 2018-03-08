@@ -6,7 +6,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = open(filename, "a+")
+log = None #open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 from PyQt4 import QtCore
