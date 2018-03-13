@@ -53,7 +53,8 @@ class DatosCompartidos(QtCore.QThread):
         inactiva, ciclando, voc = range(3)
     PoolThread = []
     celdasAenviar = []
-    timerOkRececpcion = QTimer()
+    hayAlgo = 0
+    #timerOkRececpcion = QTimer()
 
     def __init__(self, dequeSettings, dequePLOT, parent = None):
         print("["+str(datetime.datetime.now())+"][DCOMP] initing", file=log)
@@ -126,11 +127,10 @@ class DatosCompartidos(QtCore.QThread):
                                 self.emit(self.signal, str(0), str(0), str(0), str(0), str(0), str(0))
                     else:
                         if mensaje == "SETC":
-                            self.xEnviarPS(Celda, 1)
                             self.xSetActive(Celda, self.Modos.ciclando)
                         elif mensaje == "SETV":
-                            self.xEnviarPS(Celda, 1)
                             self.xSetActive(Celda, self.Modos.voc)
+                        self.xEnviarPS(Celda, 1)
                         self.xCondicionesDeGuardado(Celda, Ciclos, V_lim_sup, V_lim_inf, T_Max, Corriente, Promedio, CargaOdescarga)
                 if mensaje == "VTR":
                     print("["+str(datetime.datetime.now())+"][DIND] Celda en tiempo REAL " + str(Celda), file=log)
@@ -187,6 +187,7 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.lock()
                             self.dequeOUT.append(["SETI", Celda, Corriente])
                             self.mutex.unlock()
+                            self.xEnviarPS(Celda, 2)
                         if Celda == self.celdaEnTiempoReal:
                             [corriente, ciclos, voltios, ingresos, tiempoTot, tiempoCAct] = self.xGetCondTiempoReal(Celda)
                             #print("["+str(datetime.datetime.now())+"][DIND] EMIT val en tiempo REAL (ingresos " + str(ingresos) + ")", file=log)
@@ -207,10 +208,6 @@ class DatosCompartidos(QtCore.QThread):
                             self.mutex.unlock()
                 if mensaje == "OK!":
                     print("["+str(datetime.datetime.now())+"][DIND] recibo OK!", file=log)
-                    if self.timerOkRececpcion.isActive():
-                        print("[" + str(datetime.datetime.now()) + "][DIND] timer activo no levanto flag", file=log)
-                    else:
-                        print("[" + str(datetime.datetime.now()) + "][DIND] enviarPS", file=log)
                     #self.xEnviarPS(Celda, 2)
                 #if self.AllDisable() == True:
                 #    self.mutex.lock()
@@ -337,16 +334,20 @@ class DatosCompartidos(QtCore.QThread):
         #############################self.timerOkRececpcion.start(0.1)
         print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
         #print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
-
         if val == 2:
+            self.hayAlgo = 0
             if self.enColaPorEnviar() >= 1:
                 num = self.celdasAenviar.pop(0)
                 print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] saco a " + num + " de la fila para enviar", file=log)
             else:
                 print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] no tengo ninguna celda en cola, error ", file=log)
         if val == 1:
+            self.hayAlgo = self.hayAlgo + 1
             self.celdasAenviar.extend(str(num))
+        print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] hay algo " + str(self.hayAlgo), file=log)
+        return True
 
+        """
         if num == "a" or num == 1:
             if self.a.NecesitoEnviar(val):
                 print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] por enviar corriente", file=log)
@@ -461,6 +462,7 @@ class DatosCompartidos(QtCore.QThread):
                 return False
         else:
             print("datos independientes- EnviarPS - Atrib error", file=log)
+        """
 
     def xPararCelda(self, num):
         if num == "a" or num == 1:
