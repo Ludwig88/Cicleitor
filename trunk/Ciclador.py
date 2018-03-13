@@ -6,7 +6,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = open(filename, "a+")
+log = None #open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
@@ -84,8 +84,8 @@ class Myform(QtGui.QMainWindow):
         Promedio = float(self.ui.cmbProm.currentText())
         Corriente = int(self.ui.LinEdCorri.text())
         Ciclos = int(self.ui.LinEdCiclos.text())
-        V_lim_inf = int(self.ui.LinEdVLInf.text())
-        V_lim_sup = int(self.ui.LinEdVLSup.text())
+        V_lim_inf = float(self.ui.LinEdVLInf.text()) * 1000
+        V_lim_sup = float(self.ui.LinEdVLSup.text()) * 1000
         T_Max = int(self.ui.LinEdTMax.text())
         if Corriente > 0:
             CargaOdescarga = True
@@ -200,8 +200,8 @@ class Myform(QtGui.QMainWindow):
         self.ui.cmbCelC.setCurrentIndex(0)
         self.ui.LinEdCorri.setText('1000')
         self.ui.LinEdCiclos.setText('10')
-        self.ui.LinEdVLInf.setText('-999999')
-        self.ui.LinEdVLSup.setText('999999')
+        self.ui.LinEdVLInf.setText('-999.999')
+        self.ui.LinEdVLSup.setText('999.999')
         self.ui.LinEdTMax.setText('12')
         self.ui.cmbProm.setCurrentIndex(7)
 

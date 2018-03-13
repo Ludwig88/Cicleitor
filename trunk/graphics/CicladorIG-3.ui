@@ -634,7 +634,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>V limite Superior [mV]</string>
+                 <string>V limite Superior [V]</string>
                 </property>
                </widget>
               </item>
@@ -899,7 +899,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>V limite Inferior [mV]</string>
+                 <string>V limite Inferior [V]</string>
                 </property>
                </widget>
               </item>

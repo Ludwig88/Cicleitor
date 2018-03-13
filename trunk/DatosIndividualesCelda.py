@@ -3,7 +3,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = open(filename, "a+")
+log = None #open(filename, "a+")
 
 from collections import deque
 import csv, datetime
@@ -131,8 +131,6 @@ class DatosCelda:
                 ############################################################append Promediado
                 return 0
             elif limite == 2:
-                #self.porenviar() mando I=0
-                # ENVIO I = 0
                 self.PararCelda()
                 self.ResetValCiclado()
                 self.CerrarCSV()
@@ -146,18 +144,21 @@ class DatosCelda:
                 self.GuardaCsv()
                 return 1
         elif self.modo == self.Modos.voc:
-            print( "["+str(datetime.datetime.now())+"][DCELD] VOC",file=log)
-            self.ingresos = +1
+            print("["+str(datetime.datetime.now())+"][DCELD] VOC",file=log)
+            self.ingresos = self.ingresos + 1
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.segundos = tiempo
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
-            if self.SuperaLimite() != 2:
+            if self.SuperaLimite() == 0:
                 ############################################################ENVIO
                 self.GuardaCsv()
                 ############################################################append Promediado
                 return 0
             else:
+                self.PararCelda()
+                self.ResetValCiclado()
+                self.CerrarCSV()
                 return 2
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
