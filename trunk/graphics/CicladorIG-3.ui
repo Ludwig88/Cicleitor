@@ -438,7 +438,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideLeft</enum>
@@ -456,10 +456,158 @@
              <x>10</x>
              <y>10</y>
              <width>1051</width>
-             <height>401</height>
+             <height>551</height>
             </rect>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_6"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>300</height>
+               </size>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOn</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>596</width>
+                 <height>406</height>
+                </rect>
+               </property>
+               <widget class="QLabel" name="label">
+                <property name="geometry">
+                 <rect>
+                  <x>130</x>
+                  <y>10</y>
+                  <width>561</width>
+                  <height>691</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+Ciclador, version 2.0
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+
+Configuración:
+
+	Ciclado:
+		Celda:
+		Corriente:		
+		Ciclos:
+		Voltaje Limite Inferior:
+		Voltaje Limite Superior:
+		Tiempo Máximo:
+		Promediado:
+
+	/////////////////////////////////////////////////////
+	
+	Actualizar:
+	
+	Setear e Iniciar celda:
+
+	Parar y Finalizar Celda:	
+
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+		
+	Medicion de Voc:
+		Celda:
+		Tiempo Máximo:
+		Promediado:
+
+	Setear e Iniciar celda
+
+/////////////////////////////////////////////////////	
+/////////////////////////////////////////////////////
+
+	
+Graficado:
+
+	Tipo de Graficado:
+
+		Tiempo Real:
+
+		Cap. Anodica:
+
+		Definido:
+
+	/////////////////////////////////////////////////////
+
+		Ploteo Final:
+		
+		Barrido Inicial:
+
+		Barrido Final:
+
+		Peso Anodo:
+
+		Lista Barridos:
+		
+	/////////////////////////////////////////////////////
+
+		Parar Grafico:
+
+		Graficar:
+
+		
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+
+Barra Inferior:
+	
+	Valores en Tiempo Real:
+
+		Tiempo Barrido:
+
+		Tiempo Total:
+
+		Barrido:
+
+		Tension:
+
+		Corriente:
+
+		Muestras:	
+
+	/////////////////////////////////////////////////////
+
+			
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////</string>
+                </property>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
          <widget class="QWidget" name="tab">
@@ -508,13 +656,25 @@
               <item row="8" column="1">
                <widget class="QPushButton" name="BotSetearC">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>Setear e Iniciar</string>
+                 <string>Setear e Iniciar Celda</string>
                 </property>
                </widget>
               </item>
@@ -590,7 +750,9 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>10</pointsize>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -737,7 +899,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Parar Y Finalizar Celda</string>
+                 <string>Parar y Finalizar Celda</string>
                 </property>
                </widget>
               </item>
@@ -1029,10 +1191,22 @@
                  <bool>true</bool>
                 </property>
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
                 </property>
                 <property name="text">
                  <string>Setear e Iniciar</string>
@@ -1216,10 +1390,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
-                 <weight>75</weight>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
                  <italic>false</italic>
-                 <bold>true</bold>
+                 <bold>false</bold>
                  <underline>false</underline>
                  <stylestrategy>PreferDefault</stylestrategy>
                  <kerning>false</kerning>
@@ -1439,10 +1613,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>8</pointsize>
-                 <weight>50</weight>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
                  <italic>false</italic>
-                 <bold>false</bold>
+                 <bold>true</bold>
                  <underline>false</underline>
                  <stylestrategy>PreferDefault</stylestrategy>
                  <kerning>false</kerning>
