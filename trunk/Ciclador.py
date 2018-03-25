@@ -68,7 +68,7 @@ class Myform(QtGui.QMainWindow):
         self.ui.BotSetearV.setCheckable(True)
         self.ui.BotParaPlot.setCheckable(True)
 
-        self.ui.AYUDA.append('<a href="readme.html"> AYUDA </a>')
+        self.ui.AYUDA.append('<a href="ayuda/readme.html"> AYUDA </a>')
 
     def inicioVOC(self):
         Celda = unicode(self.ui.cmbCelV.currentText())
