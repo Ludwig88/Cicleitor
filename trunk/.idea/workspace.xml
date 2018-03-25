@@ -4,6 +4,7 @@
     <list default="true" id="63c7cac0-c939-4199-b594-6697ebbc972a" name="Default" comment="si uso el log externo me los ordenada no por fecha">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../tags/v1.0/Ciclador-1.0.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Testeo/Archivo_Test" afterPath="$PROJECT_DIR$/Testeo/Archivo_Test" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphics/CicladorIG-3.ui" afterPath="$PROJECT_DIR$/graphics/CicladorIG-3.ui" />
     </list>
@@ -92,28 +93,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Ciclador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="196" column="40" lean-forward="true" selection-start-line="196" selection-start-column="40" selection-end-line="196" selection-end-column="40" />
+            <state relative-caret-position="156">
+              <caret line="66" column="45" lean-forward="true" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
               <folding>
-                <element signature="e#5046#6155#0" expanded="false" />
-                <element signature="e#12121#13834#0" expanded="false" />
-                <element signature="e#13898#15831#0" expanded="false" />
-                <element signature="e#15889#17638#0" expanded="false" />
-                <element signature="e#17668#17795#0" expanded="false" />
+                <element signature="e#2901#4590#0" expanded="false" />
+                <element signature="e#4629#5063#0" expanded="false" />
+                <element signature="e#5113#6222#0" expanded="false" />
+                <element signature="e#6258#6584#0" expanded="false" />
+                <element signature="e#6619#6940#0" expanded="false" />
+                <element signature="e#7030#7794#0" expanded="false" />
+                <element signature="e#7827#8282#0" expanded="false" />
+                <element signature="e#12188#13901#0" expanded="false" />
+                <element signature="e#13965#15898#0" expanded="false" />
+                <element signature="e#15956#17705#0" expanded="false" />
+                <element signature="e#17735#17862#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="uiparser.py" pinned="false" current-in-tab="true">
-        <entry file="file:///usr/lib/python2.7/dist-packages/PyQt4/uic/uiparser.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="774" column="0" lean-forward="false" selection-start-line="774" selection-start-column="0" selection-end-line="774" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -129,9 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&gt;= 1</find>
-      <find>longitud de cola de envio</find>
-      <find>emit</find>
       <find>DCOMP</find>
       <find>seti</find>
       <find>NecesitoEnviar</find>
@@ -159,6 +153,9 @@
       <find>ResetValCiclado</find>
       <find>actu</find>
       <find>reset</find>
+      <find>t</find>
+      <find>label</find>
+      <find>lined</find>
     </findStrings>
     <replaceStrings>
       <replace>#myapp</replace>
@@ -224,7 +221,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -242,6 +238,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -357,13 +354,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1505256713526</updated>
-    </task>
-    <task id="LOCAL-00016" summary="borro de">
-      <created>1508288656094</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1508288656094</updated>
     </task>
     <task id="LOCAL-00017" summary="Comienzo de analisis de datos de extremo">
       <created>1508372402503</created>
@@ -701,7 +691,14 @@
       <option name="project" value="LOCAL" />
       <updated>1520980484151</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="modificacion de alineamientos + help">
+      <created>1521759463997</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1521759463998</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TodoView">
@@ -716,10 +713,10 @@
   <component name="ToolWindowManager">
     <frame x="50" y="-11" width="1317" height="780" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20094563" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2072498" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87540454" sideWeight="0.427896" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.60679615" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2249191" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32362458" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24595469" sideWeight="0.4144996" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -763,7 +760,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Nueva interfaz con tabs" />
     <MESSAGE value="Ploteo en TR intermitente (se freeza), falta mejorar UI, poolthread, y actualizar cond de uI" />
     <MESSAGE value="threadpool for plotting" />
     <MESSAGE value="thread pool order and timing" />
@@ -788,7 +784,8 @@
     <MESSAGE value="corrrecion de reenvios en vano" />
     <MESSAGE value="habilito logs en archivo" />
     <MESSAGE value="voc correction and v vs mv" />
-    <option name="LAST_COMMIT_MESSAGE" value="voc correction and v vs mv" />
+    <MESSAGE value="modificacion de alineamientos + help" />
+    <option name="LAST_COMMIT_MESSAGE" value="modificacion de alineamientos + help" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1055,25 +1052,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Ciclador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="196" column="40" lean-forward="true" selection-start-line="196" selection-start-column="40" selection-end-line="196" selection-end-column="40" />
-          <folding>
-            <element signature="e#5046#6155#0" expanded="false" />
-            <element signature="e#12121#13834#0" expanded="false" />
-            <element signature="e#13898#15831#0" expanded="false" />
-            <element signature="e#15889#17638#0" expanded="false" />
-            <element signature="e#17668#17795#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python2.7/dist-packages/PyQt4/uic/uiparser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="774" column="0" lean-forward="false" selection-start-line="774" selection-start-column="0" selection-end-line="774" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ciclador.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="66" column="45" lean-forward="true" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
+          <folding>
+            <element signature="e#2901#4590#0" expanded="false" />
+            <element signature="e#4629#5063#0" expanded="false" />
+            <element signature="e#5113#6222#0" expanded="false" />
+            <element signature="e#6258#6584#0" expanded="false" />
+            <element signature="e#6619#6940#0" expanded="false" />
+            <element signature="e#7030#7794#0" expanded="false" />
+            <element signature="e#7827#8282#0" expanded="false" />
+            <element signature="e#12188#13901#0" expanded="false" />
+            <element signature="e#13965#15898#0" expanded="false" />
+            <element signature="e#15956#17705#0" expanded="false" />
+            <element signature="e#17735#17862#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
