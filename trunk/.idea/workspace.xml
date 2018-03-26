@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63c7cac0-c939-4199-b594-6697ebbc972a" name="Default" comment="si uso el log externo me los ordenada no por fecha">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ayuda/README.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ayuda/readme.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/compile.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../tags/v1.0/Ciclador-1.0.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndependientes.py" afterPath="$PROJECT_DIR$/DatosIndependientes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DatosIndividualesCelda.py" afterPath="$PROJECT_DIR$/DatosIndividualesCelda.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProcesoPuerto.py" afterPath="$PROJECT_DIR$/ProcesoPuerto.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Testeo/Archivo_Test" afterPath="$PROJECT_DIR$/Testeo/Archivo_Test" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,106 +19,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DatosIndependientes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2952">
-              <caret line="166" column="43" lean-forward="false" selection-start-line="166" selection-start-column="39" selection-end-line="166" selection-end-column="43" />
-              <folding>
-                <element signature="e#1499#1536#0" expanded="true" />
-                <element signature="e#10551#10945#0" expanded="false" />
-                <element signature="e#11350#12648#0" expanded="false" />
-                <element signature="e#12695#14099#0" expanded="false" />
-                <element signature="e#14226#16900#0" expanded="false" />
-                <element signature="e#18152#24326#1" expanded="false" />
-                <element signature="e#29213#35131#0" expanded="false" />
-                <element signature="e#35178#40808#0" expanded="false" />
-                <element signature="e#40882#42700#0" expanded="false" />
-                <element signature="e#42706#46721#1" expanded="false" />
-                <element signature="e#47143#47492#0" expanded="false" />
-                <marker date="1520979144955" expanded="false" signature="18190:18525" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="18562:18901" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="18938:19277" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="19314:19657" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="19694:20037" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="20074:20417" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="20454:20797" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="20834:21177" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="21214:21557" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="21257:21394" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="21412:21557" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="21595:21938" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="21976:22319" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="22357:22700" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="22738:23081" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="23119:23462" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="23500:23843" ph="..." />
-                <marker date="1520979144955" expanded="false" signature="23881:24224" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatosIndividualesCelda.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2700">
-              <caret line="152" column="39" lean-forward="false" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
-              <folding>
-                <element signature="e#9889#9907#0" expanded="false" />
-                <element signature="e#10427#10782#0" expanded="false" />
-                <element signature="e#10817#11546#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProcesoPuerto.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="8" column="12" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-              <folding>
-                <element signature="e#47#84#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PLOTEOTR.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PLOTEOTR.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Ciclador.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="68" column="46" lean-forward="true" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
-              <folding>
-                <element signature="e#2907#4596#0" expanded="false" />
-                <element signature="e#4635#5069#0" expanded="false" />
-                <element signature="e#5119#6228#0" expanded="false" />
-                <element signature="e#6264#6590#0" expanded="false" />
-                <element signature="e#6625#6946#0" expanded="false" />
-                <element signature="e#7036#7800#0" expanded="false" />
-                <element signature="e#7833#8288#0" expanded="false" />
-                <element signature="e#12194#13907#0" expanded="false" />
-                <element signature="e#13971#15904#0" expanded="false" />
-                <element signature="e#15962#17711#0" expanded="false" />
-                <element signature="e#17741#17868#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -193,10 +96,12 @@
         <option value="$PROJECT_DIR$/Testeo/PES-LEN1.py" />
         <option value="$PROJECT_DIR$/LogProcesoPuerto.txt" />
         <option value="$PROJECT_DIR$/PLOTEOTR.py" />
-        <option value="$PROJECT_DIR$/DatosIndependientes.py" />
+        <option value="$PROJECT_DIR$/Ciclador.py" />
         <option value="$PROJECT_DIR$/ProcesoPuerto.py" />
         <option value="$PROJECT_DIR$/DatosIndividualesCelda.py" />
-        <option value="$PROJECT_DIR$/Ciclador.py" />
+        <option value="$PROJECT_DIR$/DatosIndependientes.py" />
+        <option value="$PROJECT_DIR$/compile.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -222,6 +127,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -237,14 +144,17 @@
             <path>
               <item name="trunk" type="b2602c69:ProjectViewProjectNode" />
               <item name="trunk" type="462c0819:PsiDirectoryNode" />
+              <item name="debug" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="trunk" type="b2602c69:ProjectViewProjectNode" />
+              <item name="trunk" type="462c0819:PsiDirectoryNode" />
               <item name="graphics" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -360,13 +270,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1505256713526</updated>
-    </task>
-    <task id="LOCAL-00018" summary="borro el csv">
-      <created>1508372431894</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1508372431894</updated>
     </task>
     <task id="LOCAL-00019" summary="cada dcelda es una instancia copiada">
       <created>1508615697253</created>
@@ -704,7 +607,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521997712577</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="directorio de ayuda">
+      <created>1521997839516</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1521997839516</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TodoView">
@@ -719,10 +629,10 @@
   <component name="ToolWindowManager">
     <frame x="50" y="-11" width="1317" height="780" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2072498" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25847125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87540454" sideWeight="0.427896" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2249191" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16343042" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32362458" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24595469" sideWeight="0.4144996" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -766,7 +676,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="threadpool for plotting" />
     <MESSAGE value="thread pool order and timing" />
     <MESSAGE value="testing files sent" />
     <MESSAGE value="ver signals para UI" />
@@ -791,7 +700,8 @@
     <MESSAGE value="voc correction and v vs mv" />
     <MESSAGE value="modificacion de alineamientos + help" />
     <MESSAGE value="agregado del help en html y mejora interfaz" />
-    <option name="LAST_COMMIT_MESSAGE" value="agregado del help en html y mejora interfaz" />
+    <MESSAGE value="directorio de ayuda" />
+    <option name="LAST_COMMIT_MESSAGE" value="directorio de ayuda" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -807,29 +717,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Ciclador.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PROCESO.py" />
-    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main.py" />
-    <entry file="file://$PROJECT_DIR$/PLOTEOTR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="22" lean-forward="true" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -990,74 +877,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Arch_Cn-b.csv" />
-    <entry file="file://$PROJECT_DIR$/PLOTEOTR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2952">
-          <caret line="166" column="43" lean-forward="false" selection-start-line="166" selection-start-column="39" selection-end-line="166" selection-end-column="43" />
-          <folding>
-            <element signature="e#1499#1536#0" expanded="true" />
-            <element signature="e#10551#10945#0" expanded="false" />
-            <element signature="e#11350#12648#0" expanded="false" />
-            <element signature="e#12695#14099#0" expanded="false" />
-            <element signature="e#14226#16900#0" expanded="false" />
-            <element signature="e#18152#24326#1" expanded="false" />
-            <element signature="e#29213#35131#0" expanded="false" />
-            <element signature="e#35178#40808#0" expanded="false" />
-            <element signature="e#40882#42700#0" expanded="false" />
-            <element signature="e#42706#46721#1" expanded="false" />
-            <element signature="e#47143#47492#0" expanded="false" />
-            <marker date="1520979144955" expanded="false" signature="18190:18525" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="18562:18901" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="18938:19277" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="19314:19657" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="19694:20037" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="20074:20417" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="20454:20797" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="20834:21177" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="21214:21557" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="21257:21394" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="21412:21557" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="21595:21938" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="21976:22319" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="22357:22700" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="22738:23081" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="23119:23462" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="23500:23843" ph="..." />
-            <marker date="1520979144955" expanded="false" signature="23881:24224" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="8" column="12" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding>
-            <element signature="e#47#84#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2700">
-          <caret line="152" column="39" lean-forward="false" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
-          <folding>
-            <element signature="e#9889#9907#0" expanded="false" />
-            <element signature="e#10427#10782#0" expanded="false" />
-            <element signature="e#10817#11546#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python2.7/dist-packages/PyQt4/uic/uiparser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -1065,10 +884,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/compile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="5" lean-forward="false" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#32#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="68" column="46" lean-forward="true" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
+          <caret line="68" column="46" lean-forward="false" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
           <folding>
             <element signature="e#2907#4596#0" expanded="false" />
             <element signature="e#4635#5069#0" expanded="false" />
@@ -1082,6 +911,106 @@
             <element signature="e#15962#17711#0" expanded="false" />
             <element signature="e#17741#17868#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ciclador.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="11281" column="8" lean-forward="true" selection-start-line="11281" selection-start-column="8" selection-end-line="11281" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PLOTEOTR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="11" column="22" lean-forward="false" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding>
+            <element signature="e#47#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatosIndependientes.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PLOTEOTR.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="2279" column="27" lean-forward="true" selection-start-line="2279" selection-start-column="27" selection-end-line="2279" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#9883#9901#0" expanded="false" />
+            <element signature="e#10421#10776#0" expanded="false" />
+            <element signature="e#10811#11540#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#1499#1536#0" expanded="true" />
+            <element signature="e#10545#10939#0" expanded="false" />
+            <element signature="e#11344#12642#0" expanded="false" />
+            <element signature="e#12689#14093#0" expanded="false" />
+            <element signature="e#14220#16894#0" expanded="false" />
+            <element signature="e#18146#24320#1" expanded="false" />
+            <element signature="e#29207#35125#0" expanded="false" />
+            <element signature="e#35172#40802#0" expanded="false" />
+            <element signature="e#40876#42694#0" expanded="false" />
+            <element signature="e#42700#46715#1" expanded="false" />
+            <element signature="e#47137#47486#0" expanded="false" />
+            <marker date="1522105835279" expanded="false" signature="18184:18519" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="18556:18895" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="18932:19271" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="19308:19651" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="19688:20031" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="20068:20411" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="20448:20791" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="20828:21171" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="21208:21551" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="21251:21388" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="21406:21551" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="21589:21932" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="21970:22313" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="22351:22694" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="22732:23075" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="23113:23456" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="23494:23837" ph="..." />
+            <marker date="1522105835279" expanded="false" signature="23875:24218" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>

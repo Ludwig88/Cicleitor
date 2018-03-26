@@ -35,7 +35,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = None #open(filename, "a+")
+log = open(filename, "a+")
 
 import csv
 from PyQt4 import QtCore
