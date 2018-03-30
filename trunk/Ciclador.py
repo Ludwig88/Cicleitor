@@ -7,7 +7,6 @@ import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
 log = open(filename, "a+")
-#print("error en el try del serial port",file=log)
 
 GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
 

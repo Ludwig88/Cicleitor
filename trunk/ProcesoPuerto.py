@@ -199,4 +199,3 @@ class LECTURA(QtCore.QThread):
         for i in range(len(string.ascii_letters)):
             if celda == string.ascii_letters[i]:
                 return i
-                break
