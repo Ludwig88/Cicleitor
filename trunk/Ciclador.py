@@ -23,6 +23,17 @@ import DatosIndependientes
 import ProcesoPuerto
 import PLOTEOTR
 
+"""########################################################## CLASE PARA settings de plot"""
+##### Override class #####
+class NonScientific(pg.AxisItem):
+    def __init__(self, *args, **kwargs):
+        super(NonScientific, self).__init__(*args, **kwargs)
+
+    def tickStrings(self, values, scale, spacing):
+        return [int(value*1) for value in values] #This line return the NonScientific notation value
+
+
+
 """########################################################## CLASE PARA IU"""
 
 
@@ -36,8 +47,8 @@ class Myform(QtGui.QMainWindow):
         self.flagVTR = False
         self.flagPLOTVTR = False
 
-        self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0)
-        self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0)
+        self.Ploteo1 = self.ui.plot.addPlot(row=0, col=0, axisItems={'left': NonScientific(orientation='left')})
+        self.Ploteo2 = self.ui.plot.addPlot(row=1, col=0, axisItems={'left': NonScientific(orientation='left')})
 
         self.threadPool = []
 
@@ -228,9 +239,10 @@ class Myform(QtGui.QMainWindow):
     def ActualValores(self, barrido, Vin, Iin, Tiem, TiempoTotal, Ingresos):
         if barrido != 0 and Vin != 0 and Iin != 0 and Tiem != 0 and Ingresos != 0:
             #print("["+str(datetime.datetime.now())+"][CICL] -val-", file=log)
-            self.ui.SalBarrido.setText(str(barrido))
-            self.ui.SalVInst.setText(str(Vin))
-            self.ui.SalIInst.setText(str(Iin))
+            barridos_real = (int(barrido) / 2) + (int(barrido) % 2)
+            self.ui.SalBarrido.setText(str(barridos_real))
+            self.ui.SalVInst.setText(str(int(Vin) / 1000.0))
+            self.ui.SalIInst.setText(str(int(Iin) / 1000000.0))
             self.ui.SalTiemp.setText(str(Tiem))
             self.ui.SalTiempTot.setText(str(TiempoTotal))
             self.ui.SalMuestrasInst.setText(str(Ingresos))
@@ -410,7 +422,7 @@ class Myform(QtGui.QMainWindow):
         self.Ploteo2.clear()
         self.Ploteo2.plot(ValX,  pen='r')
         self.Ploteo2.plot(ValY, pen='g')
-        self.Ploteo2.setLabel('left', text='Corriente', units='uA',unitPrefix=None)
+        self.Ploteo2.setLabel('left', text='Corriente', units='uA', unitPrefix=None)
         self.Ploteo2.showGrid(x=True, y=True, alpha=None)
 
         lr2 = pg.LinearRegionItem([0,100])

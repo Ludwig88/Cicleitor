@@ -76,7 +76,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
@@ -163,14 +163,14 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string>Tension</string>
+            <string>Potencial [V]</string>
            </property>
           </widget>
          </item>
@@ -184,14 +184,14 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string>Corriente</string>
+            <string>Corriente [A]</string>
            </property>
           </widget>
          </item>
@@ -227,7 +227,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
@@ -270,7 +270,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
@@ -313,7 +313,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>7</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="layoutDirection">
@@ -2128,10 +2128,6 @@ Ciclador, version 2.0
      <string>Setear e Iniciar</string>
     </property>
    </widget>
-   <zorder>RBPlotFin</zorder>
-   <zorder>gridLayoutWidget_3</zorder>
-   <zorder>BotSetearC_3</zorder>
-   <zorder>BotActivo</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

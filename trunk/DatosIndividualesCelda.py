@@ -16,7 +16,8 @@ class DatosCelda:
     class Modos:
         inactiva, ciclando, voc = range(3)
 
-    encabezadoCSV = [' Barrido ', ' Tension[mV]', ' Corriente[uA] ', ' Tiempo[Seg] ', ' TCicloActual[Seg] ', ' Ingresos[n] ']
+    encabezadoCSV = [' Ingresos[n] ', ' FechaMuestra ', ' Tiempo[Seg] ', ' TCicloActual[Seg] ', ' Barrido[n] ',
+                     'Paso[0,OCP,+,-]', ' Corriente[A] ', ' Tension[V]']
 
     def __init__(self, nomb, activ=False,
                  prom=0.0, barr=0, barrM=0, vli=0,
@@ -134,9 +135,9 @@ class DatosCelda:
                 ############################################################append Promediado
                 return 0
             elif limite == 2:
+                self.CerrarCSV()
                 self.PararCelda()
                 self.ResetValCiclado()
-                self.CerrarCSV()
                 return 2
             elif limite == 1:
                 self.barridoActual = self.barridoActual + 1
@@ -159,9 +160,9 @@ class DatosCelda:
                 ############################################################append Promediado
                 return 0
             else:
+                self.CerrarCSV()
                 self.PararCelda()
                 self.ResetValCiclado()
-                self.CerrarCSV()
                 return 2
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
@@ -260,8 +261,29 @@ class DatosCelda:
 
     def GuardaCsv(self):
         barrido = (self.barridoActual / 2) + (self.barridoActual % 2)
-        columna = [barrido, self.milivoltios, self.microAmperes, self.segundos, self.tiempoCicloActual, self.ingresos]
-        # [Barrido, Tension, Corriente, TiempoTotal, TiempoCiclo, Ingresos]
+
+        if self.modo == self.Modos.inactiva:
+            paso = 0
+        elif self.modo == self.Modos.voc:
+            paso = 1
+        elif self.modo == self.Modos.ciclando:
+            if self.corrienteSetActual >= 0:
+                paso = 2
+            else:
+                paso = 3
+        else:
+            paso = 0
+
+        columna = [self.ingresos, str(datetime.datetime.now()), self.segundos,
+                   self.tiempoCicloActual, paso, barrido,
+                self.microAmperes / 1000000.0, self.milivoltios / 1000.0]
+
+        """
+        Ingreso -- Hora-Fecha del experimento -- Tiempo acumulado -- Tiempo de ese paso -- Barrido (número de ciclo)
+        -- Paso (inactiva=0, OCP=1, carga=2 o descarga=3) -- Coriente(A) -- Voltaje(V)
+
+        """
+
         fileName = 'Arch_Cn-' + str(self.nombre) + '.csv'
         try:
             open(fileName, 'r')
@@ -277,17 +299,28 @@ class DatosCelda:
                 f.close()
 
     def CerrarCSV(self):
-        columna = [' ----- ', ' ----- ', ' ----- ',' ----- ', ' ----- ', ' ----- ']
+        columna1 = [' ----- ', ' ----- ', ' ----- ' , ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ']
+        columna2 = [' ', ' ', ' ',' Tiempo Maximo de Barrido: '+str(self.tiempoMaxBarrido), ' Máxima cantidad de barridos: ' +
+                   str(self.barridosMax / 2), ' Potencial Limite Superior: ' + str(self.voltajeLimSuperior),
+                   ' Potencial Limite Inferior: ' + str(self.voltajeLimInferior), ' Corriente de proceso: '
+                   + str(self.corrienteSetActual)]
+        columna3 = [' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ']
+
         Nombrefile = 'Arch_Cn-' + str(self.nombre) + '.csv'
+
         try:
             open(Nombrefile, 'r')
             with open(Nombrefile, 'a') as f:
                 f_csv = csv.writer(f)
-                f_csv.writerow(columna)
+                f_csv.writerow(columna1)
+                f_csv.writerow(columna2)
+                f_csv.writerow(columna3)
                 f.close()
         except IOError:
             with open(Nombrefile, 'w+') as f:
                 f_csv = csv.writer(f)
                 f_csv.writerow(self.encabezadoCSV)
-                f_csv.writerow(columna)
+                f_csv.writerow(columna1)
+                f_csv.writerow(columna2)
+                f_csv.writerow(columna3)
                 f.close()
