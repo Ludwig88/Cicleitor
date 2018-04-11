@@ -17,7 +17,7 @@ class DatosCelda:
         inactiva, ciclando, voc = range(3)
 
     encabezadoCSV = [' Ingresos[n] ', ' FechaMuestra ', ' Tiempo[Seg] ', ' TCicloActual[Seg] ', ' Barrido[n] ',
-                     'Paso[0,OCP,+,-]', ' Corriente[A] ', ' Tension[V]']
+                     ' Paso[0,OCP,+,-] ', ' Corriente[A] ', ' Tension[V]']
 
     def __init__(self, nomb, activ=False,
                  prom=0.0, barr=0, barrM=0, vli=0,
@@ -34,7 +34,7 @@ class DatosCelda:
         self.modo = self.Modos.inactiva
 
         # atributos para procesos de extremo
-        self.porenviar = 0  # 0=nada por hacer, 1=enviar algo, 2, ack de envio
+        self.porenviar = 0                  # 0=nada por hacer, 1=enviar algo, 2, ack de envio
         self.barridosMax = barrM
         self.voltajeLimInferior = vli
         self.voltajeLimSuperior = vls
@@ -42,17 +42,18 @@ class DatosCelda:
         self.iniciaEnCarga = True
         self.corrienteSetActual = corr
 
+        self.tiempoComienzo = 0
         self.tiempoInicioCiclo = 0
         # atributos tiempo real
         self.tiempoCicloActual = 0
-        self.PaPromediar = []
-        self.ingresos = ingresos  # cantidad de tramas cargadas
+        self.PaPromediar = []               # no en uso!
+        self.ingresos = ingresos            # cantidad de tramas cargadas
         self.barridoActual = barr
         self.milivoltios = milivoltios
         self.microAmperes = microAmperes
-        self.segundos = segundos
+        self.segundos = segundos            # tiempo total de proceso
         # carga = true / descarga = false
-        self.CargaDescarga = True
+        self.CargaDescarga = True           # no en uso!
 
     """
        val=0: disponible para cambiar (solo Port)
@@ -113,11 +114,12 @@ class DatosCelda:
             self.ingresos = 2
             print( "["+str(datetime.datetime.now())+"][DCELD|"+str(self.nombre)+"] primer ingreso = "+str(self.ingresos),file=log)
             self.tiempoInicioCiclo = tiempo
+            self.tiempoComienzo = tiempo
             self.barridoActual = 1
             self.microAmperes = corriente
             self.milivoltios = voltios
             self.GuardaCsv()
-            ############################################################Inicio Promediado
+            #RECORDAR: Inicio Promediado
             return 0
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
@@ -125,14 +127,14 @@ class DatosCelda:
             #print( "["+str(datetime.datetime.now())+"][DCELD] ciclando - ingresos: "+str(self.ingresos),,file=log)
             self.microAmperes = corriente
             self.milivoltios = voltios
-            self.segundos = tiempo
+            self.segundos = tiempo - self.tiempoComienzo
             #tiempoFinAnteriorBarrido =  + ((self.barridoActual - 1) * self.tiempoMaxBarrido)
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
             #print( " tiempo ciclo("+str(self.barridoActual)+") actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo),file=log)
             limite = self.SuperaLimite()
             if limite == 0:
                 self.GuardaCsv()
-                ############################################################append Promediado
+                #RECORDAR: append Promediado
                 return 0
             elif limite == 2:
                 self.CerrarCSV()
@@ -152,12 +154,11 @@ class DatosCelda:
             self.ingresos = self.ingresos + 1
             self.microAmperes = corriente
             self.milivoltios = voltios
-            self.segundos = tiempo
+            self.segundos = tiempo - self.tiempoComienzo
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
             if self.SuperaLimite() == 0:
-                ############################################################ENVIO
                 self.GuardaCsv()
-                ############################################################append Promediado
+                #RECORDAR: append Promediado
                 return 0
             else:
                 self.CerrarCSV()
@@ -253,10 +254,11 @@ class DatosCelda:
         if self.modo != self.Modos.inactiva:
             self.CambiaModo(self.Modos.inactiva)
             self.activa = False
+            self.CerrarCSV()
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             return True
         else:
-            print( "["+str(datetime.datetime.now())+"][DCELD] imposible detener una celda inactiva",file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD] imposible detener una celda inactiva",file=log)
             return False
 
     def GuardaCsv(self):

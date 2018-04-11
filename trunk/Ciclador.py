@@ -72,6 +72,10 @@ class Myform(QtGui.QMainWindow):
         self.connect(self.threadOne[len(self.threadOne) - 1],
                      self.threadOne[len(self.threadOne) - 1].signalSingleShot,
                      self.LlenoCamposCondGuardado)
+        #QObject.connect(QObject, SIGNAL(), QObject, SLOT(), Qt.ConnectionType = Qt.AutoConnection) -> bool
+        self.connect(self.threadOne[len(self.threadOne) - 1],
+                     self.threadOne[len(self.threadOne) - 1].parocelda,
+                     self.PararCelda)
 
         self.ui.BotActivo.setCheckable(True)
         self.ui.BotSetearC.setCheckable(True)
@@ -88,7 +92,7 @@ class Myform(QtGui.QMainWindow):
         self.mutex.lock()
         self.dequeSetting.append(["SETV", str(Celda), 1, 999999, -999999, T_Max, 0, Promedio, False])
         self.mutex.unlock()
-        self.inicio(Celda) #, Promedio, Corriente, Ciclos, V_lim_inf, V_lim_sup, T_Max
+        self.inicio(Celda)
 
     def inicioCiclado(self):
         # seteo valores para el proceso
@@ -166,8 +170,9 @@ class Myform(QtGui.QMainWindow):
         elif celda == 'p':
             self.ui.RBp.setChecked(estado)
 
-    def PararCelda(self):
-        Celda = self.ui.cmbCelC.currentText()
+    def PararCelda(self, Celda=None):
+        if Celda is None:
+            Celda = self.ui.cmbCelC.currentText()
         print("["+str(datetime.datetime.now())+"UICICL] datos " + str(["FINV", Celda, 0, 0, 0, 0, 0, 0, False]), file=log)
         self.mutex.lock()
         self.dequeSetting.append(["FINV", Celda, 0, 0, 0, 0, 0, 0, False])
@@ -243,8 +248,8 @@ class Myform(QtGui.QMainWindow):
             self.ui.SalBarrido.setText(str(barridos_real))
             self.ui.SalVInst.setText(str(int(Vin) / 1000.0))
             self.ui.SalIInst.setText(str(int(Iin) / 1000000.0))
-            self.ui.SalTiemp.setText(str(Tiem))
-            self.ui.SalTiempTot.setText(str(TiempoTotal))
+            self.ui.SalTiemp.setText(str('{:014.2f}'.format(float(Tiem))))
+            self.ui.SalTiempTot.setText(str('{:015.1f}'.format(float(TiempoTotal))))
             self.ui.SalMuestrasInst.setText(str(Ingresos))
         else:
             print("["+str(datetime.datetime.now())+"][CICL] Actualizo valores - FIN", file=log)

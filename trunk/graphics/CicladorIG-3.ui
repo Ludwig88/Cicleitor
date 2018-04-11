@@ -205,7 +205,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>130</width>
              <height>30</height>
             </size>
            </property>
@@ -248,7 +254,13 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>130</width>
              <height>30</height>
             </size>
            </property>
@@ -444,7 +456,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="elideMode">
           <enum>Qt::ElideLeft</enum>
@@ -1665,7 +1677,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBa">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1687,7 +1699,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBb">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1709,7 +1721,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBc">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1731,7 +1743,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBd">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1753,7 +1765,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBe">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1775,7 +1787,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBf">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1797,7 +1809,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBg">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1819,7 +1831,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBh">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1841,7 +1853,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBi">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1863,7 +1875,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBj">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1885,7 +1897,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBk">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1907,7 +1919,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBl">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1929,7 +1941,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBm">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1951,7 +1963,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBn">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1973,7 +1985,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBo">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1995,7 +2007,7 @@ Ciclador, version 2.0
        <item>
         <widget class="QRadioButton" name="RBp">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2069,7 +2081,7 @@ Ciclador, version 2.0
         </font>
        </property>
        <property name="text">
-        <string>Ciclador 2.0</string>
+        <string>Ciclador 2.3</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -2171,8 +2183,8 @@ Ciclador, version 2.0
    <slot>ValTiempoReal()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>389</x>
-     <y>559</y>
+     <x>403</x>
+     <y>637</y>
     </hint>
     <hint type="destinationlabel">
      <x>357</x>
@@ -2187,8 +2199,8 @@ Ciclador, version 2.0
    <slot>PararCelda()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>456</x>
-     <y>460</y>
+     <x>412</x>
+     <y>520</y>
     </hint>
     <hint type="destinationlabel">
      <x>204</x>
@@ -2203,8 +2215,8 @@ Ciclador, version 2.0
    <slot>ActCondUi()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>448</x>
-     <y>124</y>
+     <x>387</x>
+     <y>175</y>
     </hint>
     <hint type="destinationlabel">
      <x>321</x>
@@ -2219,8 +2231,8 @@ Ciclador, version 2.0
    <slot>inicioVOC()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>784</x>
-     <y>445</y>
+     <x>842</x>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
      <x>763</x>
@@ -2235,8 +2247,8 @@ Ciclador, version 2.0
    <slot>inicioCiclado()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>387</x>
-     <y>424</y>
+     <x>412</x>
+     <y>470</y>
     </hint>
     <hint type="destinationlabel">
      <x>209</x>
@@ -2251,8 +2263,8 @@ Ciclador, version 2.0
    <slot>Plot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>374</y>
+     <x>149</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>191</x>
@@ -2267,8 +2279,8 @@ Ciclador, version 2.0
    <slot>Reseteo()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>73</x>
-     <y>419</y>
+     <x>112</x>
+     <y>462</y>
     </hint>
     <hint type="destinationlabel">
      <x>27</x>
@@ -2283,8 +2295,8 @@ Ciclador, version 2.0
    <slot>PararGrafico()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>99</x>
-     <y>370</y>
+     <x>104</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
      <x>51</x>

@@ -52,22 +52,24 @@ class DatosCompartidos(QtCore.QThread):
 
         self.signal = QtCore.SIGNAL("realTimeData")
         self.signalSingleShot = QtCore.SIGNAL("UIConditions")
+        self.parocelda = QtCore.SIGNAL("parocelda")
         self.celdaEnTiempoReal = None
         self.celdaCondUI = None
         self.celdaPLOTTR = None
 
         """DEQUES de comunicacion"""
-        self.dequeSettings = dequeSettings #desde UI
-        self.dequePLOT = dequePLOT  #hacia UI??
-        self.dequeOUT = deque(maxlen=16000) #seteos de celdas a puerto
-        self.dequeIN = deque(maxlen=16000) #desde puerto crudo
+        self.dequeSettings = dequeSettings          #desde UI
+        self.dequePLOT = dequePLOT                  #hacia UI??
+        self.dequeOUT = deque(maxlen=16000)         #seteos de celdas a puerto
+        self.dequeIN = deque(maxlen=16000)          #desde puerto crudo
         """"""
         #print( "arranco thread de lectura desde DatosIndependientes", file=log)
         self.PoolThread.append(ProcesoPuerto.LECTURA(self.dequePLOT, self.dequeOUT, self.dequeIN))
         #self.PoolThread[len(self.PoolThread) - 1].start()
 
     def __del__(self):
-        self.wait()  # This will (should) ensure that the thread stops processing before it gets destroyed.
+        # This will (should) ensure that the thread stops processing before it gets destroyed.
+        self.wait()
 
     def run(self):
         self.PoolThread[len(self.PoolThread) - 1].start()
@@ -89,12 +91,10 @@ class DatosCompartidos(QtCore.QThread):
                             print("["+str(datetime.datetime.now())+"][DIND|" + str(Celda) + "] desactiva por boton", file=log)
                             self.xPararCelda(Celda)
                             if Celda == self.celdaPLOTTR:
-                                # Intento Parar Plot
                                 self.mutex.lock()
                                 self.dequePLOT.append([Celda, 0, 0, 0, 0])
                                 self.mutex.unlock()
                             if Celda == self.celdaPLOTTR:
-                                # Parar datos en tiempo real
                                 self.emit(self.signal, str(0), str(0), str(0), str(0), str(0), str(0))
                     else:
                         if mensaje == "SETC":
@@ -153,6 +153,7 @@ class DatosCompartidos(QtCore.QThread):
                                 if Celda == self.celdaPLOTTR:
                                     # Parar datos en tiempo real
                                     self.emit(self.signal, str(0), str(0), str(0), str(0), str(0), str(0))
+                                self.emit(self.parocelda, Celda)
                         if self.enColaPorEnviar() != 0:
                             Celda, Corriente = self.xGetPorSetear()
                             self.mutex.lock()
@@ -180,10 +181,6 @@ class DatosCompartidos(QtCore.QThread):
                 if mensaje == "OK!":
                     print("["+str(datetime.datetime.now())+"][DIND] recibo OK!", file=log)
                     #self.xEnviarPS(Celda, 2)
-                #if self.AllDisable() == True:
-                #    self.mutex.lock()
-                #    self.dequeOUT.append(["END", None, None])
-                #    self.mutex.unlock()
 
 
     def xIsActive(self, num):
@@ -302,7 +299,6 @@ class DatosCompartidos(QtCore.QThread):
         return self.celdasAenviar.__len__()
 
     def xEnviarPS(self, num, val):
-        #############################self.timerOkRececpcion.start(0.1)
         print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] longitud de cola de envio para " + str(num) + " es " + str(self.enColaPorEnviar()), file=log)
         #print("["+str(datetime.datetime.now())+"][DIND][xEnvPS] num y val " + str(num) + "  " + str(val), file=log)
         if val == 2:
