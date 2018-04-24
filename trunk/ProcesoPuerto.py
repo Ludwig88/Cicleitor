@@ -19,8 +19,8 @@ import datetime, time, serial
 
 class LECTURA(QtCore.QThread):
     def __init__(self, dequePLOT, dequeIN, dequeOUT,
-                 port_num = '/dev/ttyUSB0',
-                 #port_num='/dev/ttyACM0',
+                 #port_num = '/dev/ttyUSB0',
+                 port_num='/dev/ttyACM0',
                  port_baud = 115200,
                  port_stopbits = serial.STOPBITS_ONE,
                  port_parity = serial.PARITY_NONE,
