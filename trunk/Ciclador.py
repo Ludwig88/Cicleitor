@@ -211,12 +211,12 @@ class Myform(QtGui.QMainWindow):
     def Reseteo(self):
         # Voc
         self.ui.cmbCelV.setCurrentIndex(0)
-        self.ui.LinEdTiemV.setText('10')
+        self.ui.LinEdTiemV.setText('5')
         self.ui.cmbPromV.setCurrentIndex(5)
         # Ciclado
         self.ui.cmbCelC.setCurrentIndex(0)
         self.ui.LinEdCorri.setText('1000')
-        self.ui.LinEdCiclos.setText('10')
+        self.ui.LinEdCiclos.setText('3')
         self.ui.LinEdVLInf.setText('-999.999')
         self.ui.LinEdVLSup.setText('999.999')
         self.ui.LinEdTMax.setText('12')

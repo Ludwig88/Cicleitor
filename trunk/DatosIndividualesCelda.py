@@ -32,7 +32,6 @@ class DatosCelda:
         self.promediado = prom
         self.promediadoArray_I = []
         self.promediadoArray_V = []
-        # activa puede sacarse a cambio de leer un modo distinto a cero
         self.activa = activ
         self.modo = self.Modos.inactiva
 
@@ -121,10 +120,8 @@ class DatosCelda:
             self.barridoActual = 1
             self.microAmperes = corriente
             self.milivoltios = voltios
-            self.GuardaCsv()
-            #RECORDAR: Inicio Promediado
-            self.promediadoArray_I = []
-            self.promediadoArray_V = []
+            #self.GuardaCsv()
+            self.AppendPromediado(False)
             return 0
         elif self.modo == self.Modos.ciclando:
             """Ciclando"""
@@ -138,12 +135,12 @@ class DatosCelda:
             #print( " tiempo ciclo("+str(self.barridoActual)+") actual: "+str(self.tiempoCicloActual)+" tiempo: "+str(tiempo),file=log)
             limite = self.SuperaLimite()
             if limite == 0:
-                self.GuardaCsv()
-                #RECORDAR: append Promediado
+                #self.GuardaCsv()
                 self.AppendPromediado()
                 return 0
             elif limite == 2:
                 self.CerrarCSV()
+                self.AppendPromediado(False)
                 self.PararCelda()
                 self.ResetValCiclado()
                 return 2
@@ -153,8 +150,7 @@ class DatosCelda:
                 self.CargaDescarga = not self.CargaDescarga
                 self.tiempoInicioCiclo = tiempo
                 self.tiempoCicloActual = 0
-                self.GuardaCsv()
-                # RECORDAR: append Promediado
+                #self.GuardaCsv()
                 self.AppendPromediado()
                 return 1
         elif self.modo == self.Modos.voc:
@@ -165,12 +161,12 @@ class DatosCelda:
             self.segundos = tiempo - self.tiempoComienzo
             self.tiempoCicloActual = tiempo - self.tiempoInicioCiclo
             if self.SuperaLimite() == 0:
-                self.GuardaCsv()
-                #RECORDAR: append Promediado
+                #self.GuardaCsv()
                 self.AppendPromediado()
                 return 0
             else:
-                self.CerrarCSV()
+                #self.CerrarCSV()
+                self.AppendPromediado(False)
                 self.PararCelda()
                 self.ResetValCiclado()
                 return 2
@@ -185,12 +181,16 @@ class DatosCelda:
             print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Barridos",file=log)
             BadArgument = 1
         self.CargaDescarga = ComienzaEnCarga
-        MuestrasProm = int(100 / float(Promedio))
-        print("[" + str(datetime.datetime.now()) + "][DCELD] Promedio: " + str(MuestrasProm), file=log)
-        if MuestrasProm >= 1 or MuestrasProm >= 400:
-            self.promediado = MuestrasProm
+        if Promedio != 0:
+            MuestrasProm = int(100 / float(Promedio))
+            print("[" + str(datetime.datetime.now()) + "][DCELD] Promedio: " + str(MuestrasProm), file=log)
+            if MuestrasProm >= 1 or MuestrasProm >= 400:
+                self.promediado = MuestrasProm
+            else:
+                print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Promedio",file=log)
+                BadArgument = 1
         else:
-            print("["+str(datetime.datetime.now())+"][DCELD] Bad Arg: Promedio",file=log)
+            print("[" + str(datetime.datetime.now()) + "][DCELD] Bad Arg: Promedio", file=log)
             BadArgument = 1
         self.voltajeLimSuperior = VLS
         self.voltajeLimInferior = VLI
@@ -272,10 +272,29 @@ class DatosCelda:
             print("["+str(datetime.datetime.now())+"][DCELD] imposible detener una celda inactiva",file=log)
             return False
 
-    def AppendPromediado(self):
-        if self.promediadoArray_I.__len__() == (int(self.promediado) - 1):
-            self.promediadoArray_V.append(self.milivoltios,)
-            self.promediadoArray_I.append(self.microAmperes,)
+    def AppendPromediado(self, activo = True):
+        if activo != False:
+            if self.promediadoArray_I.__len__() == (int(self.promediado) - 1):
+                self.promediadoArray_V.append(self.milivoltios,)
+                self.promediadoArray_I.append(self.microAmperes,)
+                mAmp = mVolt = 0
+                for element in self.promediadoArray_I:
+                    mAmp = mAmp + element
+                for element in self.promediadoArray_V:
+                    mVolt = mVolt + element
+                mAmp = float(mAmp / self.promediadoArray_I.__len__())
+                mVolt = float(mVolt / self.promediadoArray_V.__len__())
+                print("[" + str(datetime.datetime.now()) + "][DCELD] promediadoarray_I " + str(
+                    self.promediadoArray_I) + "mAmp " + str(mAmp) + " - mVolt " + str(mVolt), file=log)
+                self.GuardaCsvProm(mAmp, mVolt)
+                self.promediadoArray_I = []
+                self.promediadoArray_V = []
+            else:
+                self.promediadoArray_V.append(self.milivoltios,)
+                self.promediadoArray_I.append(self.microAmperes,)
+        else:
+            self.promediadoArray_V.append(self.milivoltios, )
+            self.promediadoArray_I.append(self.microAmperes, )
             mAmp = mVolt = 0
             for element in self.promediadoArray_I:
                 mAmp = mAmp + element
@@ -283,14 +302,9 @@ class DatosCelda:
                 mVolt = mVolt + element
             mAmp = float(mAmp / self.promediadoArray_I.__len__())
             mVolt = float(mVolt / self.promediadoArray_V.__len__())
-            print("[" + str(datetime.datetime.now()) + "][DCELD] promediadoarray_I " + str(
-                self.promediadoArray_I) + "mAmp " + str(mAmp) + " - mVolt " + str(mVolt), file=log)
             self.GuardaCsvProm(mAmp, mVolt)
             self.promediadoArray_I = []
             self.promediadoArray_V = []
-        else:
-            self.promediadoArray_V.append(self.milivoltios,)
-            self.promediadoArray_I.append(self.microAmperes,)
 
     def GuardaCsvProm(self, microAmp, milivolts):
             barrido = (self.barridoActual / 2) + (self.barridoActual % 2)
