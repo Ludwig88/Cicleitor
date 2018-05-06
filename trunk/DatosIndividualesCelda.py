@@ -139,7 +139,6 @@ class DatosCelda:
                 self.AppendPromediado()
                 return 0
             elif limite == 2:
-                self.CerrarCSV()
                 self.AppendPromediado(False)
                 self.PararCelda()
                 self.ResetValCiclado()
@@ -154,7 +153,6 @@ class DatosCelda:
                 self.AppendPromediado()
                 return 1
         elif self.modo == self.Modos.voc:
-            print("["+str(datetime.datetime.now())+"][DCELD] VOC",file=log)
             self.ingresos = self.ingresos + 1
             self.microAmperes = corriente
             self.milivoltios = voltios
@@ -165,10 +163,10 @@ class DatosCelda:
                 self.AppendPromediado()
                 return 0
             else:
-                #self.CerrarCSV()
                 self.AppendPromediado(False)
                 self.PararCelda()
                 self.ResetValCiclado()
+                print("[" + str(datetime.datetime.now()) + "][DCELD] VOC finalizado", file=log)
                 return 2
 
     def CondicionesDeGuardado(self, barridos, VLS, VLI, TMAX, Corr, Promedio, ComienzaEnCarga):
@@ -203,7 +201,7 @@ class DatosCelda:
         print("["+str(datetime.datetime.now())+"][DCELD|" + str(self.nombre) + "][CONDGUARD] barridos=" + str(self.barridosMax)+", VLS=" + str(self.voltajeLimSuperior) + ", " \
               "VLI=" + str(self.voltajeLimInferior) + ", TMAX=" + str(self.tiempoMaxBarrido) + ", Corr=" + str(self.corrienteSetActual) + ", Promedio=" + str(self.promediado) + ", ComienzaEnCarga=" + str(self.iniciaEnCarga),file=log)
         if BadArgument != 0:
-            print( "["+str(datetime.datetime.now())+"][DCELD] Some Bad Arg return False",file=log)
+            print("["+str(datetime.datetime.now())+"][DCELD] Some Bad Arg return False",file=log)
             return False
         else:
             return True
@@ -265,18 +263,37 @@ class DatosCelda:
         if self.modo != self.Modos.inactiva:
             self.CambiaModo(self.Modos.inactiva)
             self.activa = False
-            self.CerrarCSV()
+            self.AppendPromediado(False, True)
             self.CondicionesDeGuardado(0, 0, 0, 0, 0, 0.0, True)
             return True
         else:
             print("["+str(datetime.datetime.now())+"][DCELD] imposible detener una celda inactiva",file=log)
             return False
 
-    def AppendPromediado(self, activo = True):
-        if activo != False:
-            if self.promediadoArray_I.__len__() == (int(self.promediado) - 1):
-                self.promediadoArray_V.append(self.milivoltios,)
-                self.promediadoArray_I.append(self.microAmperes,)
+    def AppendPromediado(self, activo = True, cierre = False):
+        if cierre != True:
+            if activo != False:
+                if self.promediadoArray_I.__len__() == (int(self.promediado) - 1):
+                    self.promediadoArray_V.append(self.milivoltios,)
+                    self.promediadoArray_I.append(self.microAmperes,)
+                    mAmp = mVolt = 0
+                    for element in self.promediadoArray_I:
+                        mAmp = mAmp + element
+                    for element in self.promediadoArray_V:
+                        mVolt = mVolt + element
+                    mAmp = float(mAmp / self.promediadoArray_I.__len__())
+                    mVolt = float(mVolt / self.promediadoArray_V.__len__())
+                    print("[" + str(datetime.datetime.now()) + "][DCELD] promediadoarray_I " + str(
+                        self.promediadoArray_I) + "mAmp " + str(mAmp) + " - mVolt " + str(mVolt), file=log)
+                    self.GuardaCsvProm(mAmp, mVolt)
+                    self.promediadoArray_I = []
+                    self.promediadoArray_V = []
+                else:
+                    self.promediadoArray_V.append(self.milivoltios,)
+                    self.promediadoArray_I.append(self.microAmperes,)
+            else:
+                self.promediadoArray_V.append(self.milivoltios, )
+                self.promediadoArray_I.append(self.microAmperes, )
                 mAmp = mVolt = 0
                 for element in self.promediadoArray_I:
                     mAmp = mAmp + element
@@ -284,27 +301,40 @@ class DatosCelda:
                     mVolt = mVolt + element
                 mAmp = float(mAmp / self.promediadoArray_I.__len__())
                 mVolt = float(mVolt / self.promediadoArray_V.__len__())
-                print("[" + str(datetime.datetime.now()) + "][DCELD] promediadoarray_I " + str(
-                    self.promediadoArray_I) + "mAmp " + str(mAmp) + " - mVolt " + str(mVolt), file=log)
                 self.GuardaCsvProm(mAmp, mVolt)
                 self.promediadoArray_I = []
                 self.promediadoArray_V = []
-            else:
-                self.promediadoArray_V.append(self.milivoltios,)
-                self.promediadoArray_I.append(self.microAmperes,)
         else:
-            self.promediadoArray_V.append(self.milivoltios, )
-            self.promediadoArray_I.append(self.microAmperes, )
-            mAmp = mVolt = 0
-            for element in self.promediadoArray_I:
-                mAmp = mAmp + element
-            for element in self.promediadoArray_V:
-                mVolt = mVolt + element
-            mAmp = float(mAmp / self.promediadoArray_I.__len__())
-            mVolt = float(mVolt / self.promediadoArray_V.__len__())
-            self.GuardaCsvProm(mAmp, mVolt)
+            self.CerrarCsvProm()
             self.promediadoArray_I = []
             self.promediadoArray_V = []
+
+    def CerrarCsvProm(self):
+        print("[" + str(datetime.datetime.now()) + "][DCELD] Cierro CSV Prom", file=log)
+        columna1 = [' ----- ', ' ----- ', ' ----- ' , ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ']
+        columna2 = [' ', ' ', ' ',' Tiempo Maximo de Barrido: '+str(self.tiempoMaxBarrido), ' Máxima cantidad de barridos: ' +
+                   str(self.barridosMax / 2), ' Potencial Limite Superior: ' + str(self.voltajeLimSuperior),
+                   ' Potencial Limite Inferior: ' + str(self.voltajeLimInferior), ' Corriente de proceso: '
+                   + str(self.corrienteSetActual) , ' Promediado de ' + str(int(self.promediado)) + ' muestras']
+        columna3 = [' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ', ' ----- ']
+
+        fileName = 'Arch_CnProm-' + str(self.nombre) + '.csv'
+        try:
+            open(fileName, 'r')
+            with open(fileName, 'a') as f:
+                f_csv = csv.writer(f)
+                f_csv.writerow(columna1)
+                f_csv.writerow(columna2)
+                f_csv.writerow(columna3)
+                f.close()
+        except IOError:
+            with open(fileName, 'w+') as f:
+                f_csv = csv.writer(f)
+                f_csv.writerow(self.encabezadoCSV)
+                f_csv.writerow(columna1)
+                f_csv.writerow(columna2)
+                f_csv.writerow(columna3)
+                f.close()
 
     def GuardaCsvProm(self, microAmp, milivolts):
             barrido = (self.barridoActual / 2) + (self.barridoActual % 2)
