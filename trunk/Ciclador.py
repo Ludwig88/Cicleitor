@@ -8,7 +8,7 @@ dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
 log = open(filename, "a+")
 
-GraphicInterface = os.path.join(dir, 'graphics/CicladorIG-3.ui')
+GraphicInterface = os.path.join(dir, 'graphics/CicladorIG.ui')
 
 import csv  # , resource
 import pyqtgraph as pg
@@ -83,6 +83,7 @@ class Myform(QtGui.QMainWindow):
         self.ui.BotParaPlot.setCheckable(True)
 
         self.ui.AYUDA.append('<a href="ayuda/readme.html"> AYUDA </a>')
+        self.CargoCorrecionDeI()
 
     def inicioVOC(self):
         Celda = unicode(self.ui.cmbCelV.currentText())
@@ -185,6 +186,14 @@ class Myform(QtGui.QMainWindow):
         self.mutex.lock()
         self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
+
+    def CargoCorrecionDeI(self):
+        lines = []  # Declare an empty list named "lines"
+        with open("correccionI.txt", "rt") as in_file:
+            for line in in_file:
+                lines.append(line)
+        a = lines[0][2:-1]
+        self.ui.FCA.setText(str(a))
 
     def LlenoCamposCondGuardado(self, corriente, ciclos, vli, vls, tmax, prom):
         self.ui.LinEdCorri.setText(str(corriente))

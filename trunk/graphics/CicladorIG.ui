@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1224</width>
-    <height>770</height>
+    <width>1366</width>
+    <height>838</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Ciclador 1.0</string>
@@ -18,40 +24,2264 @@
     <normaloff>battery.ico</normaloff>battery.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="QRadioButton" name="RBPlotFin">
+    <property name="geometry">
+     <rect>
+      <x>-1000</x>
+      <y>1410</y>
+      <width>142</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ploteo Final</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_3">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>1548</width>
-      <height>697</height>
+      <y>0</y>
+      <width>1824</width>
+      <height>761</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetFixedSize</enum>
-     </property>
-     <property name="leftMargin">
-      <number>2</number>
-     </property>
-     <property name="topMargin">
-      <number>2</number>
-     </property>
-     <property name="rightMargin">
-      <number>2</number>
-     </property>
-     <property name="bottomMargin">
-      <number>2</number>
-     </property>
-     <property name="spacing">
-      <number>4</number>
-     </property>
-     <item row="6" column="0" colspan="4">
+    <layout class="QGridLayout" name="gridLayout_8">
+     <item row="2" column="0">
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="0">
+       <item row="4" column="1" colspan="7">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetFixedSize</enum>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="1" column="2" alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="label_18">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Barrido</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="SalBarrido">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLabel" name="SalVInst">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="SalIInst">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3" alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="label_20">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Potencial [V]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4" alignment="Qt::AlignHCenter">
+          <widget class="QLabel" name="label_22">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Corriente [A]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="SalTiemp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label_29">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Tiempo Total:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="SalTiempTot">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>130</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Tiempo Barrido:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QLabel" name="SalMuestrasInst">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::WinPanel</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QLabel" name="label_25">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Muestras</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QComboBox" name="cmbCelTReal">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>a</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>b</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>c</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>d</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>e</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>f</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>g</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>h</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>i</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>j</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>k</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>l</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>m</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>n</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>o</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>p</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="BotSetearC_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Valores Tiempo Real</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1">
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1831</width>
+           <height>587</height>
+          </size>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <property name="elideMode">
+          <enum>Qt::ElideLeft</enum>
+         </property>
+         <property name="movable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>Ayuda</string>
+          </attribute>
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>-170</y>
+             <width>561</width>
+             <height>531</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>367</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>561</width>
+             <height>691</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+Ciclador, version 2.0
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+
+Factores de correcion de corriente por celda:</string>
+           </property>
+          </widget>
+          <widget class="QTextBrowser" name="AYUDA">
+           <property name="geometry">
+            <rect>
+             <x>400</x>
+             <y>0</y>
+             <width>701</width>
+             <height>431</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>190</y>
+             <width>331</width>
+             <height>267</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_30">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>G</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_31">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>I</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>C</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="FCE">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>E</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>A</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>B</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="FCB">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="FCA">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="FCD">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>D</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="FCC">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="FCG">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_27">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>F</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="FCF">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="FCI">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>H</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="FCH">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_34">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>J</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="FCJ">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QLineEdit" name="FCK">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_38">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>K</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLabel" name="label_39">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>L</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="FCL">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QLabel" name="label_41">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>M</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="3">
+             <widget class="QLineEdit" name="FCM">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QLabel" name="label_42">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>N</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="3">
+             <widget class="QLineEdit" name="FCN">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2">
+             <widget class="QLabel" name="label_43">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>O</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="3">
+             <widget class="QLineEdit" name="FCO">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="2">
+             <widget class="QLabel" name="label_44">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>P</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="3">
+             <widget class="QLineEdit" name="FCP">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="tab">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1827</width>
+            <height>556</height>
+           </size>
+          </property>
+          <attribute name="title">
+           <string>Configuración</string>
+          </attribute>
+          <widget class="QWidget" name="horizontalLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>831</width>
+             <height>401</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetFixedSize</enum>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="8" column="1">
+               <widget class="QPushButton" name="BotSetearC">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Setear e Iniciar Celda</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0" alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="pushButton_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Reseteo</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="LinEdCorri">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Celda : </string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Ciclos : </string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+               <widget class="QPushButton" name="pushButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Actualizar</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLineEdit" name="LinEdVLInf">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_9">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Promediado (M/Seg))</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>V limite Superior [V]</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Ciclado</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="LinEdCiclos">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Tiempo Maximo [Seg]</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLineEdit" name="LinEdTMax">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Corriente [uA] :</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="1">
+               <widget class="QPushButton" name="BotStop">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Parar y Finalizar Celda</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="LinEdVLSup">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QComboBox" name="cmbProm">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>0.25</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0.5</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>5</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>10</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>25</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>50</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>100</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="cmbCelC">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>a</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>b</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>c</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>d</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>e</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>f</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>g</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>h</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>i</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>j</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>k</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>l</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>m</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>n</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>o</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>p</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_6">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>V limite Inferior [V]</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout_7">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetFixedSize</enum>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_28">
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Celda : </string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_36">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Tiempo [Seg]</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="LinEdTiemV">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_35">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Promediado (M/Seg))</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QComboBox" name="cmbPromV">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>10</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>20</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>50</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>99</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>100</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QPushButton" name="BotSetearV">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>250</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Setear e Iniciar</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_33">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Medicion Voc</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QComboBox" name="cmbCelV">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>a</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>b</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>c</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>d</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>e</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>f</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>g</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>h</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>i</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>j</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>k</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>l</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>m</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>n</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>o</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>p</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="5" column="0">
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="Graficado">
+          <attribute name="title">
+           <string>Graficado</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMaximumSize</enum>
+             </property>
+             <item row="17" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Barrido Final &lt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="2">
+              <widget class="QLineEdit" name="LEBarIn">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="2">
+              <widget class="QRadioButton" name="RDdefinido">
+               <property name="text">
+                <string>Definido</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="2" alignment="Qt::AlignHCenter">
+              <widget class="QPushButton" name="BotPlot">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <italic>false</italic>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                 <stylestrategy>PreferDefault</stylestrategy>
+                 <kerning>false</kerning>
+                </font>
+               </property>
+               <property name="text">
+                <string>Graficar</string>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="2">
+              <widget class="QLineEdit" name="LELisBarridos">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QComboBox" name="cmbCelPlot">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <item>
+                <property name="text">
+                 <string>a</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>b</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>c</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>d</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>e</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>f</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>g</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>h</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>i</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>j</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>k</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>l</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>m</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>n</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>o</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>p</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="14" column="0">
+              <widget class="QLabel" name="label_24">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Barrido Inicio &lt;= </string>
+               </property>
+              </widget>
+             </item>
+             <item row="18" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Peso Anodo [gr]</string>
+               </property>
+              </widget>
+             </item>
+             <item row="18" column="2">
+              <widget class="QLineEdit" name="LEPesoAnodo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Celda : </string>
+               </property>
+              </widget>
+             </item>
+             <item row="17" column="2">
+              <widget class="QLineEdit" name="LEBarFin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Lista Barridos</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_17">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Tipo de Graficado</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QRadioButton" name="RBCapac">
+               <property name="text">
+                <string>Cap. Anodica</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0" alignment="Qt::AlignHCenter">
+              <widget class="QPushButton" name="BotParaPlot">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <weight>75</weight>
+                 <italic>false</italic>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                 <stylestrategy>PreferDefault</stylestrategy>
+                 <kerning>false</kerning>
+                </font>
+               </property>
+               <property name="text">
+                <string>Parar Gráfico</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QRadioButton" name="RBTiemReal">
+               <property name="text">
+                <string>Tiempo Real</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QRadioButton" name="RBPlotFin_2">
+               <property name="text">
+                <string>Ploteo Final</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="GraphicsLayoutWidget" name="plot">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>750</width>
+               <height>450</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>4</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetFixedSize</enum>
+       </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
         <widget class="QRadioButton" name="RBa">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -70,142 +2300,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
-        <widget class="QRadioButton" name="RBd">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>d</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="9">
-        <widget class="QRadioButton" name="RBj">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>j</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="13">
-        <widget class="QRadioButton" name="RBn">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>n</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="11">
-        <widget class="QRadioButton" name="RBl">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>l</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QRadioButton" name="RBc">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>c</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5">
-        <widget class="QRadioButton" name="RBf">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>f</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
+       <item>
         <widget class="QRadioButton" name="RBb">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -224,10 +2322,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="14">
-        <widget class="QRadioButton" name="RBo">
+       <item>
+        <widget class="QRadioButton" name="RBc">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -236,7 +2334,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>o</string>
+          <string>c</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -246,10 +2344,32 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
+       <item>
+        <widget class="QRadioButton" name="RBd">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>d</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QRadioButton" name="RBe">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -268,10 +2388,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="8">
-        <widget class="QRadioButton" name="RBi">
+       <item>
+        <widget class="QRadioButton" name="RBf">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -280,7 +2400,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>i</string>
+          <string>f</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -290,76 +2410,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="12">
-        <widget class="QRadioButton" name="RBm">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>m</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="7">
-        <widget class="QRadioButton" name="RBh">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>h</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="10">
-        <widget class="QRadioButton" name="RBk">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>k</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="6">
+       <item>
         <widget class="QRadioButton" name="RBg">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -378,10 +2432,186 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="15">
+       <item>
+        <widget class="QRadioButton" name="RBh">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>h</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBi">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>i</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBj">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>j</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBk">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>k</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBl">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>l</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBm">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>m</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>n</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="RBo">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>o</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QRadioButton" name="RBp">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -400,1412 +2630,49 @@
          </property>
         </widget>
        </item>
-      </layout>
-     </item>
-     <item row="0" column="0">
-      <layout class="QGridLayout" name="gridLayout_5">
-       <property name="topMargin">
-        <number>1</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="BotActivo">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>300</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>110</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>SISTEMA ACTIVO</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout"/>
-     </item>
-     <item row="1" column="1" rowspan="4">
-      <widget class="Line" name="line_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="sizeConstraint">
-        <enum>QLayout::SetMinimumSize</enum>
-       </property>
-      </layout>
-     </item>
-     <item row="5" column="0" colspan="4">
-      <widget class="Line" name="line_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QComboBox" name="cmbCelTReal">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>a</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>b</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>c</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>d</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>e</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>f</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>g</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>h</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>i</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>j</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>k</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>l</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>m</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>n</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>o</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>p</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetMinimumSize</enum>
-         </property>
-         <item>
-          <widget class="QPushButton" name="BotSetearC_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Valores Tiempo Real</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item row="4" column="0">
-      <layout class="QGridLayout" name="gridLayout_3">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetFixedSize</enum>
-       </property>
-       <property name="leftMargin">
-        <number>1</number>
-       </property>
-       <property name="topMargin">
-        <number>10</number>
-       </property>
-       <property name="horizontalSpacing">
-        <number>7</number>
-       </property>
-       <item row="0" column="2" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_18">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Barrido</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLabel" name="SalBarrido">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLabel" name="SalVInst">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QLabel" name="SalIInst">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_20">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Tension</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_22">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Corriente</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="SalTiemp">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_29">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Tiempo Total:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="SalTiempTot">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Tiempo Barrido:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5">
-        <widget class="QLabel" name="SalMuestrasInst">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::WinPanel</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5">
-        <widget class="QLabel" name="label_25">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Muestras</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="2" column="0">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Celda : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Promediado (M/Seg))</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Tiempo [Seg]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="cmbCelV">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>a</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>b</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>c</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>d</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>e</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>f</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>g</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>h</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>i</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>j</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>k</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>l</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>m</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>n</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>o</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>p</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="15" column="0" colspan="2">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="LinEdTiemV">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLineEdit" name="LinEdCiclos">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QLineEdit" name="LinEdVLSup">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="cmbPromV">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>1</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>10</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>50</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>99</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>100</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QPushButton" name="BotSetearC">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Setear e Iniciar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" alignment="Qt::AlignHCenter">
-        <widget class="QPushButton" name="BotSetearV">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Setear e Iniciar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLineEdit" name="LinEdTMax">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2" rowspan="16">
-        <widget class="Line" name="line">
+        <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Medicion Voc</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QRadioButton" name="RBTiemReal">
-         <property name="text">
-          <string>Tiempo Real</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Promediado (M/Seg))</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Ciclado</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>V limite Superior [mV]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Reseteo</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="cmbCelC">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>a</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>b</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>c</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>d</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>e</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>f</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>g</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>h</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>i</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>j</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>k</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>l</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>m</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>n</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>o</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>p</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Celda : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Tiempo Maximo [Seg]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QComboBox" name="cmbProm">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>0.25</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>0.5</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>1</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>5</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>10</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>25</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>50</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>100</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Corriente [uA] :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="LinEdCorri">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLineEdit" name="LinEdVLInf">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Ciclos : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="font">
-          <font>
-           <pointsize>7</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>V limite Inferior [mV]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLabel" name="label_21">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Celda : </string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="Line" name="line_7">
+       <item>
+        <spacer name="horizontalSpacer_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QComboBox" name="cmbCelPlot">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <item>
-          <property name="text">
-           <string>a</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>b</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>c</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>d</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>e</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>f</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>g</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>h</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>i</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>j</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>k</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>l</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>m</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>n</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>o</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>p</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="6" column="4">
-        <widget class="QLineEdit" name="LEBarIn">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
+         <property name="sizeHint" stdset="0">
           <size>
-           <width>100</width>
-           <height>0</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="4">
-        <widget class="QRadioButton" name="RBPlotFin">
-         <property name="text">
-          <string>Ploteo Final</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label_17">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Graficado</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="4">
-        <widget class="QLineEdit" name="LEBarFin">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="3" colspan="2" alignment="Qt::AlignHCenter">
-        <widget class="QPushButton" name="BotStop">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>250</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Parar Y Finalizar Celda</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="4">
-        <widget class="QLineEdit" name="LEPesoAnodo">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-        <widget class="QPushButton" name="pushButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>6</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Actualizar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_24">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Barrido Inicio &lt;= </string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_23">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Barrido Final &lt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QRadioButton" name="RBCapac">
-         <property name="text">
-          <string>Cap. Anodica</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_14">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Peso Anodo [gr]</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="4">
-        <widget class="QLineEdit" name="LELisBarridos">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QRadioButton" name="RDdefinido">
-         <property name="text">
-          <string>Definido</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QPushButton" name="BotPlot">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <weight>75</weight>
-           <italic>false</italic>
-           <bold>true</bold>
-           <underline>false</underline>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>false</kerning>
-          </font>
-         </property>
-         <property name="text">
-          <string>Graficar</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="4" alignment="Qt::AlignHCenter">
-        <widget class="QPushButton" name="BotParaPlot">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-           <underline>false</underline>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>false</kerning>
-          </font>
-         </property>
-         <property name="text">
-          <string>Parar Gráfico</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="3" alignment="Qt::AlignHCenter">
-        <widget class="QLabel" name="label_12">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Lista Barridos</string>
-         </property>
-        </widget>
+        </spacer>
        </item>
       </layout>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_15">
+     <item row="2" column="2">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_11">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -1814,37 +2681,165 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>20</pointsize>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
-        <string>Ciclador 1.0</string>
+        <string>Ciclador 2.3</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="GraphicsLayoutWidget" name="plot">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="BotActivo">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>770</width>
-         <height>520</height>
+         <width>100</width>
+         <height>30</height>
         </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>SISTEMA ACTIVO</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
    </widget>
-   <widget class="Line" name="line_8">
+   <widget class="QPushButton" name="BotSetearC_3">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>700</y>
-      <width>245</width>
-      <height>3</height>
+      <x>-270</x>
+      <y>1240</y>
+      <width>109</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Setear e Iniciar</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_37">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>740</y>
+      <width>40</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>B</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="LinEdCorri_12">
+    <property name="geometry">
+     <rect>
+      <x>836</x>
+      <y>740</y>
+      <width>40</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_40">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>750</y>
+      <width>40</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>B</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="LinEdCorri_15">
+    <property name="geometry">
+     <rect>
+      <x>766</x>
+      <y>750</y>
+      <width>40</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>40</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>
@@ -1853,7 +2848,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1224</width>
+     <width>1366</width>
      <height>22</height>
     </rect>
    </property>
@@ -1881,114 +2876,21 @@
    <header>pyqtgraph</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>cmbCelV</tabstop>
-  <tabstop>LinEdTiemV</tabstop>
-  <tabstop>cmbPromV</tabstop>
-  <tabstop>BotSetearV</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>cmbCelC</tabstop>
-  <tabstop>LinEdCorri</tabstop>
-  <tabstop>LinEdCiclos</tabstop>
-  <tabstop>LinEdVLInf</tabstop>
-  <tabstop>LinEdVLSup</tabstop>
-  <tabstop>LinEdTMax</tabstop>
-  <tabstop>cmbProm</tabstop>
-  <tabstop>BotSetearC</tabstop>
-  <tabstop>cmbCelPlot</tabstop>
-  <tabstop>RBCapac</tabstop>
-  <tabstop>RBTiemReal</tabstop>
-  <tabstop>RDdefinido</tabstop>
-  <tabstop>RBPlotFin</tabstop>
-  <tabstop>LEBarIn</tabstop>
-  <tabstop>LEBarFin</tabstop>
-  <tabstop>LEPesoAnodo</tabstop>
-  <tabstop>LELisBarridos</tabstop>
-  <tabstop>BotPlot</tabstop>
-  <tabstop>BotParaPlot</tabstop>
-  <tabstop>BotStop</tabstop>
-  <tabstop>RBa</tabstop>
-  <tabstop>RBb</tabstop>
-  <tabstop>RBc</tabstop>
-  <tabstop>RBd</tabstop>
-  <tabstop>RBe</tabstop>
-  <tabstop>RBf</tabstop>
-  <tabstop>RBg</tabstop>
-  <tabstop>RBh</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>RBi</tabstop>
-  <tabstop>RBj</tabstop>
-  <tabstop>RBk</tabstop>
-  <tabstop>RBl</tabstop>
-  <tabstop>RBm</tabstop>
-  <tabstop>RBn</tabstop>
-  <tabstop>RBo</tabstop>
-  <tabstop>RBp</tabstop>
-  <tabstop>BotActivo</tabstop>
- </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>BotSetearC_2</sender>
    <signal>clicked()</signal>
    <receiver>Ciclador</receiver>
-   <slot>Reseteo()</slot>
+   <slot>ValTiempoReal()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>575</y>
+     <x>403</x>
+     <y>637</y>
     </hint>
     <hint type="destinationlabel">
-     <x>246</x>
-     <y>419</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BotSetearV</sender>
-   <signal>clicked()</signal>
-   <receiver>Ciclador</receiver>
-   <slot>inicioVOC()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>238</x>
-     <y>230</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>226</x>
-     <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BotSetearC</sender>
-   <signal>clicked()</signal>
-   <receiver>Ciclador</receiver>
-   <slot>inicioCiclado()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>225</x>
-     <y>575</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>358</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>BotPlot</sender>
-   <signal>clicked()</signal>
-   <receiver>Ciclador</receiver>
-   <slot>Plot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>380</x>
-     <y>442</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>481</y>
+     <x>357</x>
+     <y>622</y>
     </hint>
    </hints>
   </connection>
@@ -1999,12 +2901,12 @@
    <slot>PararCelda()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>514</x>
-     <y>584</y>
+     <x>412</x>
+     <y>520</y>
     </hint>
     <hint type="destinationlabel">
-     <x>579</x>
-     <y>556</y>
+     <x>204</x>
+     <y>541</y>
     </hint>
    </hints>
   </connection>
@@ -2015,28 +2917,92 @@
    <slot>ActCondUi()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>228</x>
-     <y>291</y>
+     <x>387</x>
+     <y>175</y>
     </hint>
     <hint type="destinationlabel">
-     <x>237</x>
-     <y>284</y>
+     <x>321</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>BotSetearC_2</sender>
+   <sender>BotSetearV</sender>
    <signal>clicked()</signal>
    <receiver>Ciclador</receiver>
-   <slot>ValTiempoReal()</slot>
+   <slot>inicioVOC()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>190</x>
-     <y>636</y>
+     <x>842</x>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>622</y>
+     <x>763</x>
+     <y>567</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotSetearC</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>inicioCiclado()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>412</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>209</x>
+     <y>577</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotPlot</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>Plot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>149</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>191</x>
+     <y>551</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>Reseteo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>112</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>27</x>
+     <y>571</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BotParaPlot</sender>
+   <signal>clicked()</signal>
+   <receiver>Ciclador</receiver>
+   <slot>PararGrafico()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>104</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>51</x>
+     <y>645</y>
     </hint>
    </hints>
   </connection>
@@ -2055,5 +3021,6 @@
   <slot>PlotCualq()</slot>
   <slot>LimPant()</slot>
   <slot>ValTiempoReal()</slot>
+  <slot>PararGrafico()</slot>
  </slots>
 </ui>
