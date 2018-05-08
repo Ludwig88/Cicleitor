@@ -187,13 +187,70 @@ class Myform(QtGui.QMainWindow):
         self.dequeSetting.append(["AUI", Celda, None, None, None, None, None, None, None])
         self.mutex.unlock()
 
+    def Recalibrar(self):
+        lines = []
+        lines.append("a=" + str(self.ui.FCA.text()) + "\n")
+        lines.append("b=" + str(self.ui.FCB.text()) + "\n")
+        lines.append("c=" + str(self.ui.FCC.text()) + "\n")
+        lines.append("d=" + str(self.ui.FCD.text()) + "\n")
+        lines.append("e=" + str(self.ui.FCE.text()) + "\n")
+        lines.append("f=" + str(self.ui.FCF.text()) + "\n")
+        lines.append("g=" + str(self.ui.FCG.text()) + "\n")
+        lines.append("h=" + str(self.ui.FCH.text()) + "\n")
+        lines.append("i=" + str(self.ui.FCI.text()) + "\n")
+        lines.append("j=" + str(self.ui.FCJ.text()) + "\n")
+        lines.append("k=" + str(self.ui.FCK.text()) + "\n")
+        lines.append("l=" + str(self.ui.FCL.text()) + "\n")
+        lines.append("m=" + str(self.ui.FCM.text()) + "\n")
+        lines.append("n=" + str(self.ui.FCN.text()) + "\n")
+        lines.append("o=" + str(self.ui.FCO.text()) + "\n")
+        lines.append("p=" + str(self.ui.FCP.text()) + "\n")
+        with open("correccionI.txt", "wr") as in_file:
+            in_file.writelines(lines)
+
     def CargoCorrecionDeI(self):
-        lines = []  # Declare an empty list named "lines"
-        with open("correccionI.txt", "rt") as in_file:
-            for line in in_file:
-                lines.append(line)
-        a = lines[0][2:-1]
-        self.ui.FCA.setText(str(a))
+        lines = []
+        try :
+            with open("correccionI.txt", "rt") as in_file:
+                for line in in_file:
+                    lines.append(line)
+            self.ui.FCA.setText(str(lines[0][2:-1]))
+            self.ui.FCB.setText(str(lines[1][2:-1]))
+            self.ui.FCC.setText(str(lines[2][2:-1]))
+            self.ui.FCD.setText(str(lines[3][2:-1]))
+            self.ui.FCE.setText(str(lines[4][2:-1]))
+            self.ui.FCF.setText(str(lines[5][2:-1]))
+            self.ui.FCG.setText(str(lines[6][2:-1]))
+            self.ui.FCH.setText(str(lines[7][2:-1]))
+            self.ui.FCI.setText(str(lines[8][2:-1]))
+            self.ui.FCJ.setText(str(lines[9][2:-1]))
+            self.ui.FCK.setText(str(lines[10][2:-1]))
+            self.ui.FCL.setText(str(lines[11][2:-1]))
+            self.ui.FCM.setText(str(lines[12][2:-1]))
+            self.ui.FCN.setText(str(lines[13][2:-1]))
+            self.ui.FCO.setText(str(lines[14][2:-1]))
+            self.ui.FCP.setText(str(lines[15][2:-1]))
+        except :
+            lines.append("a=" + str(self.ui.FCA.text()))
+            lines.append("b=" + str(self.ui.FCB.text()))
+            lines.append("c=" + str(self.ui.FCC.text()))
+            lines.append("d=" + str(self.ui.FCD.text()))
+            lines.append("e=" + str(self.ui.FCE.text()))
+            lines.append("f=" + str(self.ui.FCF.text()))
+            lines.append("g=" + str(self.ui.FCG.text()))
+            lines.append("h=" + str(self.ui.FCH.text()))
+            lines.append("i=" + str(self.ui.FCI.text()))
+            lines.append("j=" + str(self.ui.FCJ.text()))
+            lines.append("k=" + str(self.ui.FCK.text()))
+            lines.append("l=" + str(self.ui.FCL.text()))
+            lines.append("m=" + str(self.ui.FCM.text()))
+            lines.append("n=" + str(self.ui.FCN.text()))
+            lines.append("o=" + str(self.ui.FCO.text()))
+            lines.append("p=" + str(self.ui.FCP.text()))
+            with open("correccionI.txt", "wr") as in_file:
+                in_file.writelines(lines)
+        for i in lines.__len__():
+            print(str(line))
 
     def LlenoCamposCondGuardado(self, corriente, ciclos, vli, vls, tmax, prom):
         self.ui.LinEdCorri.setText(str(corriente))

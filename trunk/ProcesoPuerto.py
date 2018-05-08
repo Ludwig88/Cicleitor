@@ -121,36 +121,30 @@ class LECTURA(QtCore.QThread):
               + str(celda) +" len es: " + str(len(celda)),file=log)
         self.serial_port.write_timeout = 0.3
         """si uso el time out de escritura meter un try catch"""
-
         # I=0 con uA=0 en cualquier descarga
         # 2 unidades = 1uA 2048 =0A
-
         MatConv = [['h', 2], ['f', 2], ['d', 2],
                    ['b', 2], ['h', 1], ['f', 1],
                    ['d', 1], ['b', 1], ['e', 2],
                    ['g', 2], ['a', 2], ['c', 2],
                    ['e', 1], ['g', 1], ['a', 1], ['c', 1]]
-        # cada renglon es el orden en asccii, dentro la primer columna es el caracter dentro del dac cuyo numero es la otra
 
+        # cada renglon es el orden en asccii, dentro la primer columna es el caracter dentro del dac cuyo numero es la otra
         # letra a enviar MatConv[NumDeCelda(str(celda))][0]
         # numero a enviar MatConv[NumDeCelda(str(celda))][1]
-
         ####################################################################V
         #si esta invertida la corriente tiene que ser por esto
         if ua < 0:
             Descarga = True
         else:
             Descarga = False
-
         if Descarga:
             num = int(2048 - (abs(ua) * 2))
         else:
             num = int((abs(ua) * 2) + 2048)
-
         print("[" + str(datetime.datetime.now()) + "][PORT|send] abs(ua): " + str(abs(ua))
               + " " + str(type(ua)) + "Descarga: " + str(Descarga) + " " + str(type(Descarga))
               + "Celda: " + str(celda) + " " + str(type(celda)))
-
         if 0 <= num <= 4095:
             mil = num / 1000
             cien = (num - mil * 1000) / 100
