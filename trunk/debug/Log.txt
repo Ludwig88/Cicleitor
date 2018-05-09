@@ -18202,3 +18202,6 @@ valor de len de thread one menos 1 es 0
 [2018-05-08 19:13:48.945641][DCOMP] initing
 valor de len de thread one menos 1 es 0
 [2018-05-08 19:14:08.354717][DCOMP] initing
+valor de len de thread one menos 1 es 0
+[2018-05-09 19:55:09.213884][DCOMP] initing
+[2018-05-09 19:55:09.336545][PORT] error en el try del serial port

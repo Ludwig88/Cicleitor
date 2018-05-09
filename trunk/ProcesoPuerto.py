@@ -6,7 +6,7 @@ from __future__ import print_function
 import os
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'debug/Log.txt')
-log = open(filename, "a+")
+log = None #open(filename, "a+")
 #print("error en el try del serial port",file=log)
 
 from PyQt4 import QtCore
@@ -109,12 +109,25 @@ class LECTURA(QtCore.QThread):
                 """Hay celdas por setear"""
                 if 112 >= ord(celda) >= 97:
                     if mensaje == "SETI":
-                        print("["+str(datetime.datetime.now())+"][PORT|" + str(celda) + "] SETI arrived with " + str(Corriente),file=log)
-                        self.EnviarPS_I(Corriente, celda)
+                        correccion = self.CargoCorreccion(celda)
+                        print("["+str(datetime.datetime.now())+"][PORT|" + str(celda) + "] SETI arrived with " + str(Corriente)  + " corrijo con: " + str(correccion) ,file=log)
+                        self.EnviarPS_I(Corriente + correccion, celda)
 
         # clean up
         if self.serial_port:
             self.serial_port.close()
+
+    def CargoCorreccion(self, celda):
+        lines = []
+        try:
+            with open("correccionI.txt", "rt") as in_file:
+                for line in in_file:
+                    lines.append(line)
+            for i in range(lines.__len__()):
+                if i == self.NumDeCelda(celda):
+                    return int(lines[i][2:-1])
+        except:
+                return 0
 
     def EnviarPS_I(self, ua, celda):
         print("["+str(datetime.datetime.now())+"][PORT|send] celda a enviar "
