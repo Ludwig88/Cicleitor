@@ -4,11 +4,11 @@
     <list default="true" id="63c7cac0-c939-4199-b594-6697ebbc972a" name="Default" comment="si uso el log externo me los ordenada no por fecha">
       <change type="DELETED" beforePath="$PROJECT_DIR$/../tags/v1.0/Ciclador-1.0.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Ciclador.py" afterPath="$PROJECT_DIR$/Ciclador.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProcesoPuerto.py" afterPath="$PROJECT_DIR$/ProcesoPuerto.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Testeo/Archivo_Test" afterPath="$PROJECT_DIR$/Testeo/Archivo_Test" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/correccionI.txt" afterPath="$PROJECT_DIR$/correccionI.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug/Log.txt" afterPath="$PROJECT_DIR$/debug/Log.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphics/CicladorIG.ui" afterPath="$PROJECT_DIR$/graphics/CicladorIG.ui" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,7 +22,7 @@
       <file leaf-file-name="Ciclador.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ciclador.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
+            <state relative-caret-position="1764">
               <caret line="232" column="16" lean-forward="false" selection-start-line="232" selection-start-column="16" selection-end-line="232" selection-end-column="16" />
               <folding>
                 <element signature="e#47#84#0" expanded="true" />
@@ -49,7 +49,7 @@
       <file leaf-file-name="DatosIndependientes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
+            <state relative-caret-position="3132">
               <caret line="259" column="8" lean-forward="false" selection-start-line="259" selection-start-column="8" selection-end-line="259" selection-end-column="8" />
               <folding>
                 <element signature="e#47#84#0" expanded="true" />
@@ -90,7 +90,7 @@
       <file leaf-file-name="DatosIndividualesCelda.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
+            <state relative-caret-position="2250">
               <caret line="171" column="29" lean-forward="false" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="29" />
               <folding>
                 <element signature="e#47#84#0" expanded="true" />
@@ -112,8 +112,8 @@
       <file leaf-file-name="ProcesoPuerto.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="118" column="0" lean-forward="true" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+            <state relative-caret-position="-2148">
+              <caret line="21" column="17" lean-forward="false" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
               <folding>
                 <element signature="e#47#84#0" expanded="true" />
               </folding>
@@ -235,7 +235,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -251,7 +251,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -372,13 +372,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1505256713526</updated>
-    </task>
-    <task id="LOCAL-00030" summary="por iniciar implementacion de envio desde Proceso hasta puerto">
-      <created>1509493278694</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1509493278694</updated>
     </task>
     <task id="LOCAL-00031" summary="ver &quot;ninguna activa&quot;, reenvio de corriente! y recepcion en arduino">
       <created>1509748091615</created>
@@ -716,7 +709,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525823517916</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="adicion de correcion a funciones de puerto">
+      <created>1525908330013</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1525908330013</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TodoView">
@@ -731,7 +731,7 @@
   <component name="ToolWindowManager">
     <frame x="50" y="-11" width="1317" height="780" extended-state="6" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17730497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18045706" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.87540454" sideWeight="0.427896" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5970874" sideWeight="0.57210404" order="2" side_tool="false" content_ui="tabs" />
@@ -778,7 +778,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="parados de plot y val en real time" />
     <MESSAGE value="parado de plot, celda, y val en t real." />
     <MESSAGE value="...." />
     <MESSAGE value="error en el recibi OK, queda pegada ultima celda recibida, tendria que ser la ultima seteada desde el programa" />
@@ -803,7 +802,8 @@
     <MESSAGE value="inicio de proceso de lectura y correcion de factores de I mediante archivo" />
     <MESSAGE value="-" />
     <MESSAGE value="leo y escribo archivo para correcion de I, falta implementacion del corrimiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="leo y escribo archivo para correcion de I, falta implementacion del corrimiento" />
+    <MESSAGE value="adicion de correcion a funciones de puerto" />
+    <option name="LAST_COMMIT_MESSAGE" value="adicion de correcion a funciones de puerto" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -987,7 +987,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DatosIndependientes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
+        <state relative-caret-position="3132">
           <caret line="259" column="8" lean-forward="false" selection-start-line="259" selection-start-column="8" selection-end-line="259" selection-end-column="8" />
           <folding>
             <element signature="e#47#84#0" expanded="true" />
@@ -1036,7 +1036,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DatosIndividualesCelda.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
+        <state relative-caret-position="2250">
           <caret line="171" column="29" lean-forward="false" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="29" />
           <folding>
             <element signature="e#47#84#0" expanded="true" />
@@ -1056,7 +1056,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Ciclador.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
+        <state relative-caret-position="1764">
           <caret line="232" column="16" lean-forward="false" selection-start-line="232" selection-start-column="16" selection-end-line="232" selection-end-column="16" />
           <folding>
             <element signature="e#47#84#0" expanded="true" />
@@ -1081,8 +1081,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ProcesoPuerto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="118" column="0" lean-forward="true" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+        <state relative-caret-position="-2148">
+          <caret line="21" column="17" lean-forward="false" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
           <folding>
             <element signature="e#47#84#0" expanded="true" />
           </folding>

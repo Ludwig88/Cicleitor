@@ -529,7 +529,7 @@
            <property name="text">
             <string>/////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
-Ciclador, version 2.0
+Ciclador, version 2.4
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 
@@ -2727,7 +2727,7 @@ Factores de correcion de corriente por celda:</string>
         </font>
        </property>
        <property name="text">
-        <string>Ciclador 2.3</string>
+        <string>Ciclador 2.4</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
